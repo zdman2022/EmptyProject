@@ -62,6 +62,13 @@ namespace EmptyProject
             GeneratedInitialize();
 
             base.Initialize();
+
+
+            //Test Code
+            GlueDynamicManager.GlueDynamicManager.Self.SetInitialState(GlueDynamicManager.GlueJsonProcessor.GetTest("Test1", "Base"));
+            GlueDynamicManager.GlueDynamicManager.Self.UpdateState(GlueDynamicManager.GlueJsonProcessor.GetTest("Test1", "Change1"));
+            GlueDynamicManager.DynamicInstances.DynamicScreen.CurrentScreen = "Level1";
+            ScreenManager.Start(typeof(GlueDynamicManager.DynamicInstances.DynamicScreen));
         }
 
         protected override void Update(GameTime gameTime)
