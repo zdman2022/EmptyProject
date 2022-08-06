@@ -411,10 +411,6 @@
     <Compile Include="Platformer\PlatformerAnimationController.Generated.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Screens\AnimationChainScreen.cs" />
-    <Compile Include="Screens\AnimationChainScreen.Generated.cs">
-      <DependentUpon>AnimationChainScreen.cs</DependentUpon>
-    </Compile>
     <Compile Include="Screens\AnimationScreen.cs" />
     <Compile Include="Screens\AnimationScreen.Generated.cs">
       <DependentUpon>AnimationScreen.cs</DependentUpon>

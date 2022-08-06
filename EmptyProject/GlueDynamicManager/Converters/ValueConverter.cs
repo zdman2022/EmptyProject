@@ -2,18 +2,24 @@
 using FlatRedBall.Content.AnimationChain;
 using FlatRedBall.Content.Instructions;
 using FlatRedBall.Graphics.Animation;
+using FlatRedBall.Math.Geometry;
 using GlueControl.Managers;
 using GlueControl.Models;
+using Microsoft.Xna.Framework;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace EmptyProject.GlueDynamicManager.Converters
 {
     internal class ValueConverter
     {
+        private static readonly Regex RegExList = new Regex("^List<(.*)>$");
+
         public static object ConvertValue(InstructionSave instruction, GlueControl.Models.GlueElement instanceContainer)
         {
             var variableValue = instruction.Value;
@@ -104,9 +110,47 @@ namespace EmptyProject.GlueDynamicManager.Converters
                 {
                     variableValue = (FlatRedBall.Graphics.ColorOperation)asLong;
                 }
+            }else if (
+                instruction.Type == typeof(Microsoft.Xna.Framework.Color).Name ||
+                instruction.Type == typeof(Microsoft.Xna.Framework.Color).FullName
+            )
+            {
+                variableValue = typeof(Microsoft.Xna.Framework.Color).GetProperty(variableValue.ToString()).GetValue(null);
+            }
+            else if(RegExList.IsMatch(instruction.Type))
+            {
+                var match = RegExList.Match(instruction.Type);
+                var subType = match.Groups[1].Value;
+
+                if(subType == "Vector2")
+                {
+                    variableValue = JsonConvert.DeserializeObject<List<Vector2>>(variableValue.ToString());
+                }
+                else
+                {
+                    throw new NotImplementedException();
+                }
+                
             }
 
             return variableValue;
+        }
+
+        internal static object ConvertForProperty(object value, string type, string objectType)
+        {
+            if(type == "List<Vector2>" && objectType == "FlatRedBall.Math.Geometry.Polygon")
+            {
+                var points = new List<FlatRedBall.Math.Geometry.Point>();
+
+                foreach(var vector in (List<Vector2>)value)
+                {
+                    points.Add(new FlatRedBall.Math.Geometry.Point(vector.X, vector.Y));
+                }
+
+                return points;
+            }
+
+            return value;
         }
     }
 }
