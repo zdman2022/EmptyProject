@@ -442,14 +442,14 @@
       "InstructionSaves": [
         {
           "Type": "string",
-          "Member": "Targets",
-          "Value": "PlayerList",
+          "Member": "Map",
+          "Value": "Map",
           "Time": 0.0
         },
         {
           "Type": "string",
-          "Member": "Map",
-          "Value": "Map",
+          "Member": "Targets",
+          "Value": "PlayerList",
           "Time": 0.0
         }
       ],

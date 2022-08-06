@@ -71,6 +71,9 @@
     <Compile Include="DataTypes\TileMapInfo.Generated.cs" />
     <Compile Include="FileAliases.Generated.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="Game1.Generated.cs">
+      <DependentUpon>Game1.cs</DependentUpon>
+    </Compile>
     <Compile Include="GlobalContent.Generated.cs" />
     <Compile Include="GlueCommunication\GameConnectionManager.Generated.cs" />
     <Compile Include="GlueControl\CommandReceiver.Generated.cs" />
@@ -108,6 +111,7 @@
     <Compile Include="GlueControl\Models\INamedObjectContainer.Generated.cs" />
     <Compile Include="GlueControl\Models\NamedObjectSave.Generated.cs" />
     <Compile Include="GlueControl\Models\NamedObjectSaveExtensionMethods.Generated.cs" />
+    <Compile Include="GlueControl\Models\ReferencedFileSave.Generated.cs" />
     <Compile Include="GlueControl\Models\StateSave.Generated.cs" />
     <Compile Include="GlueControl\Models\StateSaveCategory.Generated.cs" />
     <Compile Include="GlueControl\Runtime\DynamicEntity.Generated.cs" />

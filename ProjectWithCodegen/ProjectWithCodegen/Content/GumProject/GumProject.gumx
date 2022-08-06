@@ -10,8 +10,14 @@
   <RestrictToUnitValues>true</RestrictToUnitValues>
   <RestrictFileNamesForAndroid>false</RestrictFileNamesForAndroid>
   <Guides />
+  <ParentProjectRoot>../</ParentProjectRoot>
   <ShowLocalizationInGum>true</ShowLocalizationInGum>
   <CurrentLanguageIndex>0</CurrentLanguageIndex>
+  <ScreenReference>
+    <Name>AnimationScreenGum</Name>
+    <ElementType>Screen</ElementType>
+    <LinkType>ReferenceOriginal</LinkType>
+  </ScreenReference>
   <ScreenReference>
     <Name>GameScreenGum</Name>
     <ElementType>Screen</ElementType>
@@ -29,6 +35,11 @@
   </ScreenReference>
   <ScreenReference>
     <Name>ScreenWithShapesGum</Name>
+    <ElementType>Screen</ElementType>
+    <LinkType>ReferenceOriginal</LinkType>
+  </ScreenReference>
+  <ScreenReference>
+    <Name>SpriteScreenGum</Name>
     <ElementType>Screen</ElementType>
     <LinkType>ReferenceOriginal</LinkType>
   </ScreenReference>

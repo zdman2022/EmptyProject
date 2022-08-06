@@ -52,7 +52,7 @@
   ],
   "GlobalContentSettingsSave": {},
   "SyncedProjects": [],
-  "StartUpScreen": "Screens\\ScreenWithShapes",
+  "StartUpScreen": "Screens\\AnimationScreen",
   "ResolutionPresets": [],
   "PerformanceSettingsSave": {},
   "IgnoredDirectories": [],
@@ -88,6 +88,9 @@
   "FileVersion": 20,
   "ScreenReferences": [
     {
+      "Name": "Screens\\AnimationScreen"
+    },
+    {
       "Name": "Screens\\GameScreen"
     },
     {
@@ -98,6 +101,9 @@
     },
     {
       "Name": "Screens\\ScreenWithShapes"
+    },
+    {
+      "Name": "Screens\\SpriteScreen"
     }
   ],
   "EntityReferences": [

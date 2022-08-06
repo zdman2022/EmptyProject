@@ -207,7 +207,7 @@
         }
       ],
       "SourceType": 1,
-      "SourceFile": "Entities\\Player",
+      "SourceFile": "Entities/Player",
       "ExposedInDerived": true,
       "AttachToContainer": true,
       "GenerateTimedEmit": true,

@@ -53,7 +53,7 @@ namespace EmptyProject.GlueDynamicManager.DynamicInstances
 
                 foreach(var instruction in instance.InstructionSaves)
                 {
-                    var convertedValue = ValueConverter.ConvertValue(instruction);
+                    var convertedValue = ValueConverter.ConvertValue(instruction, this._currentScreenState.ScreenSave);
                     base.ApplyVariable(instruction.Member, convertedValue, instance.Value);
                 }
             }

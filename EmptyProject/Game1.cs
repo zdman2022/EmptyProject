@@ -70,7 +70,7 @@ namespace EmptyProject
             FilePath gluj = FileManager.RelativeDirectory + "../../../../../ProjectWithCodegen/ProjectWithCodegen/ProjectWithCodegen.gluj";
 
             GlueDynamicManager.GlueDynamicManager.Self.UpdateState(GlueDynamicManager.GlueJsonProcessor.GetTest(gluj));
-            GlueDynamicManager.DynamicInstances.DynamicScreen.CurrentScreen = "ScreenWithShapes";
+            GlueDynamicManager.DynamicInstances.DynamicScreen.CurrentScreen = "AnimationScreen";
             ScreenManager.Start(typeof(GlueDynamicManager.DynamicInstances.DynamicScreen));
         }
 

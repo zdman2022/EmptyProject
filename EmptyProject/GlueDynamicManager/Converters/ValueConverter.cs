@@ -1,4 +1,5 @@
 ﻿using FlatRedBall.Content.Instructions;
+using GlueControl.Managers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace EmptyProject.GlueDynamicManager.Converters
 {
     internal class ValueConverter
     {
-        public static object ConvertValue(InstructionSave instruction)
+        public static object ConvertValue(InstructionSave instruction, GlueControl.Models.GlueElement instanceContainer)
         {
             var variableValue = instruction.Value;
 
@@ -49,14 +50,16 @@ namespace EmptyProject.GlueDynamicManager.Converters
                     variableValue = (float?)asDouble;
                 }
             }
-            //else if (instruction.Type == typeof(FlatRedBall.Graphics.Animation.AnimationChainList).FullName ||
-            //    instruction.Type == typeof(Microsoft.Xna.Framework.Graphics.Texture2D).FullName)
-            //{
-            //    if (convertFileNamesToObjects && variableValue is string asString && !string.IsNullOrWhiteSpace(asString))
-            //    {
-            //        variableValue = Editing.VariableAssignmentLogic.ConvertStringToType(instruction.Type, asString, false, out conversionReport);
-            //    }
-            //}
+            else if (instruction.Type == typeof(FlatRedBall.Graphics.Animation.AnimationChainList).FullName ||
+                instruction.Type == typeof(Microsoft.Xna.Framework.Graphics.Texture2D).FullName)
+            {
+                if (variableValue is string asString && !string.IsNullOrWhiteSpace(asString))
+                {
+                    var rfs = instanceContainer.GetReferencedFileSave(asString);
+                    // continue here
+                    //variableValue = Editing.VariableAssignmentLogic.ConvertStringToType(instruction.Type, asString, false, out conversionReport);
+                }
+            }
             //else if (instruction.Type == typeof(Microsoft.Xna.Framework.Color).FullName)
             //{
             //    if (variableValue is string asString && !string.IsNullOrWhiteSpace(asString))

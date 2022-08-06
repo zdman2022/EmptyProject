@@ -793,4 +793,5 @@
       <RelativeY>16</RelativeY>
     </Frame>
   </AnimationChain>
+  <ProjectFile>../../../projectwithcodegen.gluj</ProjectFile>
 </AnimationChainArraySave>
