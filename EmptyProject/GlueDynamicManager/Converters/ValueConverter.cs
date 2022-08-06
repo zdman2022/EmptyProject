@@ -1,6 +1,7 @@
 ﻿using FlatRedBall;
 using FlatRedBall.Content.AnimationChain;
 using FlatRedBall.Content.Instructions;
+using FlatRedBall.Graphics.Animation;
 using GlueControl.Managers;
 using GlueControl.Models;
 using System;
@@ -60,6 +61,16 @@ namespace EmptyProject.GlueDynamicManager.Converters
                 {
                     var rfs = instanceContainer.GetReferencedFileSaveRecursively(asString);
 
+                    var absoluteRfs = GlueCommands.Self.GetAbsoluteFilePath(rfs);
+
+                    if(instruction.Type == typeof(FlatRedBall.Graphics.Animation.AnimationChainList).FullName)
+                    {
+                        variableValue = FlatRedBallServices.Load<AnimationChainList>(absoluteRfs.FullPath);
+                    }
+                    else if(instruction.Type == typeof(Microsoft.Xna.Framework.Graphics.Texture2D).FullName)
+                    {
+                        variableValue = FlatRedBallServices.Load<Microsoft.Xna.Framework.Graphics.Texture2D>(absoluteRfs.FullPath);
+                    }
                     //var achx = FlatRedBallServices.Load<AnimationChainListSave>(rfs.Name);
 
 

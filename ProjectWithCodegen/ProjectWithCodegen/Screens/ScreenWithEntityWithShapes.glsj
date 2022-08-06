@@ -33,7 +33,7 @@
       ],
       "InstructionSaves": [],
       "SourceType": 1,
-      "SourceFile": "Entities\\EntityWithShapes",
+      "SourceFile": "Entities/EntityWithShapes",
       "AttachToContainer": true,
       "GenerateTimedEmit": true
     }

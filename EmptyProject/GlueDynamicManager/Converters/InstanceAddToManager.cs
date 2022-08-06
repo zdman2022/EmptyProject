@@ -1,4 +1,6 @@
-﻿using FlatRedBall.Math.Geometry;
+﻿using FlatRedBall;
+using FlatRedBall.Graphics;
+using FlatRedBall.Math.Geometry;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +13,11 @@ namespace EmptyProject.GlueDynamicManager
     {
         public static void AddToManager(object instance)
         {
-            if (instance is AxisAlignedRectangle aaRect)
+            if (instance is AxisAlignedCube aaCube)
+            {
+                ShapeManager.AddAxisAlignedCube(aaCube);
+            }
+            else if (instance is AxisAlignedRectangle aaRect)
             {
                 ShapeManager.AddAxisAlignedRectangle(aaRect);
             }
@@ -22,6 +28,14 @@ namespace EmptyProject.GlueDynamicManager
             else if(instance is Polygon asPolygon)
             {
                 ShapeManager.AddPolygon(asPolygon);
+            }
+            else if(instance is Sprite asSprite)
+            {
+                SpriteManager.AddSprite(asSprite);
+            }
+            else if(instance is Text asText)
+            {
+                TextManager.AddText(asText);
             }
         }
     }

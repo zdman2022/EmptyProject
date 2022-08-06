@@ -12,6 +12,7 @@ using System.Linq;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using FlatRedBall.IO;
+using GlueControl.Managers;
 
 namespace EmptyProject
 {
@@ -70,7 +71,19 @@ namespace EmptyProject
             FilePath gluj = FileManager.RelativeDirectory + "../../../../../ProjectWithCodegen/ProjectWithCodegen/ProjectWithCodegen.gluj";
 
             GlueDynamicManager.GlueDynamicManager.Self.UpdateState(GlueDynamicManager.GlueJsonProcessor.GetTest(gluj));
-            GlueDynamicManager.DynamicInstances.DynamicScreen.CurrentScreen = "AnimationScreen";
+            // temporary hack:
+            // GlueCommands (and
+            // ObjectFinder) need
+            // to have access to the
+            // entire Glue project. However
+            // calling LoadProject re-creates
+            // the entire project from the json 
+            // files, so the references stored by
+            // ObjectFinder do not match the references
+            // stored by the dynamic objects. We need to
+            // make ObjectFinder the authority.
+            GlueCommands.Self.LoadProject(gluj.FullPath);
+            GlueDynamicManager.DynamicInstances.DynamicScreen.CurrentScreen = "SpriteScreen";
             ScreenManager.Start(typeof(GlueDynamicManager.DynamicInstances.DynamicScreen));
         }
 

@@ -40,7 +40,7 @@
         }
       ],
       "SourceType": 1,
-      "SourceFile": "Entities\\StateEntity",
+      "SourceFile": "Entities/StateEntity",
       "AttachToContainer": true,
       "GenerateTimedEmit": true
     },
@@ -78,7 +78,8 @@
         }
       ],
       "SourceType": 1,
-      "SourceFile": "Entities\\StateEntity",
+      "SourceFile": "Entities/StateEntity",
+      "AttachToContainer": true,
       "GenerateTimedEmit": true
     }
   ],

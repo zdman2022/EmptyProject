@@ -111,11 +111,17 @@
       <DependentUpon>AnimationScreenGumForms.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Screens\CollidableScreenGumForms.cs" />
-    <Compile Include="Forms\Screens\CollidableScreenGumForms.Generated.cs" />
+    <Compile Include="Forms\Screens\CollidableScreenGumForms.Generated.cs">
+      <DependentUpon>CollidableScreenGumForms.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Screens\EntityInheritanceScreenGumForms.cs" />
-    <Compile Include="Forms\Screens\EntityInheritanceScreenGumForms.Generated.cs" />
+    <Compile Include="Forms\Screens\EntityInheritanceScreenGumForms.Generated.cs">
+      <DependentUpon>EntityInheritanceScreenGumForms.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Screens\EntityWithTunneledVariablesScreenGumForms.cs" />
-    <Compile Include="Forms\Screens\EntityWithTunneledVariablesScreenGumForms.Generated.cs" />
+    <Compile Include="Forms\Screens\EntityWithTunneledVariablesScreenGumForms.Generated.cs">
+      <DependentUpon>EntityWithTunneledVariablesScreenGumForms.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Screens\GameScreenGumForms.cs" />
     <Compile Include="Forms\Screens\GameScreenGumForms.Generated.cs">
       <DependentUpon>GameScreenGumForms.cs</DependentUpon>
@@ -141,7 +147,9 @@
       <DependentUpon>SpriteScreenGumForms.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Screens\StateEntityScreenGumForms.cs" />
-    <Compile Include="Forms\Screens\StateEntityScreenGumForms.Generated.cs" />
+    <Compile Include="Forms\Screens\StateEntityScreenGumForms.Generated.cs">
+      <DependentUpon>StateEntityScreenGumForms.cs</DependentUpon>
+    </Compile>
     <Compile Include="Game1.cs" />
     <Compile Include="Game1.Generated.cs">
       <DependentUpon>Game1.cs</DependentUpon>
@@ -213,7 +221,9 @@
     <Compile Include="GumRuntimes\Behaviors\IUserControlBehavior.Generated.cs" />
     <Compile Include="GumRuntimes\CircleRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\CollidableScreenGumRuntime.cs" />
-    <Compile Include="GumRuntimes\CollidableScreenGumRuntime.Generated.cs" />
+    <Compile Include="GumRuntimes\CollidableScreenGumRuntime.Generated.cs">
+      <DependentUpon>CollidableScreenGumRuntime.cs</DependentUpon>
+    </Compile>
     <Compile Include="GumRuntimes\ColoredRectangleRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\ContainerRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\Controls\ButtonCloseRuntime.cs" />
@@ -353,9 +363,13 @@
       <DependentUpon>VerticalLinesRuntime.cs</DependentUpon>
     </Compile>
     <Compile Include="GumRuntimes\EntityInheritanceScreenGumRuntime.cs" />
-    <Compile Include="GumRuntimes\EntityInheritanceScreenGumRuntime.Generated.cs" />
+    <Compile Include="GumRuntimes\EntityInheritanceScreenGumRuntime.Generated.cs">
+      <DependentUpon>EntityInheritanceScreenGumRuntime.cs</DependentUpon>
+    </Compile>
     <Compile Include="GumRuntimes\EntityWithTunneledVariablesScreenGumRuntime.cs" />
-    <Compile Include="GumRuntimes\EntityWithTunneledVariablesScreenGumRuntime.Generated.cs" />
+    <Compile Include="GumRuntimes\EntityWithTunneledVariablesScreenGumRuntime.Generated.cs">
+      <DependentUpon>EntityWithTunneledVariablesScreenGumRuntime.cs</DependentUpon>
+    </Compile>
     <Compile Include="GumRuntimes\GameScreenGumRuntime.cs" />
     <Compile Include="GumRuntimes\GameScreenGumRuntime.Generated.cs">
       <DependentUpon>GameScreenGumRuntime.cs</DependentUpon>
@@ -386,7 +400,9 @@
       <DependentUpon>SpriteScreenGumRuntime.cs</DependentUpon>
     </Compile>
     <Compile Include="GumRuntimes\StateEntityScreenGumRuntime.cs" />
-    <Compile Include="GumRuntimes\StateEntityScreenGumRuntime.Generated.cs" />
+    <Compile Include="GumRuntimes\StateEntityScreenGumRuntime.Generated.cs">
+      <DependentUpon>StateEntityScreenGumRuntime.cs</DependentUpon>
+    </Compile>
     <Compile Include="GumRuntimes\TextRuntime.Generated.cs" />
     <Compile Include="Performance\IEntityFactory.Generated.cs" />
     <Compile Include="Performance\PoolList.Generated.cs" />

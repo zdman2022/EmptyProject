@@ -33,7 +33,7 @@
       ],
       "InstructionSaves": [],
       "SourceType": 1,
-      "SourceFile": "Entities\\EntityWithTunneledVariables",
+      "SourceFile": "Entities/EntityWithTunneledVariables",
       "AttachToContainer": true,
       "GenerateTimedEmit": true
     },
@@ -59,19 +59,20 @@
       "InstructionSaves": [
         {
           "Type": "float",
-          "Member": "X",
-          "Value": 100.0,
+          "Member": "CircleInstanceRadius",
+          "Value": 55.0,
           "Time": 0.0
         },
         {
           "Type": "float",
-          "Member": "CircleInstanceRadius",
-          "Value": 55.0,
+          "Member": "X",
+          "Value": 100.0,
           "Time": 0.0
         }
       ],
       "SourceType": 1,
-      "SourceFile": "Entities\\EntityWithTunneledVariables",
+      "SourceFile": "Entities/EntityWithTunneledVariables",
+      "AttachToContainer": true,
       "GenerateTimedEmit": true
     }
   ],

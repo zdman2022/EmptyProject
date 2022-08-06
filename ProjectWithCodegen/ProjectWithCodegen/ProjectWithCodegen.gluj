@@ -52,7 +52,7 @@
   ],
   "GlobalContentSettingsSave": {},
   "SyncedProjects": [],
-  "StartUpScreen": "Screens\\AnimationScreen",
+  "StartUpScreen": "Screens\\SpriteScreen",
   "ResolutionPresets": [],
   "PerformanceSettingsSave": {},
   "IgnoredDirectories": [],
