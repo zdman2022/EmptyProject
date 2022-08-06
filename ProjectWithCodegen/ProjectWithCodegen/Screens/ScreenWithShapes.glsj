@@ -168,7 +168,7 @@
         {
           "Type": "float",
           "Member": "Radius",
-          "Value": 16.0,
+          "Value": 60.666664,
           "Time": 0.0
         },
         {
@@ -180,7 +180,7 @@
         {
           "Type": "float",
           "Member": "Y",
-          "Value": 40.0,
+          "Value": 84.66667,
           "Time": 0.0
         }
       ],
@@ -230,6 +230,157 @@
       ],
       "SourceType": 2,
       "SourceFile": "Circle",
+      "HasPublicProperty": true,
+      "GenerateTimedEmit": true
+    },
+    {
+      "InstanceName": "AxisAlignedRectangleInstance",
+      "SourceClassType": "FlatRedBall.Math.Geometry.AxisAlignedRectangle",
+      "Properties": [
+        {
+          "Name": "AssociateWithFactory",
+          "Value": true,
+          "Type": "Boolean"
+        },
+        {
+          "Name": "SourceType",
+          "Value": 2,
+          "Type": "SourceType"
+        },
+        {
+          "Name": "ConditionalCompilationSymbols",
+          "Type": "String"
+        }
+      ],
+      "InstructionSaves": [
+        {
+          "Type": "float",
+          "Member": "Width",
+          "Value": 144.0,
+          "Time": 0.0
+        },
+        {
+          "Type": "float",
+          "Member": "Height",
+          "Value": 32.0,
+          "Time": 0.0
+        },
+        {
+          "Type": "float",
+          "Member": "X",
+          "Value": 0.0,
+          "Time": 0.0
+        },
+        {
+          "Type": "float",
+          "Member": "Y",
+          "Value": -120.0,
+          "Time": 0.0
+        }
+      ],
+      "SourceType": 2,
+      "SourceFile": "AxisAlignedRectangle",
+      "HasPublicProperty": true,
+      "AttachToContainer": true,
+      "GenerateTimedEmit": true
+    },
+    {
+      "InstanceName": "AxisAlignedRectangleInstance1",
+      "SourceClassType": "FlatRedBall.Math.Geometry.AxisAlignedRectangle",
+      "Properties": [
+        {
+          "Name": "AssociateWithFactory",
+          "Value": true,
+          "Type": "Boolean"
+        },
+        {
+          "Name": "SourceType",
+          "Value": 2,
+          "Type": "SourceType"
+        },
+        {
+          "Name": "ConditionalCompilationSymbols",
+          "Type": "String"
+        }
+      ],
+      "InstructionSaves": [
+        {
+          "Type": "float",
+          "Member": "Width",
+          "Value": 32.0,
+          "Time": 0.0
+        },
+        {
+          "Type": "float",
+          "Member": "Height",
+          "Value": 32.0,
+          "Time": 0.0
+        },
+        {
+          "Type": "float",
+          "Member": "X",
+          "Value": -16.0,
+          "Time": 0.0
+        },
+        {
+          "Type": "float",
+          "Member": "Y",
+          "Value": -80.0,
+          "Time": 0.0
+        }
+      ],
+      "SourceType": 2,
+      "SourceFile": "AxisAlignedRectangle",
+      "HasPublicProperty": true,
+      "GenerateTimedEmit": true
+    },
+    {
+      "InstanceName": "AxisAlignedRectangleInstance2",
+      "SourceClassType": "FlatRedBall.Math.Geometry.AxisAlignedRectangle",
+      "Properties": [
+        {
+          "Name": "AssociateWithFactory",
+          "Value": true,
+          "Type": "Boolean"
+        },
+        {
+          "Name": "SourceType",
+          "Value": 2,
+          "Type": "SourceType"
+        },
+        {
+          "Name": "ConditionalCompilationSymbols",
+          "Type": "String"
+        }
+      ],
+      "InstructionSaves": [
+        {
+          "Type": "float",
+          "Member": "Width",
+          "Value": 32.0,
+          "Time": 0.0
+        },
+        {
+          "Type": "float",
+          "Member": "Height",
+          "Value": 32.0,
+          "Time": 0.0
+        },
+        {
+          "Type": "float",
+          "Member": "X",
+          "Value": 16.0,
+          "Time": 0.0
+        },
+        {
+          "Type": "float",
+          "Member": "Y",
+          "Value": -80.0,
+          "Time": 0.0
+        }
+      ],
+      "SourceType": 2,
+      "SourceFile": "AxisAlignedRectangle",
       "HasPublicProperty": true,
       "GenerateTimedEmit": true
     }

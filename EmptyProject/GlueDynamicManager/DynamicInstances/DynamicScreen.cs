@@ -2,8 +2,10 @@
 using EmptyProject.GlueDynamicManager.DynamicInstances.Containers;
 using EmptyProject.GlueDynamicManager.States;
 using FlatRedBall;
+using FlatRedBall.Content.Instructions;
 using FlatRedBall.Math;
 using FlatRedBall.Math.Geometry;
+using GlueControl.Managers;
 using GlueControl.Models;
 using System;
 using System.Collections.Generic;
@@ -74,90 +76,120 @@ namespace EmptyProject.GlueDynamicManager.DynamicInstances
             if (_currentScreenState == null)
                 throw new Exception("Unable to get dynamic screen state");
 
-            for(var i = 0; i < _currentScreenState.ScreenSave.NamedObjects.Count; i++)
+            var namedObjects = _currentScreenState.ScreenSave.AllNamedObjects
+                .OrderBy(item => item.SourceClassType != "FlatRedBall.Math.PositionedObjectList<T>")
+                .ToArray();
+
+            foreach(var nos in namedObjects)
             {
-                InitializeNamedObject(_currentScreenState.ScreenSave.NamedObjects[i], _currentScreenState);
+                var itemContainer = GetContainerFor(nos, _currentScreenState.ScreenSave);
+                InitializeNamedObject(nos, itemContainer, _currentScreenState);
             }
         }
 
-        private void InitializeNamedObject(NamedObjectSave item, DynamicScreenState _currentScreenState)
+        private NamedObjectSave GetContainerFor(NamedObjectSave nos, ScreenSave screenSave)
         {
-            if(item.SourceClassType == "FlatRedBall.Math.PositionedObjectList<T>")
+            foreach(var candidate in screenSave.NamedObjects)
             {
-                if(GlueDynamicManager.Self.ContainsEntity(item.SourceClassGenericType))
+                if(candidate.ContainedObjects.Any(item => item.InstanceName == nos.InstanceName))
                 {
-                    if(GlueDynamicManager.Self.EntityIsDynamic(item.SourceClassGenericType))
+                    return candidate;
+                }
+            }
+
+            if(screenSave.BaseElement != null)
+            {
+                var baseScreen = ObjectFinder.Self.GetBaseElement(screenSave);
+
+                if(baseScreen is ScreenSave baseScreenSave)
+                {
+                    return GetContainerFor(nos, baseScreenSave);
+                }
+            }
+
+            return null;
+        }
+
+        private void InitializeNamedObject(NamedObjectSave nos, NamedObjectSave nosList, DynamicScreenState _currentScreenState)
+        {
+            if (nos.SourceClassType == "FlatRedBall.Math.PositionedObjectList<T>")
+            {
+                if (GlueDynamicManager.Self.ContainsEntity(nos.SourceClassGenericType))
+                {
+                    if (GlueDynamicManager.Self.EntityIsDynamic(nos.SourceClassGenericType))
                     {
                         var container = new PositionedListContainer
                         {
                             Value = new PositionedObjectList<DynamicEntity>
                             {
-                                Name = item.InstanceName
+                                Name = nos.InstanceName
                             },
                             AddToManagers = true,
-                            Name = item.InstanceName
+                            Name = nos.InstanceName
                         };
                         _positionedObjectLists.Add(container);
-
-                        for(var cObjIndex = item.ContainedObjects.Count - 1; cObjIndex > -1; cObjIndex--)
-                        {
-                            var cObj = item.ContainedObjects[cObjIndex];
-                            var entityContainer = new DynamicEntityContainer
-                            {
-                                Name = cObj.InstanceName,
-                                AddToManagers = false,
-                                Value = new DynamicEntity(GlueDynamicManager.Self.GetDynamicEntityState(cObj.SourceClassType)),
-                                InstructionSaves = cObj.InstructionSaves
-                            };
-                            _instancedEntities.Add(entityContainer);
-                            container.Value.Add(entityContainer.Value);
-                        }
-
-                        if(_currentScreenState.BaseScreenSave != null)
-                        {
-                            //Find matching entity
-                            for(var findIndex = _currentScreenState.BaseScreenSave.NamedObjects.Count - 1; findIndex > -1; findIndex--)
-                            {
-                                if (_currentScreenState.BaseScreenSave.NamedObjects[findIndex].InstanceName == item.InstanceName)
-                                {
-                                    var bno = _currentScreenState.BaseScreenSave.NamedObjects[findIndex];
-                                    for (var cObjIndex = bno.ContainedObjects.Count - 1; cObjIndex > -1; cObjIndex--)
-                                    {
-                                        var cObj = bno.ContainedObjects[cObjIndex];
-                                        var entityContainer = new DynamicEntityContainer
-                                        {
-                                            Name = cObj.InstanceName,
-                                            AddToManagers = false,
-                                            Value = new DynamicEntity(GlueDynamicManager.Self.GetDynamicEntityState(cObj.SourceClassType)),
-                                            InstructionSaves = cObj.InstructionSaves
-                                        };
-                                        _instancedEntities.Add(entityContainer);
-                                        container.Value.Add(entityContainer.Value);
-                                    }
-                                }
-                            }
-                        }
                     }
-                    else
+                }
+            }
+            else if(nos.SourceType == SourceType.Entity)
+            {
+                var entityContainer = new DynamicEntityContainer
+                {
+                    Name = nos.InstanceName,
+                    AddToManagers = false,
+                    Value = new DynamicEntity(GlueDynamicManager.Self.GetDynamicEntityState(nos.SourceClassType)),
+                    InstructionSaves = GetInstructionsRecursively(nos, _currentScreenState.ScreenSave)
+                };
+                _instancedEntities.Add(entityContainer);
+
+                if(nosList != null)
+                {
+                    var container = _positionedObjectLists.Find(item => item.Name == nosList.InstanceName);
+                    if(container != null)
                     {
-                        throw new NotImplementedException();
+                        container.Value.Add(entityContainer.Value);
                     }
+
                 }
             }
             else
             {
-                var container = new ObjectContainer
+                var objectContainer = new ObjectContainer
                 {
-                    ObjectType = item.SourceClassType,
-                    Name = item.InstanceName,
-                    AddToManagers = item.AddToManagers,
-                    InstructionSaves = item.InstructionSaves
+                    ObjectType = nos.SourceClassType,
+                    Name = nos.InstanceName,
+                    AddToManagers = nos.AddToManagers,
+                    InstructionSaves = GetInstructionsRecursively(nos, _currentScreenState.ScreenSave)
                 };
-                container.Value = InstanceInstantiator.Instantiate(item.SourceClassType);
+                objectContainer.Value = InstanceInstantiator.Instantiate(nos.SourceClassType);
 
-                _instancedObjects.Add(container);
+                _instancedObjects.Add(objectContainer);
 
             }
+        }
+
+        private List<InstructionSave> GetInstructionsRecursively(NamedObjectSave nos, GlueElement glueElement, List<InstructionSave> list = null)
+        {
+            list = list ?? new List<InstructionSave>();
+
+            if(glueElement.BaseElement != null)
+            {
+                var baseScreen = ObjectFinder.Self.GetScreenSave(glueElement.BaseElement);
+
+                if(baseScreen != null)
+                {
+                    GetInstructionsRecursively(nos, baseScreen, list);
+                }
+            }
+
+            // this could be different than the nos because we may be in a base screen where the references aren't the same
+            var itemInContainer = glueElement.AllNamedObjects.FirstOrDefault(item => item.InstanceName == nos.InstanceName);
+            if(itemInContainer != null)
+            {
+                list.AddRange(itemInContainer.InstructionSaves);
+            }
+
+            return list;
         }
 
         public override void AddToManagers()
