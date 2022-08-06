@@ -47,7 +47,7 @@
         {
           "Type": "string",
           "Member": "CurrentChainName",
-          "Value": "CharacterIdleRight",
+          "Value": "CharacterWalkRight",
           "Time": 0.0
         },
         {

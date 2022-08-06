@@ -71,11 +71,6 @@ namespace EmptyProject.GlueDynamicManager.Converters
                     {
                         variableValue = FlatRedBallServices.Load<Microsoft.Xna.Framework.Graphics.Texture2D>(absoluteRfs.FullPath);
                     }
-                    //var achx = FlatRedBallServices.Load<AnimationChainListSave>(rfs.Name);
-
-
-                    // continue here
-                    //variableValue = Editing.VariableAssignmentLogic.ConvertStringToType(instruction.Type, asString, false, out conversionReport);
                 }
             }
             //else if (instruction.Type == typeof(Microsoft.Xna.Framework.Color).FullName)

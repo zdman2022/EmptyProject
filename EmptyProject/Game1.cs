@@ -83,7 +83,7 @@ namespace EmptyProject
             // stored by the dynamic objects. We need to
             // make ObjectFinder the authority.
             GlueCommands.Self.LoadProject(gluj.FullPath);
-            GlueDynamicManager.DynamicInstances.DynamicScreen.CurrentScreen = "SpriteScreen";
+            GlueDynamicManager.DynamicInstances.DynamicScreen.CurrentScreen = "AnimationScreen";
             ScreenManager.Start(typeof(GlueDynamicManager.DynamicInstances.DynamicScreen));
         }
 
