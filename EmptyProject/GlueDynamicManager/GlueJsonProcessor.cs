@@ -1,4 +1,5 @@
 ﻿using EmptyProject.GlueDynamicManager.Operations;
+using FlatRedBall.IO;
 using JsonDiffPatchDotNet;
 using JsonDiffPatchDotNet.Formatters.JsonPatch;
 using Newtonsoft.Json.Linq;
@@ -50,14 +51,21 @@ namespace EmptyProject.GlueDynamicManager
 
         internal static GlueJsonContainer GetTest(string testName, string instance)
         {
-            var returnValue = new GlueJsonContainer();
 
             var prefixPath = "..\\..\\..\\..\\";
 
-            returnValue.Glue = JToken.Parse(File.ReadAllText($"{prefixPath}GlueDynamicManager\\Test\\{testName}\\{instance}\\Glue.gluj"));
+            FilePath glujFilePath = $"{prefixPath}GlueDynamicManager\\Test\\{testName}\\{instance}\\Glue.gluj";
 
-            var entityDirectory = $"{prefixPath}GlueDynamicManager\\Test\\{testName}\\{instance}\\Entities";
-            if(Directory.Exists(entityDirectory))
+            return GetTest(glujFilePath);
+        }
+
+        internal static GlueJsonContainer GetTest(FilePath glujFilePath)
+        {
+            var returnValue = new GlueJsonContainer();
+            returnValue.Glue = JToken.Parse(File.ReadAllText(glujFilePath.FullPath));
+
+            var entityDirectory = glujFilePath.GetDirectoryContainingThis() + "\\Entities";
+            if (Directory.Exists(entityDirectory))
             {
                 foreach (var file in Directory.GetFiles(entityDirectory))
                 {
@@ -67,8 +75,8 @@ namespace EmptyProject.GlueDynamicManager
                 }
             }
 
-            var screenDirectory = $"{prefixPath}GlueDynamicManager\\Test\\{testName}\\{instance}\\Screens";
-            if(Directory.Exists(screenDirectory))
+            var screenDirectory = glujFilePath.GetDirectoryContainingThis() + "\\Screens";
+            if (Directory.Exists(screenDirectory))
             {
                 foreach (var file in Directory.GetFiles(screenDirectory))
                 {
