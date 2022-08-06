@@ -56,18 +56,26 @@ namespace EmptyProject.GlueDynamicManager
 
             returnValue.Glue = JToken.Parse(File.ReadAllText($"{prefixPath}GlueDynamicManager\\Test\\{testName}\\{instance}\\Glue.gluj"));
 
-            foreach (var file in Directory.GetFiles($"{prefixPath}GlueDynamicManager\\Test\\{testName}\\{instance}\\Entities"))
+            var entityDirectory = $"{prefixPath}GlueDynamicManager\\Test\\{testName}\\{instance}\\Entities";
+            if(Directory.Exists(entityDirectory))
             {
-                var entityName = Path.GetFileNameWithoutExtension(file);
+                foreach (var file in Directory.GetFiles(entityDirectory))
+                {
+                    var entityName = Path.GetFileNameWithoutExtension(file);
 
-                returnValue.Entities.Add(entityName, JToken.Parse(File.ReadAllText(file)));
+                    returnValue.Entities.Add(entityName, JToken.Parse(File.ReadAllText(file)));
+                }
             }
 
-            foreach (var file in Directory.GetFiles($"{prefixPath}GlueDynamicManager\\Test\\{testName}\\{instance}\\Screens"))
+            var screenDirectory = $"{prefixPath}GlueDynamicManager\\Test\\{testName}\\{instance}\\Screens";
+            if(Directory.Exists(screenDirectory))
             {
-                var screenName = Path.GetFileNameWithoutExtension(file);
+                foreach (var file in Directory.GetFiles(screenDirectory))
+                {
+                    var screenName = Path.GetFileNameWithoutExtension(file);
 
-                returnValue.Screens.Add(screenName, JToken.Parse(File.ReadAllText(file)));
+                    returnValue.Screens.Add(screenName, JToken.Parse(File.ReadAllText(file)));
+                }
             }
 
             return returnValue;

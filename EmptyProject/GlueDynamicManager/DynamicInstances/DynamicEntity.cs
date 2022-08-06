@@ -24,7 +24,7 @@ namespace EmptyProject.GlueDynamicManager.DynamicInstances
 
         private void InitializeEntity()
         {
-            for (var i = _dynamicEntityState.EntitySave.NamedObjects.Count - 1; i > -1; i--)
+            for (var i = 0; i < _dynamicEntityState.EntitySave.NamedObjects.Count ; i++)
             {
                 var no = _dynamicEntityState.EntitySave.NamedObjects[i];
                 if (GlueDynamicManager.Self.EntityIsDynamic(no.SourceClassType))
