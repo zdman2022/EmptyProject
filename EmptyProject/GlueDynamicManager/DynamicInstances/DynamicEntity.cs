@@ -1,4 +1,5 @@
-﻿using EmptyProject.GlueDynamicManager.DynamicInstances.Containers;
+﻿using EmptyProject.GlueDynamicManager.Converters;
+using EmptyProject.GlueDynamicManager.DynamicInstances.Containers;
 using EmptyProject.GlueDynamicManager.States;
 using FlatRedBall;
 using FlatRedBall.Graphics;
@@ -37,8 +38,21 @@ namespace EmptyProject.GlueDynamicManager.DynamicInstances
                     {
                         Name = no.InstanceName,
                         ObjectType = no.SourceClassType,
-                        Value = InstanceInstantiator.Instantiate(no.SourceClassType)
+                        Value = InstanceInstantiator.Instantiate(no.SourceClassType),
+                        InstructionSaves = no.InstructionSaves
                     });
+                }
+            }
+
+            for (var i = 0; i < _instancedObjects.Count; i++)
+            {
+                var obj = _instancedObjects[i];
+
+                foreach(var instruction in obj.InstructionSaves)
+                {
+                    var convertedValue = ValueConverter.ConvertValue(instruction, this._dynamicEntityState.EntitySave);
+                    convertedValue = ValueConverter.ConvertForProperty(convertedValue, instruction.Type, obj.ObjectType);
+                    FlatRedBall.Screens.ScreenManager.CurrentScreen.ApplyVariable(instruction.Member, convertedValue, obj.Value);
                 }
             }
         }
@@ -60,9 +74,9 @@ namespace EmptyProject.GlueDynamicManager.DynamicInstances
             {
                 var obj = _instancedObjects[i];
 
-                if(obj.ObjectType == "FlatRedBall.Math.Geometry.Circle")
+                if(ShapeManagerHandler.IsShape(obj.ObjectType))
                 {
-                    FlatRedBall.Math.Geometry.ShapeManager.AddToLayer((FlatRedBall.Math.Geometry.Circle)obj.Value, LayerProvidedByContainer);
+                    ShapeManagerHandler.AddToLayer(obj.Value, LayerProvidedByContainer, obj.ObjectType);
                 }
             }
         }
