@@ -91,6 +91,15 @@
       "Name": "Screens\\AnimationScreen"
     },
     {
+      "Name": "Screens\\CollidableScreen"
+    },
+    {
+      "Name": "Screens\\EntityInheritanceScreen"
+    },
+    {
+      "Name": "Screens\\EntityWithTunneledVariablesScreen"
+    },
+    {
       "Name": "Screens\\GameScreen"
     },
     {
@@ -100,15 +109,39 @@
       "Name": "Screens\\Level2"
     },
     {
+      "Name": "Screens\\ScreenWithEntityWithShapes"
+    },
+    {
       "Name": "Screens\\ScreenWithShapes"
     },
     {
       "Name": "Screens\\SpriteScreen"
+    },
+    {
+      "Name": "Screens\\StateEntityScreen"
     }
   ],
   "EntityReferences": [
     {
+      "Name": "Entities\\BaseEntity"
+    },
+    {
+      "Name": "Entities\\CollidableEnemy"
+    },
+    {
+      "Name": "Entities\\DerivedEntity"
+    },
+    {
+      "Name": "Entities\\EntityWithShapes"
+    },
+    {
+      "Name": "Entities\\EntityWithTunneledVariables"
+    },
+    {
       "Name": "Entities\\Player"
+    },
+    {
+      "Name": "Entities\\StateEntity"
     }
   ],
   "PluginData": {

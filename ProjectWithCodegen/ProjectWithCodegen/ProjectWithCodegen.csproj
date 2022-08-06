@@ -70,16 +70,52 @@
   <ItemGroup>
     <Compile Include="DataTypes\PlatformerValues.Generated.cs" />
     <Compile Include="DataTypes\TileMapInfo.Generated.cs" />
+    <Compile Include="Entities\BaseEntity.cs" />
+    <Compile Include="Entities\BaseEntity.Generated.cs">
+      <DependentUpon>BaseEntity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\CollidableEnemy.cs" />
+    <Compile Include="Entities\CollidableEnemy.Generated.cs">
+      <DependentUpon>CollidableEnemy.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\DerivedEntity.cs" />
+    <Compile Include="Entities\DerivedEntity.Generated.cs">
+      <DependentUpon>DerivedEntity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\EntityWithShapes.cs" />
+    <Compile Include="Entities\EntityWithShapes.Generated.cs">
+      <DependentUpon>EntityWithShapes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\EntityWithTunneledVariables.cs" />
+    <Compile Include="Entities\EntityWithTunneledVariables.Generated.cs">
+      <DependentUpon>EntityWithTunneledVariables.cs</DependentUpon>
+    </Compile>
     <Compile Include="Entities\Player.cs" />
     <Compile Include="Entities\Player.Generated.cs">
       <DependentUpon>Player.cs</DependentUpon>
     </Compile>
+    <Compile Include="Entities\StateEntity.cs" />
+    <Compile Include="Entities\StateEntity.Generated.cs">
+      <DependentUpon>StateEntity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Factories\BaseEntityFactory.Generated.cs" />
+    <Compile Include="Factories\CollidableEnemyFactory.Generated.cs" />
+    <Compile Include="Factories\DerivedEntityFactory.Generated.cs" />
+    <Compile Include="Factories\EntityWithShapesFactory.Generated.cs" />
+    <Compile Include="Factories\EntityWithTunneledVariablesFactory.Generated.cs" />
     <Compile Include="Factories\PlayerFactory.Generated.cs" />
+    <Compile Include="Factories\StateEntityFactory.Generated.cs" />
     <Compile Include="FileAliases.Generated.cs" />
     <Compile Include="Forms\Screens\AnimationScreenGumForms.cs" />
     <Compile Include="Forms\Screens\AnimationScreenGumForms.Generated.cs">
       <DependentUpon>AnimationScreenGumForms.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Screens\CollidableScreenGumForms.cs" />
+    <Compile Include="Forms\Screens\CollidableScreenGumForms.Generated.cs" />
+    <Compile Include="Forms\Screens\EntityInheritanceScreenGumForms.cs" />
+    <Compile Include="Forms\Screens\EntityInheritanceScreenGumForms.Generated.cs" />
+    <Compile Include="Forms\Screens\EntityWithTunneledVariablesScreenGumForms.cs" />
+    <Compile Include="Forms\Screens\EntityWithTunneledVariablesScreenGumForms.Generated.cs" />
     <Compile Include="Forms\Screens\GameScreenGumForms.cs" />
     <Compile Include="Forms\Screens\GameScreenGumForms.Generated.cs">
       <DependentUpon>GameScreenGumForms.cs</DependentUpon>
@@ -92,6 +128,10 @@
     <Compile Include="Forms\Screens\Level2GumForms.Generated.cs">
       <DependentUpon>Level2GumForms.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Screens\ScreenWithEntityWithShapesGumForms.cs" />
+    <Compile Include="Forms\Screens\ScreenWithEntityWithShapesGumForms.Generated.cs">
+      <DependentUpon>ScreenWithEntityWithShapesGumForms.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Screens\ScreenWithShapesGumForms.cs" />
     <Compile Include="Forms\Screens\ScreenWithShapesGumForms.Generated.cs">
       <DependentUpon>ScreenWithShapesGumForms.cs</DependentUpon>
@@ -100,6 +140,8 @@
     <Compile Include="Forms\Screens\SpriteScreenGumForms.Generated.cs">
       <DependentUpon>SpriteScreenGumForms.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Screens\StateEntityScreenGumForms.cs" />
+    <Compile Include="Forms\Screens\StateEntityScreenGumForms.Generated.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Game1.Generated.cs">
       <DependentUpon>Game1.cs</DependentUpon>
@@ -170,6 +212,8 @@
     <Compile Include="GumRuntimes\Behaviors\ITreeViewItemBehavior.Generated.cs" />
     <Compile Include="GumRuntimes\Behaviors\IUserControlBehavior.Generated.cs" />
     <Compile Include="GumRuntimes\CircleRuntime.Generated.cs" />
+    <Compile Include="GumRuntimes\CollidableScreenGumRuntime.cs" />
+    <Compile Include="GumRuntimes\CollidableScreenGumRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\ColoredRectangleRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\ContainerRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\Controls\ButtonCloseRuntime.cs" />
@@ -308,6 +352,10 @@
     <Compile Include="GumRuntimes\Elements\VerticalLinesRuntime.Generated.cs">
       <DependentUpon>VerticalLinesRuntime.cs</DependentUpon>
     </Compile>
+    <Compile Include="GumRuntimes\EntityInheritanceScreenGumRuntime.cs" />
+    <Compile Include="GumRuntimes\EntityInheritanceScreenGumRuntime.Generated.cs" />
+    <Compile Include="GumRuntimes\EntityWithTunneledVariablesScreenGumRuntime.cs" />
+    <Compile Include="GumRuntimes\EntityWithTunneledVariablesScreenGumRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\GameScreenGumRuntime.cs" />
     <Compile Include="GumRuntimes\GameScreenGumRuntime.Generated.cs">
       <DependentUpon>GameScreenGumRuntime.cs</DependentUpon>
@@ -324,6 +372,10 @@
     <Compile Include="GumRuntimes\NineSliceRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\PolygonRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\RectangleRuntime.Generated.cs" />
+    <Compile Include="GumRuntimes\ScreenWithEntityWithShapesGumRuntime.cs" />
+    <Compile Include="GumRuntimes\ScreenWithEntityWithShapesGumRuntime.Generated.cs">
+      <DependentUpon>ScreenWithEntityWithShapesGumRuntime.cs</DependentUpon>
+    </Compile>
     <Compile Include="GumRuntimes\ScreenWithShapesGumRuntime.cs" />
     <Compile Include="GumRuntimes\ScreenWithShapesGumRuntime.Generated.cs">
       <DependentUpon>ScreenWithShapesGumRuntime.cs</DependentUpon>
@@ -333,6 +385,8 @@
     <Compile Include="GumRuntimes\SpriteScreenGumRuntime.Generated.cs">
       <DependentUpon>SpriteScreenGumRuntime.cs</DependentUpon>
     </Compile>
+    <Compile Include="GumRuntimes\StateEntityScreenGumRuntime.cs" />
+    <Compile Include="GumRuntimes\StateEntityScreenGumRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\TextRuntime.Generated.cs" />
     <Compile Include="Performance\IEntityFactory.Generated.cs" />
     <Compile Include="Performance\PoolList.Generated.cs" />
@@ -349,6 +403,18 @@
     <Compile Include="Screens\AnimationScreen.Generated.cs">
       <DependentUpon>AnimationScreen.cs</DependentUpon>
     </Compile>
+    <Compile Include="Screens\CollidableScreen.cs" />
+    <Compile Include="Screens\CollidableScreen.Generated.cs">
+      <DependentUpon>CollidableScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\EntityInheritanceScreen.cs" />
+    <Compile Include="Screens\EntityInheritanceScreen.Generated.cs">
+      <DependentUpon>EntityInheritanceScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\EntityWithTunneledVariablesScreen.cs" />
+    <Compile Include="Screens\EntityWithTunneledVariablesScreen.Generated.cs">
+      <DependentUpon>EntityWithTunneledVariablesScreen.cs</DependentUpon>
+    </Compile>
     <Compile Include="Screens\GameScreen.cs" />
     <Compile Include="Screens\GameScreen.Generated.cs">
       <DependentUpon>GameScreen.cs</DependentUpon>
@@ -361,6 +427,10 @@
     <Compile Include="Screens\Level2.Generated.cs">
       <DependentUpon>Level2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Screens\ScreenWithEntityWithShapes.cs" />
+    <Compile Include="Screens\ScreenWithEntityWithShapes.Generated.cs">
+      <DependentUpon>ScreenWithEntityWithShapes.cs</DependentUpon>
+    </Compile>
     <Compile Include="Screens\ScreenWithShapes.cs" />
     <Compile Include="Screens\ScreenWithShapes.Generated.cs">
       <DependentUpon>ScreenWithShapes.cs</DependentUpon>
@@ -368,6 +438,10 @@
     <Compile Include="Screens\SpriteScreen.cs" />
     <Compile Include="Screens\SpriteScreen.Generated.cs">
       <DependentUpon>SpriteScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\StateEntityScreen.cs" />
+    <Compile Include="Screens\StateEntityScreen.Generated.cs">
+      <DependentUpon>StateEntityScreen.cs</DependentUpon>
     </Compile>
     <Compile Include="Setup\CameraSetup.cs" />
     <Compile Include="TileCollisions\CollidableListVsTileShapeCollectionRelationship.cs" />
@@ -662,6 +736,18 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>AnimationScreenGum</Name>
     </None>
+    <None Include="content\gumproject\screens\collidablescreengum.gusx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>CollidableScreenGum</Name>
+    </None>
+    <None Include="content\gumproject\screens\entityinheritancescreengum.gusx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>EntityInheritanceScreenGum</Name>
+    </None>
+    <None Include="content\gumproject\screens\entitywithtunneledvariablesscreengum.gusx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>EntityWithTunneledVariablesScreenGum</Name>
+    </None>
     <None Include="content\gumproject\screens\gamescreengum.gusx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>GameScreenGum</Name>
@@ -674,6 +760,10 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>Level2Gum</Name>
     </None>
+    <None Include="content\gumproject\screens\screenwithentitywithshapesgum.gusx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>ScreenWithEntityWithShapesGum</Name>
+    </None>
     <None Include="content\gumproject\screens\screenwithshapesgum.gusx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>ScreenWithShapesGum</Name>
@@ -681,6 +771,10 @@
     <None Include="content\gumproject\screens\spritescreengum.gusx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>SpriteScreenGum</Name>
+    </None>
+    <None Include="content\gumproject\screens\stateentityscreengum.gusx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>StateEntityScreenGum</Name>
     </None>
     <None Include="content\gumproject\standards\circle.gutx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

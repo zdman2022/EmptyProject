@@ -1,5 +1,8 @@
-﻿using FlatRedBall.Content.Instructions;
+﻿using FlatRedBall;
+using FlatRedBall.Content.AnimationChain;
+using FlatRedBall.Content.Instructions;
 using GlueControl.Managers;
+using GlueControl.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -55,7 +58,11 @@ namespace EmptyProject.GlueDynamicManager.Converters
             {
                 if (variableValue is string asString && !string.IsNullOrWhiteSpace(asString))
                 {
-                    var rfs = instanceContainer.GetReferencedFileSave(asString);
+                    var rfs = instanceContainer.GetReferencedFileSaveRecursively(asString);
+
+                    //var achx = FlatRedBallServices.Load<AnimationChainListSave>(rfs.Name);
+
+
                     // continue here
                     //variableValue = Editing.VariableAssignmentLogic.ConvertStringToType(instruction.Type, asString, false, out conversionReport);
                 }
