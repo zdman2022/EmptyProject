@@ -1,7 +1,9 @@
-﻿using EmptyProject.GlueDynamicManager.DynamicInstances.Containers;
+﻿using EmptyProject.GlueDynamicManager.Converters;
+using EmptyProject.GlueDynamicManager.DynamicInstances.Containers;
 using EmptyProject.GlueDynamicManager.States;
 using FlatRedBall;
 using FlatRedBall.Math;
+using FlatRedBall.Math.Geometry;
 using GlueControl.Models;
 using System;
 using System.Collections.Generic;
@@ -17,7 +19,10 @@ namespace EmptyProject.GlueDynamicManager.DynamicInstances
 
 
         private List<PositionedListContainer> _positionedObjectLists = new List<PositionedListContainer>();
-        private List<DynamicEntityContainer> _instancedObjects = new List<DynamicEntityContainer>();
+
+        // Do we want a second list for entities?
+        private List<DynamicEntityContainer> _instancedEntities = new List<DynamicEntityContainer>();
+        private List<ObjectContainer> _instancedObjects = new List<ObjectContainer>();
         private DynamicScreenState _currentScreenState;
 
         public DynamicScreen() : base("DynamicScreen")
@@ -40,6 +45,24 @@ namespace EmptyProject.GlueDynamicManager.DynamicInstances
             bool oldShapeManagerSuppressAdd = FlatRedBall.Math.Geometry.ShapeManager.SuppressAddingOnVisibilityTrue;
             FlatRedBall.Math.Geometry.ShapeManager.SuppressAddingOnVisibilityTrue = true;
 
+            for(int i = 0; i < _instancedObjects.Count; i++)
+            {
+                var instance = _instancedObjects[i];
+
+                foreach(var instruction in instance.InstructionSaves)
+                {
+                    var convertedValue = ValueConverter.ConvertValue(instruction);
+                    base.ApplyVariable(instruction.Member, convertedValue, instance.Value);
+                }
+            }
+
+            for(int i = 0; i < _instancedEntities.Count; i++)
+            {
+                var instance = _instancedEntities[i];
+
+                // todo - fill this in later
+
+            }
 
             FlatRedBall.Math.Geometry.ShapeManager.SuppressAddingOnVisibilityTrue = oldShapeManagerSuppressAdd;
         }
@@ -51,7 +74,7 @@ namespace EmptyProject.GlueDynamicManager.DynamicInstances
             if (_currentScreenState == null)
                 throw new Exception("Unable to get dynamic screen state");
 
-            for(var i = _currentScreenState.ScreenSave.NamedObjects.Count - 1; i > -1; i--)
+            for(var i = 0; i < _currentScreenState.ScreenSave.NamedObjects.Count; i++)
             {
                 InitializeNamedObject(_currentScreenState.ScreenSave.NamedObjects[i], _currentScreenState);
             }
@@ -86,7 +109,7 @@ namespace EmptyProject.GlueDynamicManager.DynamicInstances
                                 Value = new DynamicEntity(GlueDynamicManager.Self.GetDynamicEntityState(cObj.SourceClassType)),
                                 InstructionSaves = cObj.InstructionSaves
                             };
-                            _instancedObjects.Add(entityContainer);
+                            _instancedEntities.Add(entityContainer);
                             container.Value.Add(entityContainer.Value);
                         }
 
@@ -108,7 +131,7 @@ namespace EmptyProject.GlueDynamicManager.DynamicInstances
                                             Value = new DynamicEntity(GlueDynamicManager.Self.GetDynamicEntityState(cObj.SourceClassType)),
                                             InstructionSaves = cObj.InstructionSaves
                                         };
-                                        _instancedObjects.Add(entityContainer);
+                                        _instancedEntities.Add(entityContainer);
                                         container.Value.Add(entityContainer.Value);
                                     }
                                 }
@@ -121,13 +144,32 @@ namespace EmptyProject.GlueDynamicManager.DynamicInstances
                     }
                 }
             }
+            else
+            {
+                var container = new ObjectContainer
+                {
+                    ObjectType = item.SourceClassType,
+                    Name = item.InstanceName,
+                    AddToManagers = item.AddToManagers,
+                    InstructionSaves = item.InstructionSaves
+                };
+                container.Value = InstanceInstantiator.Instantiate(item.SourceClassType);
+
+                _instancedObjects.Add(container);
+
+            }
         }
 
         public override void AddToManagers()
         {
-            for (var i = _instancedObjects.Count - 1; i > -1; i--)
+            for(int i = 0; i < _instancedEntities.Count; i++)
             {
-                _instancedObjects[i].Value.AddToManagers(mLayer);
+                _instancedEntities[i].Value.AddToManagers(mLayer);
+            }
+
+            for (var i = 0; i < _instancedObjects.Count; i++)
+            {
+                InstanceAddToManager.AddToManager(_instancedObjects[i].Value);
             }
 
             base.AddToManagers();

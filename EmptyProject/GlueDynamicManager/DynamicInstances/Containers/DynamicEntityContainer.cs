@@ -10,6 +10,5 @@ namespace EmptyProject.GlueDynamicManager.DynamicInstances.Containers
 {
     internal class DynamicEntityContainer : BaseContainer<DynamicEntity>
     {
-        public List<InstructionSave> InstructionSaves { get; internal set; }
     }
 }

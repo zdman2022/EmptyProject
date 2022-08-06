@@ -112,6 +112,7 @@
     <Compile Include="GlueControl\Models\StateSaveCategory.Generated.cs" />
     <Compile Include="GlueControl\Runtime\DynamicEntity.Generated.cs" />
     <Compile Include="GlueControl\Screens\EntityViewingScreen.Generated.cs" />
+    <Compile Include="GlueDynamicManager\Converters\ValueConverter.cs" />
     <Compile Include="GlueDynamicManager\DynamicInstances\Containers\BaseContainer.cs" />
     <Compile Include="GlueDynamicManager\DynamicInstances\Containers\DynamicEntityContainer.cs" />
     <Compile Include="GlueDynamicManager\DynamicInstances\Containers\ObjectContainer.cs" />
@@ -121,7 +122,9 @@
     <Compile Include="GlueDynamicManager\GlueDynamicManager.cs" />
     <Compile Include="GlueDynamicManager\GlueJsonContainer.cs" />
     <Compile Include="GlueDynamicManager\GlueJsonProcessor.cs" />
-    <Compile Include="GlueDynamicManager\InstanceInstantiator.cs" />
+    <Compile Include="GlueDynamicManager\Converters\InstanceAddToManager.cs" />
+    <Compile Include="GlueDynamicManager\Converters\InstanceInstantiator.cs" />
+    <Compile Include="GlueDynamicManager\Converters\InstanceVariableAssigner.cs" />
     <Compile Include="GlueDynamicManager\Operations\CreateNewEntityOperation.cs" />
     <Compile Include="GlueDynamicManager\Operations\CreateNewScreenOperation.cs" />
     <Compile Include="GlueDynamicManager\Operations\IOperation.cs" />

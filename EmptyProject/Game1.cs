@@ -11,6 +11,7 @@ using System.Linq;
 
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using FlatRedBall.IO;
 
 namespace EmptyProject
 {
@@ -66,8 +67,10 @@ namespace EmptyProject
 
             //Test Code
             GlueDynamicManager.GlueDynamicManager.Self.SetInitialState(GlueDynamicManager.GlueJsonProcessor.GetTest("Test1", "Base"));
-            GlueDynamicManager.GlueDynamicManager.Self.UpdateState(GlueDynamicManager.GlueJsonProcessor.GetTest("Test1", "Change1"));
-            GlueDynamicManager.DynamicInstances.DynamicScreen.CurrentScreen = "Level1";
+            FilePath gluj = FileManager.RelativeDirectory + "../../../../../ProjectWithCodegen/ProjectWithCodegen/ProjectWithCodegen.gluj";
+
+            GlueDynamicManager.GlueDynamicManager.Self.UpdateState(GlueDynamicManager.GlueJsonProcessor.GetTest(gluj));
+            GlueDynamicManager.DynamicInstances.DynamicScreen.CurrentScreen = "ScreenWithShapes";
             ScreenManager.Start(typeof(GlueDynamicManager.DynamicInstances.DynamicScreen));
         }
 

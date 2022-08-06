@@ -67,7 +67,7 @@ namespace EmptyProject.GlueDynamicManager
             var entityDirectory = glujFilePath.GetDirectoryContainingThis() + "\\Entities";
             if (Directory.Exists(entityDirectory))
             {
-                foreach (var file in Directory.GetFiles(entityDirectory))
+                foreach (var file in Directory.GetFiles(entityDirectory).Where(item => item.EndsWith(".glej")))
                 {
                     var entityName = Path.GetFileNameWithoutExtension(file);
 
@@ -78,7 +78,7 @@ namespace EmptyProject.GlueDynamicManager
             var screenDirectory = glujFilePath.GetDirectoryContainingThis() + "\\Screens";
             if (Directory.Exists(screenDirectory))
             {
-                foreach (var file in Directory.GetFiles(screenDirectory))
+                foreach (var file in Directory.GetFiles(screenDirectory).Where(item => item.EndsWith(".glsj")))
                 {
                     var screenName = Path.GetFileNameWithoutExtension(file);
 
