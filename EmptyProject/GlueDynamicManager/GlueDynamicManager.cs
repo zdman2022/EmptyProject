@@ -53,6 +53,7 @@ namespace EmptyProject.GlueDynamicManager
                 var returnValue = new DynamicEntityState();
 
                 returnValue.EntitySave = JsonConvert.DeserializeObject<EntitySave>(_curState.Entities[correctedEntityName].ToString());
+                returnValue.CustomVariablesSave = JsonConvert.DeserializeObject<List<CustomVariable>>(_curState.Entities[correctedEntityName]["CustomVariables"].ToString());
 
                 return returnValue;
             }

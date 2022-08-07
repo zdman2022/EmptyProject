@@ -72,7 +72,7 @@ namespace EmptyProject.GlueDynamicManager.DynamicInstances
                     {
                         var convertedValue = ValueConverter.ConvertValue(instruction, this._currentScreenState.ScreenSave);
                         convertedValue = ValueConverter.ConvertForProperty(convertedValue, instruction.Type, typeof(DynamicEntity).Name);
-                        base.ApplyVariable(instruction.Member, convertedValue, instance.Value);
+                        instance.Value.SetVariable(instruction.Member, convertedValue);
                     }
             }
 

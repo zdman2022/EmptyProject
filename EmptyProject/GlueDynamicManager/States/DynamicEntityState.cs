@@ -11,5 +11,6 @@ namespace EmptyProject.GlueDynamicManager.States
     public class DynamicEntityState
     {
         public EntitySave EntitySave { get; internal set; }
+        public List<CustomVariable> CustomVariablesSave { get; internal set; }
     }
 }

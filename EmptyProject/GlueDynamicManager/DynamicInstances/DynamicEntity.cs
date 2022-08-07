@@ -5,6 +5,7 @@ using FlatRedBall;
 using FlatRedBall.Entities;
 using FlatRedBall.Graphics;
 using FlatRedBall.Math.Geometry;
+using FlatRedBall.Screens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -82,6 +83,22 @@ namespace EmptyProject.GlueDynamicManager.DynamicInstances
         public void Destroy()
         {
             mGeneratedCollision.RemoveFromManagers(clearThis: false);
+        }
+
+        internal void SetVariable(string member, object convertedValue)
+        {
+            if(_dynamicEntityState.CustomVariablesSave.Where(item => item.SourceObject != null).Any(item => item.Name == member))
+            {
+                var customVariable = _dynamicEntityState.CustomVariablesSave.Where(item => item.SourceObject != null).First(item => item.Name == member);
+
+                var foundObject = _instancedObjects.Where(item => item.Name == customVariable.SourceObject).First();
+
+                ScreenManager.CurrentScreen.ApplyVariable(customVariable.SourceObjectProperty, convertedValue, foundObject.Value);
+            }
+            else
+            {
+                ScreenManager.CurrentScreen.ApplyVariable(member, convertedValue, this);
+            }
         }
 
         internal void AddToManagers(Layer layerToAddTo)
