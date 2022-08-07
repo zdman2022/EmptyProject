@@ -54,8 +54,8 @@ namespace EmptyProject.GlueDynamicManager.DynamicInstances
             {
                 var instance = _instancedObjects[i];
 
-                if (instance.InstructionSaves != null)
-                    foreach (var instruction in instance.InstructionSaves)
+                if (instance.CombinedInstructionSaves != null)
+                    foreach (var instruction in instance.CombinedInstructionSaves)
                     {
                         var convertedValue = ValueConverter.ConvertValue(instruction, this._currentScreenState.ScreenSave);
                         convertedValue = ValueConverter.ConvertForProperty(convertedValue, instruction.Type, instance.ObjectType);
@@ -67,8 +67,8 @@ namespace EmptyProject.GlueDynamicManager.DynamicInstances
             {
                 var instance = _instancedEntities[i];
 
-                if (instance.InstructionSaves != null)
-                    foreach (var instruction in instance.InstructionSaves)
+                if (instance.CombinedInstructionSaves != null)
+                    foreach (var instruction in instance.CombinedInstructionSaves)
                     {
                         var convertedValue = ValueConverter.ConvertValue(instruction, this._currentScreenState.ScreenSave);
                         convertedValue = ValueConverter.ConvertForProperty(convertedValue, instruction.Type, typeof(DynamicEntity).Name);
@@ -142,8 +142,7 @@ namespace EmptyProject.GlueDynamicManager.DynamicInstances
                             {
                                 Name = nos.InstanceName
                             },
-                            AddToManagers = true,
-                            Name = nos.InstanceName
+                            NamedObjectSave = nos
                         };
                         _positionedObjectLists.Add(container);
                     }
@@ -187,8 +186,7 @@ namespace EmptyProject.GlueDynamicManager.DynamicInstances
 
                     var entityContainer = new ObjectContainer
                     {
-                        Name = nos.InstanceName,
-                        AddToManagers = false,
+                        NamedObjectSave = nos,
                         Value = returnValue
                     };
                     _instancedObjects.Add(entityContainer);
@@ -216,10 +214,9 @@ namespace EmptyProject.GlueDynamicManager.DynamicInstances
             {
                 var entityContainer = new DynamicEntityContainer
                 {
-                    Name = nos.InstanceName,
-                    AddToManagers = false,
+                    NamedObjectSave = nos,
                     Value = new DynamicEntity(GlueDynamicManager.Self.GetDynamicEntityState(nos.SourceClassType)),
-                    InstructionSaves = GetInstructionsRecursively(nos, glueElement)
+                    CombinedInstructionSaves = GetInstructionsRecursively(nos, glueElement)
                 };
                 _instancedEntities.Add(entityContainer);
 
@@ -237,10 +234,8 @@ namespace EmptyProject.GlueDynamicManager.DynamicInstances
             {
                 var objectContainer = new ObjectContainer
                 {
-                    ObjectType = nos.SourceClassType,
-                    Name = nos.InstanceName,
-                    AddToManagers = nos.AddToManagers,
-                    InstructionSaves = GetInstructionsRecursively(nos, glueElement)
+                    NamedObjectSave = nos,
+                    CombinedInstructionSaves = GetInstructionsRecursively(nos, glueElement)
                 };
 
                 if(nos.SourceType == SourceType.File)

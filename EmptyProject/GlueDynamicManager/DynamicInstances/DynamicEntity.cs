@@ -49,10 +49,9 @@ namespace EmptyProject.GlueDynamicManager.DynamicInstances
                 {
                     _instancedObjects.Add(new ObjectContainer
                     {
-                        Name = no.InstanceName,
-                        ObjectType = no.SourceClassType,
+                        NamedObjectSave = no,
                         Value = InstanceInstantiator.Instantiate(no.SourceClassType),
-                        InstructionSaves = no.InstructionSaves
+                        CombinedInstructionSaves = no.InstructionSaves
                     });
                 }
             }
@@ -61,7 +60,7 @@ namespace EmptyProject.GlueDynamicManager.DynamicInstances
             {
                 var obj = _instancedObjects[i];
 
-                foreach (var instruction in obj.InstructionSaves)
+                foreach (var instruction in obj.CombinedInstructionSaves)
                 {
                     var convertedValue = ValueConverter.ConvertValue(instruction, this._dynamicEntityState.EntitySave);
                     convertedValue = ValueConverter.ConvertForProperty(convertedValue, instruction.Type, obj.ObjectType);

@@ -42,7 +42,20 @@
           "Type": "String"
         }
       ],
-      "InstructionSaves": [],
+      "InstructionSaves": [
+        {
+          "Type": "bool",
+          "Member": "CreateEntitiesFromTiles",
+          "Value": true,
+          "Time": 0.0
+        },
+        {
+          "Type": "bool",
+          "Member": "ShiftMapToMoveGameplayLayerToZ0",
+          "Value": true,
+          "Time": 0.0
+        }
+      ],
       "SourceFile": "Screens/TiledScreen/LayeredTileMapFile.tmx",
       "SourceName": "Entire File (LayeredTileMap)",
       "AttachToContainer": true,

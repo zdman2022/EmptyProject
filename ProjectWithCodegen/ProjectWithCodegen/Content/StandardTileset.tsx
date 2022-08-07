@@ -12,6 +12,7 @@
  <tile id="33" class="BreakableCollision"/>
  <tile id="34" class="IceCollision"/>
  <tile id="64" class="Door"/>
+ <tile id="65" class="Player"/>
  <tile id="96" class="Ladder"/>
  <tile id="256">
   <properties>

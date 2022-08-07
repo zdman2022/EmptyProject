@@ -9,6 +9,6 @@ namespace EmptyProject.GlueDynamicManager.DynamicInstances.Containers
 {
     internal class ObjectContainer : BaseContainer<object>
     {
-        public string ObjectType { get; set; }
+        public string ObjectType => NamedObjectSave.SourceClassType;
     }
 }
