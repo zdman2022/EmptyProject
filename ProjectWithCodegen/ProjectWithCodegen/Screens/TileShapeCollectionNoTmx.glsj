@@ -1,0 +1,171 @@
+{
+  "Tags": [
+    "GLUE"
+  ],
+  "Source": "GLUE",
+  "ReferencedFiles": [
+    {
+      "Name": "gumproject/Screens/TileShapeCollectionNoTmxGum.gusx",
+      "IsSharedStatic": true,
+      "RuntimeType": "ProjectWithCodegen.GumRuntimes.TileShapeCollectionNoTmxGumRuntime",
+      "ProjectsToExcludeFrom": []
+    }
+  ],
+  "NamedObjects": [
+    {
+      "InstanceName": "EmptyShapes",
+      "SourceClassType": "FlatRedBall.TileCollisions.TileShapeCollection",
+      "Properties": [
+        {
+          "Name": "AssociateWithFactory",
+          "Value": true,
+          "Type": "Boolean"
+        },
+        {
+          "Name": "SourceType",
+          "Value": 2,
+          "Type": "SourceType"
+        },
+        {
+          "Name": "CollisionCreationOptions",
+          "Value": 0
+        },
+        {
+          "Name": "CollisionTileSize",
+          "Value": 16.0
+        },
+        {
+          "Name": "CollisionFillWidth",
+          "Value": 32
+        },
+        {
+          "Name": "CollisionFillHeight",
+          "Value": 1
+        },
+        {
+          "Name": "InnerSizeWidth",
+          "Value": 800.0
+        },
+        {
+          "Name": "InnerSizeHeight",
+          "Value": 600.0
+        },
+        {
+          "Name": "ConditionalCompilationSymbols",
+          "Type": "String"
+        }
+      ],
+      "InstructionSaves": [],
+      "SourceType": 2,
+      "SourceFile": "TileShapeCollection",
+      "AttachToContainer": true,
+      "GenerateTimedEmit": true
+    },
+    {
+      "InstanceName": "FilledShapes",
+      "SourceClassType": "FlatRedBall.TileCollisions.TileShapeCollection",
+      "Properties": [
+        {
+          "Name": "AssociateWithFactory",
+          "Value": true,
+          "Type": "Boolean"
+        },
+        {
+          "Name": "SourceType",
+          "Value": 2,
+          "Type": "SourceType"
+        },
+        {
+          "Name": "CollisionCreationOptions",
+          "Value": 1
+        },
+        {
+          "Name": "CollisionTileSize",
+          "Value": 16.0
+        },
+        {
+          "Name": "CollisionFillWidth",
+          "Value": 6
+        },
+        {
+          "Name": "CollisionFillHeight",
+          "Value": 6
+        },
+        {
+          "Name": "InnerSizeWidth",
+          "Value": 800.0
+        },
+        {
+          "Name": "InnerSizeHeight",
+          "Value": 600.0
+        },
+        {
+          "Name": "ConditionalCompilationSymbols",
+          "Type": "String"
+        },
+        {
+          "Name": "CollisionFillTop",
+          "Value": 100.0
+        }
+      ],
+      "InstructionSaves": [],
+      "SourceType": 2,
+      "SourceFile": "TileShapeCollection",
+      "GenerateTimedEmit": true
+    },
+    {
+      "InstanceName": "BorderShapes",
+      "SourceClassType": "FlatRedBall.TileCollisions.TileShapeCollection",
+      "Properties": [
+        {
+          "Name": "AssociateWithFactory",
+          "Value": true,
+          "Type": "Boolean"
+        },
+        {
+          "Name": "SourceType",
+          "Value": 2,
+          "Type": "SourceType"
+        },
+        {
+          "Name": "CollisionCreationOptions",
+          "Value": 2
+        },
+        {
+          "Name": "CollisionTileSize",
+          "Value": 16.0
+        },
+        {
+          "Name": "CollisionFillWidth",
+          "Value": 6
+        },
+        {
+          "Name": "CollisionFillHeight",
+          "Value": 6
+        },
+        {
+          "Name": "InnerSizeWidth",
+          "Value": 800.0
+        },
+        {
+          "Name": "InnerSizeHeight",
+          "Value": 600.0
+        },
+        {
+          "Name": "ConditionalCompilationSymbols",
+          "Type": "String"
+        },
+        {
+          "Name": "CollisionFillLeft",
+          "Value": 100.0
+        }
+      ],
+      "InstructionSaves": [],
+      "SourceType": 2,
+      "SourceFile": "TileShapeCollection",
+      "GenerateTimedEmit": true
+    }
+  ],
+  "Name": "Screens\\TileShapeCollectionNoTmx",
+  "CustomClassesForExport": []
+}

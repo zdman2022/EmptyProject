@@ -1,0 +1,61 @@
+{
+  "Tags": [
+    "GLUE",
+    "GLUE"
+  ],
+  "Source": "GLUE",
+  "CreatedByOtherEntities": true,
+  "Is2D": true,
+  "CustomVariables": [
+    {
+      "Properties": [
+        {
+          "Name": "Type",
+          "Value": "float",
+          "Type": "String"
+        },
+        {
+          "Name": "Category",
+          "Type": "String"
+        }
+      ],
+      "Name": "X"
+    },
+    {
+      "Properties": [
+        {
+          "Name": "Type",
+          "Value": "float",
+          "Type": "String"
+        },
+        {
+          "Name": "Category",
+          "Type": "String"
+        }
+      ],
+      "Name": "Y"
+    },
+    {
+      "Properties": [
+        {
+          "Name": "Type",
+          "Value": "float",
+          "Type": "String"
+        },
+        {
+          "Name": "Category",
+          "Type": "String"
+        }
+      ],
+      "Name": "Z"
+    }
+  ],
+  "Properties": [
+    {
+      "Name": "InputDevice",
+      "Value": 0
+    }
+  ],
+  "Name": "Entities\\Entity1WithSubcollisionCopy",
+  "CustomClassesForExport": []
+}

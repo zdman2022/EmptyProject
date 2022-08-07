@@ -94,6 +94,9 @@
       "Name": "Screens\\CollidableScreen"
     },
     {
+      "Name": "Screens\\CollidableSubcollisionScreen"
+    },
+    {
       "Name": "Screens\\EntityInheritanceScreen"
     },
     {
@@ -119,6 +122,9 @@
     },
     {
       "Name": "Screens\\StateEntityScreen"
+    },
+    {
+      "Name": "Screens\\TileShapeCollectionNoTmx"
     }
   ],
   "EntityReferences": [
@@ -130,6 +136,12 @@
     },
     {
       "Name": "Entities\\DerivedEntity"
+    },
+    {
+      "Name": "Entities\\Entity1WithSubcollision"
+    },
+    {
+      "Name": "Entities\\Entity2WithSubcollision"
     },
     {
       "Name": "Entities\\EntityWithShapes"

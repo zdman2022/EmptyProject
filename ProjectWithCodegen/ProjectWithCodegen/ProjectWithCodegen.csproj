@@ -82,6 +82,14 @@
     <Compile Include="Entities\DerivedEntity.Generated.cs">
       <DependentUpon>DerivedEntity.cs</DependentUpon>
     </Compile>
+    <Compile Include="Entities\Entity1WithSubcollision.cs" />
+    <Compile Include="Entities\Entity1WithSubcollision.Generated.cs">
+      <DependentUpon>Entity1WithSubcollision.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\Entity2WithSubcollision.cs" />
+    <Compile Include="Entities\Entity2WithSubcollision.Generated.cs">
+      <DependentUpon>entity2withsubcollision.cs</DependentUpon>
+    </Compile>
     <Compile Include="Entities\EntityWithShapes.cs" />
     <Compile Include="Entities\EntityWithShapes.Generated.cs">
       <DependentUpon>EntityWithShapes.cs</DependentUpon>
@@ -101,6 +109,8 @@
     <Compile Include="Factories\BaseEntityFactory.Generated.cs" />
     <Compile Include="Factories\CollidableEnemyFactory.Generated.cs" />
     <Compile Include="Factories\DerivedEntityFactory.Generated.cs" />
+    <Compile Include="Factories\Entity2WithSubcollisionFactory.Generated.cs" />
+    <Compile Include="Factories\Entity1WithSubcollisionFactory.Generated.cs" />
     <Compile Include="Factories\EntityWithShapesFactory.Generated.cs" />
     <Compile Include="Factories\EntityWithTunneledVariablesFactory.Generated.cs" />
     <Compile Include="Factories\PlayerFactory.Generated.cs" />
@@ -114,6 +124,8 @@
     <Compile Include="Forms\Screens\CollidableScreenGumForms.Generated.cs">
       <DependentUpon>CollidableScreenGumForms.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Screens\CollidableSubcollisionScreenGumForms.cs" />
+    <Compile Include="Forms\Screens\CollidableSubcollisionScreenGumForms.Generated.cs" />
     <Compile Include="Forms\Screens\EntityInheritanceScreenGumForms.cs" />
     <Compile Include="Forms\Screens\EntityInheritanceScreenGumForms.Generated.cs">
       <DependentUpon>EntityInheritanceScreenGumForms.cs</DependentUpon>
@@ -150,6 +162,8 @@
     <Compile Include="Forms\Screens\StateEntityScreenGumForms.Generated.cs">
       <DependentUpon>StateEntityScreenGumForms.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Screens\TileShapeCollectionNoTmxGumForms.cs" />
+    <Compile Include="Forms\Screens\TileShapeCollectionNoTmxGumForms.Generated.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Game1.Generated.cs">
       <DependentUpon>Game1.cs</DependentUpon>
@@ -224,6 +238,8 @@
     <Compile Include="GumRuntimes\CollidableScreenGumRuntime.Generated.cs">
       <DependentUpon>CollidableScreenGumRuntime.cs</DependentUpon>
     </Compile>
+    <Compile Include="GumRuntimes\CollidableSubcollisionScreenGumRuntime.cs" />
+    <Compile Include="GumRuntimes\CollidableSubcollisionScreenGumRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\ColoredRectangleRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\ContainerRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\Controls\ButtonCloseRuntime.cs" />
@@ -404,6 +420,8 @@
       <DependentUpon>StateEntityScreenGumRuntime.cs</DependentUpon>
     </Compile>
     <Compile Include="GumRuntimes\TextRuntime.Generated.cs" />
+    <Compile Include="GumRuntimes\TileShapeCollectionNoTmxGumRuntime.cs" />
+    <Compile Include="GumRuntimes\TileShapeCollectionNoTmxGumRuntime.Generated.cs" />
     <Compile Include="Performance\IEntityFactory.Generated.cs" />
     <Compile Include="Performance\PoolList.Generated.cs" />
     <Compile Include="Platformer\Enums.Generated.cs" />
@@ -418,6 +436,10 @@
     <Compile Include="Screens\CollidableScreen.cs" />
     <Compile Include="Screens\CollidableScreen.Generated.cs">
       <DependentUpon>CollidableScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\CollidableSubcollisionScreen.cs" />
+    <Compile Include="Screens\CollidableSubcollisionScreen.Generated.cs">
+      <DependentUpon>CollidableSubcollisionScreen.cs</DependentUpon>
     </Compile>
     <Compile Include="Screens\EntityInheritanceScreen.cs" />
     <Compile Include="Screens\EntityInheritanceScreen.Generated.cs">
@@ -454,6 +476,10 @@
     <Compile Include="Screens\StateEntityScreen.cs" />
     <Compile Include="Screens\StateEntityScreen.Generated.cs">
       <DependentUpon>StateEntityScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\TileShapeCollectionNoTmx.cs" />
+    <Compile Include="Screens\TileShapeCollectionNoTmx.Generated.cs">
+      <DependentUpon>TileShapeCollectionNoTmx.cs</DependentUpon>
     </Compile>
     <Compile Include="Setup\CameraSetup.cs" />
     <Compile Include="TileCollisions\CollidableListVsTileShapeCollectionRelationship.cs" />
@@ -752,6 +778,10 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>CollidableScreenGum</Name>
     </None>
+    <None Include="content\gumproject\screens\collidablesubcollisionscreengum.gusx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>CollidableSubcollisionScreenGum</Name>
+    </None>
     <None Include="content\gumproject\screens\entityinheritancescreengum.gusx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>EntityInheritanceScreenGum</Name>
@@ -787,6 +817,10 @@
     <None Include="content\gumproject\screens\stateentityscreengum.gusx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>StateEntityScreenGum</Name>
+    </None>
+    <None Include="content\gumproject\screens\tileshapecollectionnotmxgum.gusx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>TileShapeCollectionNoTmxGum</Name>
     </None>
     <None Include="content\gumproject\standards\circle.gutx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
