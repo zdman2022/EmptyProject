@@ -116,6 +116,7 @@
     <Compile Include="GlueControl\Models\StateSaveCategory.Generated.cs" />
     <Compile Include="GlueControl\Runtime\DynamicEntity.Generated.cs" />
     <Compile Include="GlueControl\Screens\EntityViewingScreen.Generated.cs" />
+    <Compile Include="GlueDynamicManager\Converters\FileLoader.cs" />
     <Compile Include="GlueDynamicManager\Converters\ShapeManagerHandler.cs" />
     <Compile Include="GlueDynamicManager\Converters\ValueConverter.cs" />
     <Compile Include="GlueDynamicManager\DynamicInstances\Containers\BaseContainer.cs" />

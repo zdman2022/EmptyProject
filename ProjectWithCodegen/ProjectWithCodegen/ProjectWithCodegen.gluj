@@ -52,7 +52,7 @@
   ],
   "GlobalContentSettingsSave": {},
   "SyncedProjects": [],
-  "StartUpScreen": "Screens\\SpriteScreen",
+  "StartUpScreen": "Screens\\TiledScreen",
   "ResolutionPresets": [],
   "PerformanceSettingsSave": {},
   "IgnoredDirectories": [],
@@ -122,6 +122,9 @@
     },
     {
       "Name": "Screens\\StateEntityScreen"
+    },
+    {
+      "Name": "Screens\\TiledScreen"
     },
     {
       "Name": "Screens\\TileShapeCollectionNoTmx"

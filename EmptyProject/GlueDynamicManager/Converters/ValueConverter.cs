@@ -66,17 +66,11 @@ namespace EmptyProject.GlueDynamicManager.Converters
                 if (variableValue is string asString && !string.IsNullOrWhiteSpace(asString))
                 {
                     var rfs = instanceContainer.GetReferencedFileSaveRecursively(asString);
-
                     var absoluteRfs = GlueCommands.Self.GetAbsoluteFilePath(rfs);
 
-                    if(instruction.Type == typeof(FlatRedBall.Graphics.Animation.AnimationChainList).FullName)
-                    {
-                        variableValue = FlatRedBallServices.Load<AnimationChainList>(absoluteRfs.FullPath);
-                    }
-                    else if(instruction.Type == typeof(Microsoft.Xna.Framework.Graphics.Texture2D).FullName)
-                    {
-                        variableValue = FlatRedBallServices.Load<Microsoft.Xna.Framework.Graphics.Texture2D>(absoluteRfs.FullPath);
-                    }
+
+                    // todo - need to support global content loading
+                    variableValue = FileLoader.LoadFile(absoluteRfs, FlatRedBallServices.GlobalContentManager, instruction.Type);
                 }
             }
             //else if (instruction.Type == typeof(Microsoft.Xna.Framework.Color).FullName)

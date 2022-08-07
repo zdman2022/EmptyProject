@@ -91,7 +91,7 @@ namespace EmptyProject.GlueDynamicManager.DynamicInstances
                 {
                     if (item.SourceClassType == "FlatRedBall.Math.PositionedObjectList<T>")
                         return 1;
-                    else if (item.SourceClassType.StartsWith("FlatRedBall.Math.Collision.ListVsListRelationship<"))
+                    else if (item.SourceClassType?.StartsWith("FlatRedBall.Math.Collision.ListVsListRelationship<") == true)
                         return 100;
 
                     return 50;
@@ -101,7 +101,7 @@ namespace EmptyProject.GlueDynamicManager.DynamicInstances
             foreach (var nos in namedObjects)
             {
                 var itemContainer = GetContainerFor(nos, _currentScreenState.ScreenSave);
-                InitializeNamedObject(nos, itemContainer, _currentScreenState);
+                InitializeNamedObject(nos, itemContainer, _currentScreenState.ScreenSave);
             }
         }
 
@@ -128,7 +128,7 @@ namespace EmptyProject.GlueDynamicManager.DynamicInstances
             return null;
         }
 
-        private void InitializeNamedObject(NamedObjectSave nos, NamedObjectSave nosList, DynamicScreenState _currentScreenState)
+        private void InitializeNamedObject(NamedObjectSave nos, NamedObjectSave nosList, ScreenSave glueElement)
         {
             if (nos.SourceClassType == "FlatRedBall.Math.PositionedObjectList<T>")
             {
@@ -149,7 +149,7 @@ namespace EmptyProject.GlueDynamicManager.DynamicInstances
                     }
                 }
             }
-            else if (nos.SourceClassType.StartsWith("FlatRedBall.Math.Collision.ListVsListRelationship<"))
+            else if (nos.SourceClassType?.StartsWith("FlatRedBall.Math.Collision.ListVsListRelationship<") == true)
             {
                 var name1 = (string)nos.Properties.Where(item => item.Name == "FirstCollisionName").Select(item => item.Value).First();
                 var name2 = (string)nos.Properties.Where(item => item.Name == "SecondCollisionName").Select(item => item.Value).First();
@@ -219,7 +219,7 @@ namespace EmptyProject.GlueDynamicManager.DynamicInstances
                     Name = nos.InstanceName,
                     AddToManagers = false,
                     Value = new DynamicEntity(GlueDynamicManager.Self.GetDynamicEntityState(nos.SourceClassType)),
-                    InstructionSaves = GetInstructionsRecursively(nos, _currentScreenState.ScreenSave)
+                    InstructionSaves = GetInstructionsRecursively(nos, glueElement)
                 };
                 _instancedEntities.Add(entityContainer);
 
@@ -240,9 +240,47 @@ namespace EmptyProject.GlueDynamicManager.DynamicInstances
                     ObjectType = nos.SourceClassType,
                     Name = nos.InstanceName,
                     AddToManagers = nos.AddToManagers,
-                    InstructionSaves = GetInstructionsRecursively(nos, _currentScreenState.ScreenSave)
+                    InstructionSaves = GetInstructionsRecursively(nos, glueElement)
                 };
-                objectContainer.Value = InstanceInstantiator.Instantiate(nos.SourceClassType);
+
+                if(nos.SourceType == SourceType.File)
+                {
+                    var rfs = glueElement.GetReferencedFileSaveRecursively(nos.SourceFile);
+                    var absoluteRfs = GlueCommands.Self.GetAbsoluteFilePath(rfs);
+
+
+                    // todo - do we need to cache?
+                    // For files like AnimationChains
+                    // FRB handles the caching internally.
+                    // But what about TMX files? I am not sure
+                    // how this works in codegen. For screens it
+                    // doesn't matter, but it might for entities?
+                    // Revisit this when we start implementing rooms.
+                    // todo 2 - need to support global content vs non global content
+                    var contentManagerName = FlatRedBallServices.GlobalContentManager;
+                    var file = FileLoader.LoadFile(absoluteRfs, contentManagerName);
+
+                    if(glueElement is ScreenSave == false)
+                    {
+                        
+                        // we need to clone the file so each entity has its own copy
+                        //file = file.Clone();
+                    }
+
+                    var isEntireFile = nos.SourceName?.StartsWith("Entire File") == true;
+                    if(isEntireFile)
+                    {
+                        objectContainer.Value = file;
+                    }
+                    else
+                    {
+                        throw new NotImplementedException("need to support pulling specific item out of files");
+                    }
+                }
+                else
+                {
+                    objectContainer.Value = InstanceInstantiator.Instantiate(nos.SourceClassType);
+                }
 
                 _instancedObjects.Add(objectContainer);
 

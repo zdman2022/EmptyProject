@@ -1,6 +1,7 @@
 ﻿using FlatRedBall;
 using FlatRedBall.Graphics;
 using FlatRedBall.Math.Geometry;
+using FlatRedBall.TileGraphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
