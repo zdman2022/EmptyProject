@@ -38,7 +38,7 @@ namespace EmptyProject.GlueDynamicManager.DynamicInstances
 
         private void InitializeEntity()
         {
-            for (var i = 0; i < _dynamicEntityState.EntitySave.NamedObjects.Count ; i++)
+            for (var i = 0; i < _dynamicEntityState.EntitySave.NamedObjects.Count; i++)
             {
                 var no = _dynamicEntityState.EntitySave.NamedObjects[i];
                 if (GlueDynamicManager.Self.EntityIsDynamic(no.SourceClassType))
@@ -61,7 +61,7 @@ namespace EmptyProject.GlueDynamicManager.DynamicInstances
             {
                 var obj = _instancedObjects[i];
 
-                foreach(var instruction in obj.InstructionSaves)
+                foreach (var instruction in obj.InstructionSaves)
                 {
                     var convertedValue = ValueConverter.ConvertValue(instruction, this._dynamicEntityState.EntitySave);
                     convertedValue = ValueConverter.ConvertForProperty(convertedValue, instruction.Type, obj.ObjectType);
@@ -87,13 +87,25 @@ namespace EmptyProject.GlueDynamicManager.DynamicInstances
 
         internal void SetVariable(string member, object convertedValue)
         {
-            if(_dynamicEntityState.CustomVariablesSave.Where(item => item.SourceObject != null).Any(item => item.Name == member))
+            if (_dynamicEntityState.CustomVariablesSave.Where(item => item.SourceObject != null).Any(item => item.Name == member))
             {
-                var customVariable = _dynamicEntityState.CustomVariablesSave.Where(item => item.SourceObject != null).First(item => item.Name == member);
+                var foundCustomVariable = _dynamicEntityState.CustomVariablesSave.First(item => item.Name == member);
+                var foundObject = _instancedObjects.Where(item => item.Name == foundCustomVariable.SourceObject).First();
 
-                var foundObject = _instancedObjects.Where(item => item.Name == customVariable.SourceObject).First();
+                ScreenManager.CurrentScreen.ApplyVariable(foundCustomVariable.SourceObjectProperty, convertedValue, foundObject.Value);
+            }
+            else if (_dynamicEntityState.CustomVariablesSave.Any(item => item.Name == member && item.Properties.Any(item2 => item2.Name == "Type" && _dynamicEntityState.StateCategoryList.Any(item3 => item3.Name == (string)item2.Value))))
+            {
+                var foundCustomVariable = _dynamicEntityState.CustomVariablesSave.First(item => item.Name == member);
+                var foundStateCategory = _dynamicEntityState.StateCategoryList.First(item => foundCustomVariable.Properties.Any(item2 => item2.Name == "Type" && (string)item2.Value == item.Name));
+                var foundState = foundStateCategory.States.First(item => item.Name == (string)convertedValue);
 
-                ScreenManager.CurrentScreen.ApplyVariable(customVariable.SourceObjectProperty, convertedValue, foundObject.Value);
+                foreach (var instruction in foundState.InstructionSaves)
+                {
+                    var newConvertedValue = ValueConverter.ConvertValue(instruction, this._dynamicEntityState.EntitySave);
+                    convertedValue = ValueConverter.ConvertForProperty(newConvertedValue, instruction.Type, this.GetType().Name);
+                    this.SetVariable(instruction.Member, newConvertedValue);
+                }
             }
             else
             {
@@ -106,11 +118,11 @@ namespace EmptyProject.GlueDynamicManager.DynamicInstances
             LayerProvidedByContainer = layerToAddTo;
             FlatRedBall.SpriteManager.AddPositionedObject(this);
 
-            for(var i = _instancedObjects.Count - 1; i > -1; i--)
+            for (var i = _instancedObjects.Count - 1; i > -1; i--)
             {
                 var obj = _instancedObjects[i];
 
-                if(ShapeManagerHandler.IsShape(obj.ObjectType))
+                if (ShapeManagerHandler.IsShape(obj.ObjectType))
                 {
                     ShapeManagerHandler.AddToLayer(obj.Value, LayerProvidedByContainer, obj.ObjectType);
                 }
