@@ -66,6 +66,12 @@ namespace EmptyProject.GlueDynamicManager.DynamicInstances
                     convertedValue = ValueConverter.ConvertForProperty(convertedValue, instruction.Type, obj.ObjectType);
                     FlatRedBall.Screens.ScreenManager.CurrentScreen.ApplyVariable(instruction.Member, convertedValue, obj.Value);
                 }
+
+                if (obj.Value is PositionedObject po)
+                {
+                    po.CopyAbsoluteToRelative();
+                    po.AttachTo(this, false);
+                }
             }
         }
 
