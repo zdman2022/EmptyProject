@@ -337,7 +337,9 @@ namespace EmptyProject.GlueDynamicManager.DynamicInstances
 
             for (var i = 0; i < _instancedObjects.Count; i++)
             {
-                InstanceAddToManager.AddToManager(_instancedObjects[i].Value);
+                // todo: need to support layers
+                FlatRedBall.Graphics.Layer layer = null;
+                InstanceAddToManager.AddToManager(_instancedObjects[i].Value, layer);
             }
 
             base.AddToManagers();

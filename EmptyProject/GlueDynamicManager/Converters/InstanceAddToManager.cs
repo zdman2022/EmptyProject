@@ -1,6 +1,7 @@
 ﻿using FlatRedBall;
 using FlatRedBall.Graphics;
 using FlatRedBall.Math.Geometry;
+using FlatRedBall.TileGraphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace EmptyProject.GlueDynamicManager
 {
     internal class InstanceAddToManager
     {
-        public static void AddToManager(object instance)
+        public static void AddToManager(object instance, Layer layer)
         {
             if (instance is AxisAlignedCube aaCube)
             {
@@ -36,6 +37,14 @@ namespace EmptyProject.GlueDynamicManager
             else if(instance is Text asText)
             {
                 TextManager.AddText(asText);
+            }
+            else if(instance is LayeredTileMap asLayeredTileMap)
+            {
+                asLayeredTileMap.AddToManagers(layer);
+            }
+            else
+            {
+                throw new NotImplementedException($"Need to handle {instance.GetType()}");
             }
         }
     }
