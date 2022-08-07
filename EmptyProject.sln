@@ -54,6 +54,7 @@ Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		..\FlatRedBall\Engines\FlatRedBallXNA\FlatRedBall\FlatRedBallShared.projitems*{0bb8cbe3-8503-46c1-9272-d98e153a230e}*SharedItemsImports = 13
 		..\FlatRedBall\Engines\FlatRedBallXNA\FlatRedBall\FlatRedBallShared.projitems*{10bda06c-7269-4cce-ae2a-d445f414520a}*SharedItemsImports = 4
+		GlueDynamicManager\GlueDynamicManager.projitems*{492c589d-586a-45cb-90c5-530e5f9c9e24}*SharedItemsImports = 4
 		GlueDynamicManager\GlueDynamicManager.projitems*{940124ba-17d4-4901-bcff-ec9bfd96130f}*SharedItemsImports = 13
 	EndGlobalSection
 EndGlobal

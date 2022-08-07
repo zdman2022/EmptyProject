@@ -116,27 +116,6 @@
     <Compile Include="GlueControl\Models\StateSaveCategory.Generated.cs" />
     <Compile Include="GlueControl\Runtime\DynamicEntity.Generated.cs" />
     <Compile Include="GlueControl\Screens\EntityViewingScreen.Generated.cs" />
-    <Compile Include="GlueDynamicManager\Converters\FileLoader.cs" />
-    <Compile Include="GlueDynamicManager\Converters\ShapeManagerHandler.cs" />
-    <Compile Include="GlueDynamicManager\Converters\ValueConverter.cs" />
-    <Compile Include="GlueDynamicManager\DynamicInstances\Containers\BaseContainer.cs" />
-    <Compile Include="GlueDynamicManager\DynamicInstances\Containers\DynamicEntityContainer.cs" />
-    <Compile Include="GlueDynamicManager\DynamicInstances\Containers\IInstanceContainer.cs" />
-    <Compile Include="GlueDynamicManager\DynamicInstances\Containers\ObjectContainer.cs" />
-    <Compile Include="GlueDynamicManager\DynamicInstances\Containers\PositionedListContainer.cs" />
-    <Compile Include="GlueDynamicManager\DynamicInstances\DynamicEntity.cs" />
-    <Compile Include="GlueDynamicManager\DynamicInstances\DynamicScreen.cs" />
-    <Compile Include="GlueDynamicManager\GlueDynamicManager.cs" />
-    <Compile Include="GlueDynamicManager\GlueJsonContainer.cs" />
-    <Compile Include="GlueDynamicManager\GlueJsonProcessor.cs" />
-    <Compile Include="GlueDynamicManager\Converters\InstanceAddToManager.cs" />
-    <Compile Include="GlueDynamicManager\Converters\InstanceInstantiator.cs" />
-    <Compile Include="GlueDynamicManager\Converters\InstanceVariableAssigner.cs" />
-    <Compile Include="GlueDynamicManager\Operations\CreateNewEntityOperation.cs" />
-    <Compile Include="GlueDynamicManager\Operations\CreateNewScreenOperation.cs" />
-    <Compile Include="GlueDynamicManager\Operations\IOperation.cs" />
-    <Compile Include="GlueDynamicManager\States\DynamicEntityState.cs" />
-    <Compile Include="GlueDynamicManager\States\DynamicScreenState.cs" />
     <Compile Include="Performance\IEntityFactory.Generated.cs" />
     <Compile Include="Performance\PoolList.Generated.cs" />
     <Compile Include="Program.cs" />
@@ -202,11 +181,6 @@
     <Content Include="Content\shader.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="GlueDynamicManager\Test\Test1\Base\Glue.gluj" />
-    <None Include="GlueDynamicManager\Test\Test1\Change1\Entities\PLayer.glej" />
-    <None Include="GlueDynamicManager\Test\Test1\Change1\Glue.gluj" />
-    <None Include="GlueDynamicManager\Test\Test1\Change1\Screens\GameScreen.glsj" />
-    <None Include="GlueDynamicManager\Test\Test1\Change1\Screens\Level1.glsj" />
     <None Include="Libraries\DesktopGl\Debug\FlatRedBall.Forms.dll" />
     <None Include="Libraries\DesktopGl\Debug\GumCoreXnaPc.dll" />
     <None Include="Libraries\DesktopGl\Debug\StateInterpolation.dll" />
@@ -277,9 +251,7 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="GlueDynamicManager\RegExMatchers\" />
-    <Folder Include="GlueDynamicManager\Test\Test1\Base\Entities\" />
-    <Folder Include="GlueDynamicManager\Test\Test1\Base\Screens\" />
+    <Folder Include="GlueDynamicManager\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\FlatRedBall\Engines\FlatRedBallXNA\FlatRedBall\FlatRedBallDesktopGL.csproj">
@@ -287,6 +259,7 @@
       <Name>FlatRedBallDesktopGL</Name>
     </ProjectReference>
   </ItemGroup>
+  <Import Project="..\GlueDynamicManager\GlueDynamicManager.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
