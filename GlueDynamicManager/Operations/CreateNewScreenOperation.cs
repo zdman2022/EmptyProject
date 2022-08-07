@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EmptyProject.GlueDynamicManager.Operations
+namespace GlueDynamicManager.Operations
 {
     internal class CreateNewScreenOperation : IOperation
     {

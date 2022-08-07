@@ -1,4 +1,4 @@
-﻿namespace EmptyProject.GlueDynamicManager.DynamicInstances.Containers
+﻿namespace GlueDynamicManager.DynamicInstances.Containers
 {
     internal interface IInstanceContainer
     {

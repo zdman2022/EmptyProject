@@ -88,7 +88,7 @@
     </Compile>
     <Compile Include="Entities\Entity2WithSubcollision.cs" />
     <Compile Include="Entities\Entity2WithSubcollision.Generated.cs">
-      <DependentUpon>entity2withsubcollision.cs</DependentUpon>
+      <DependentUpon>Entity2WithSubcollision.cs</DependentUpon>
     </Compile>
     <Compile Include="Entities\EntityWithShapes.cs" />
     <Compile Include="Entities\EntityWithShapes.Generated.cs">
@@ -125,7 +125,9 @@
       <DependentUpon>CollidableScreenGumForms.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Screens\CollidableSubcollisionScreenGumForms.cs" />
-    <Compile Include="Forms\Screens\CollidableSubcollisionScreenGumForms.Generated.cs" />
+    <Compile Include="Forms\Screens\CollidableSubcollisionScreenGumForms.Generated.cs">
+      <DependentUpon>CollidableSubcollisionScreenGumForms.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Screens\EntityInheritanceScreenGumForms.cs" />
     <Compile Include="Forms\Screens\EntityInheritanceScreenGumForms.Generated.cs">
       <DependentUpon>EntityInheritanceScreenGumForms.cs</DependentUpon>
@@ -163,9 +165,13 @@
       <DependentUpon>StateEntityScreenGumForms.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Screens\TiledScreenGumForms.cs" />
-    <Compile Include="Forms\Screens\TiledScreenGumForms.Generated.cs" />
+    <Compile Include="Forms\Screens\TiledScreenGumForms.Generated.cs">
+      <DependentUpon>TiledScreenGumForms.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Screens\TileShapeCollectionNoTmxGumForms.cs" />
-    <Compile Include="Forms\Screens\TileShapeCollectionNoTmxGumForms.Generated.cs" />
+    <Compile Include="Forms\Screens\TileShapeCollectionNoTmxGumForms.Generated.cs">
+      <DependentUpon>TileShapeCollectionNoTmxGumForms.cs</DependentUpon>
+    </Compile>
     <Compile Include="Game1.cs" />
     <Compile Include="Game1.Generated.cs">
       <DependentUpon>Game1.cs</DependentUpon>
@@ -241,7 +247,9 @@
       <DependentUpon>CollidableScreenGumRuntime.cs</DependentUpon>
     </Compile>
     <Compile Include="GumRuntimes\CollidableSubcollisionScreenGumRuntime.cs" />
-    <Compile Include="GumRuntimes\CollidableSubcollisionScreenGumRuntime.Generated.cs" />
+    <Compile Include="GumRuntimes\CollidableSubcollisionScreenGumRuntime.Generated.cs">
+      <DependentUpon>CollidableSubcollisionScreenGumRuntime.cs</DependentUpon>
+    </Compile>
     <Compile Include="GumRuntimes\ColoredRectangleRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\ContainerRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\Controls\ButtonCloseRuntime.cs" />
@@ -423,9 +431,13 @@
     </Compile>
     <Compile Include="GumRuntimes\TextRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\TiledScreenGumRuntime.cs" />
-    <Compile Include="GumRuntimes\TiledScreenGumRuntime.Generated.cs" />
+    <Compile Include="GumRuntimes\TiledScreenGumRuntime.Generated.cs">
+      <DependentUpon>TiledScreenGumRuntime.cs</DependentUpon>
+    </Compile>
     <Compile Include="GumRuntimes\TileShapeCollectionNoTmxGumRuntime.cs" />
-    <Compile Include="GumRuntimes\TileShapeCollectionNoTmxGumRuntime.Generated.cs" />
+    <Compile Include="GumRuntimes\TileShapeCollectionNoTmxGumRuntime.Generated.cs">
+      <DependentUpon>TileShapeCollectionNoTmxGumRuntime.cs</DependentUpon>
+    </Compile>
     <Compile Include="Performance\IEntityFactory.Generated.cs" />
     <Compile Include="Performance\PoolList.Generated.cs" />
     <Compile Include="Platformer\Enums.Generated.cs" />
@@ -960,10 +972,14 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="JsonDiffPatch.Net">
+      <Version>2.3.0</Version>
+    </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>12.0.3</Version>
     </PackageReference>
   </ItemGroup>
+  <Import Project="..\..\GlueDynamicManager\GlueDynamicManager.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

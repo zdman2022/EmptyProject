@@ -1,4 +1,4 @@
-﻿using EmptyProject.GlueDynamicManager.Operations;
+﻿using GlueDynamicManager.Operations;
 using FlatRedBall.IO;
 using JsonDiffPatchDotNet;
 using JsonDiffPatchDotNet.Formatters.JsonPatch;
@@ -11,7 +11,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace EmptyProject.GlueDynamicManager
+namespace GlueDynamicManager
 {
     internal class GlueJsonProcessor
     {
