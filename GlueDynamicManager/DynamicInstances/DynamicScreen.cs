@@ -55,12 +55,21 @@ namespace EmptyProject.GlueDynamicManager.DynamicInstances
                 var instance = _instancedObjects[i];
 
                 if (instance.CombinedInstructionSaves != null)
+                {
                     foreach (var instruction in instance.CombinedInstructionSaves)
                     {
                         var convertedValue = ValueConverter.ConvertValue(instruction, this._currentScreenState.ScreenSave);
                         convertedValue = ValueConverter.ConvertForProperty(convertedValue, instruction.Type, instance.ObjectType);
-                        base.ApplyVariable(instruction.Member, convertedValue, instance.Value);
+
+                        // handle special cases here:
+                        var handledByAssigner = InstanceVariableAssigner.TryAssignVariable(instruction.Member, convertedValue, instance.Value);
+
+                        if(!handledByAssigner)
+                        {
+                            base.ApplyVariable(instruction.Member, convertedValue, instance.Value);
+                        }
                     }
+                }
             }
 
             for (int i = 0; i < _instancedEntities.Count; i++)
