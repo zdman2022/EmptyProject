@@ -164,17 +164,17 @@ namespace EmptyProject.GlueDynamicManager.DynamicInstances
                 // Entity vs. Entity
                 if (value1.GetValue() is PositionedObject && value2.GetValue() is PositionedObject)
                 {
-
+                    throw new NotImplementedException();
                 }
                 // Entity vs. List
                 else if (value1.GetValue() is PositionedObject && value2.GetValue().GetType().GetGenericTypeDefinition() == typeof(PositionedObjectList<>))
                 {
-
+                    throw new NotImplementedException();
                 }
                 // List vs. Entity
                 else if (value1.GetValue().GetType().GetGenericTypeDefinition() == typeof(PositionedObjectList<>) && value2.GetValue() is PositionedObject)
                 {
-
+                    throw new NotImplementedException();
                 }
                 // List vs. List
                 else if (value1.GetValue().GetType().GetGenericTypeDefinition() == typeof(PositionedObjectList<>) && value2.GetValue().GetType().GetGenericTypeDefinition() == typeof(PositionedObjectList<>))
@@ -202,12 +202,12 @@ namespace EmptyProject.GlueDynamicManager.DynamicInstances
                 // Entity vs ShapeCollection
                 else if (value1.GetValue() is PositionedObject && value2.GetValue() is ShapeCollection)
                 {
-
+                    throw new NotImplementedException();
                 }
                 // List vs. ShapeCollection
                 else if (value1.GetValue().GetType().GetGenericTypeDefinition() == typeof(PositionedObjectList<>) && value2.GetValue() is ShapeCollection)
                 {
-
+                    throw new NotImplementedException();
                 }
 
                 //var collideList = CollisionManager.Self.CreateRelationship()
