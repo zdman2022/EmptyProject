@@ -67,7 +67,7 @@ namespace EmptyProject
 
 
             //Test Code
-            GlueDynamicManager.GlueDynamicManager.Self.SetInitialState(GlueDynamicManager.GlueJsonProcessor.GetTest("Test1", "Base"));
+            GlueDynamicManager.GlueDynamicManager.Self.SetInitialState(GlueDynamicManager.GlueJsonProcessor.GetTest(FileManager.RelativeDirectory + "../../../../EmptyProject.gluj"));
             FilePath gluj = FileManager.RelativeDirectory + "../../../../../ProjectWithCodegen/ProjectWithCodegen/ProjectWithCodegen.gluj";
 
             GlueDynamicManager.GlueDynamicManager.Self.UpdateState(GlueDynamicManager.GlueJsonProcessor.GetTest(gluj));
