@@ -70,7 +70,20 @@
               "Type": "String"
             }
           ],
-          "InstructionSaves": [],
+          "InstructionSaves": [
+            {
+              "Type": "float",
+              "Member": "Y",
+              "Value": 48.0,
+              "Time": 0.0
+            },
+            {
+              "Type": "float",
+              "Member": "X",
+              "Value": 104.0,
+              "Time": 0.0
+            }
+          ],
           "SourceType": 1,
           "AttachToContainer": true,
           "GenerateTimedEmit": true
@@ -135,7 +148,20 @@
               "Type": "String"
             }
           ],
-          "InstructionSaves": [],
+          "InstructionSaves": [
+            {
+              "Type": "float",
+              "Member": "X",
+              "Value": -80.0,
+              "Time": 0.0
+            },
+            {
+              "Type": "float",
+              "Member": "Y",
+              "Value": 0.0,
+              "Time": 0.0
+            }
+          ],
           "SourceType": 1,
           "AttachToContainer": true,
           "GenerateTimedEmit": true

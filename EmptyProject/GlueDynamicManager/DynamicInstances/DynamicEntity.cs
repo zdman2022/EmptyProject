@@ -2,7 +2,9 @@
 using EmptyProject.GlueDynamicManager.DynamicInstances.Containers;
 using EmptyProject.GlueDynamicManager.States;
 using FlatRedBall;
+using FlatRedBall.Entities;
 using FlatRedBall.Graphics;
+using FlatRedBall.Math.Geometry;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,8 +13,17 @@ using System.Threading.Tasks;
 
 namespace EmptyProject.GlueDynamicManager.DynamicInstances
 {
-    internal class DynamicEntity : PositionedObject
+    public class DynamicEntity : PositionedObject, ICollidable, IDestroyable, IEntity
     {
+        private FlatRedBall.Math.Geometry.ShapeCollection mGeneratedCollision;
+        public FlatRedBall.Math.Geometry.ShapeCollection Collision
+        {
+            get
+            {
+                return mGeneratedCollision;
+            }
+        }
+
         private DynamicEntityState _dynamicEntityState;
         protected FlatRedBall.Graphics.Layer LayerProvidedByContainer = null;
         private List<ObjectContainer> _instancedObjects = new List<ObjectContainer>();
@@ -21,6 +32,7 @@ namespace EmptyProject.GlueDynamicManager.DynamicInstances
         {
             _dynamicEntityState = dynamicEntityState;
             InitializeEntity();
+            mGeneratedCollision = new FlatRedBall.Math.Geometry.ShapeCollection();
         }
 
         private void InitializeEntity()
@@ -61,8 +73,9 @@ namespace EmptyProject.GlueDynamicManager.DynamicInstances
         {
         }
 
-        internal void Destroy()
+        public void Destroy()
         {
+            mGeneratedCollision.RemoveFromManagers(clearThis: false);
         }
 
         internal void AddToManagers(Layer layerToAddTo)
@@ -79,6 +92,11 @@ namespace EmptyProject.GlueDynamicManager.DynamicInstances
                     ShapeManagerHandler.AddToLayer(obj.Value, LayerProvidedByContainer, obj.ObjectType);
                 }
             }
+        }
+
+        public void ActivityEditMode()
+        {
+            throw new NotImplementedException();
         }
     }
 }

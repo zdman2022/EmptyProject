@@ -120,6 +120,7 @@
     <Compile Include="GlueDynamicManager\Converters\ValueConverter.cs" />
     <Compile Include="GlueDynamicManager\DynamicInstances\Containers\BaseContainer.cs" />
     <Compile Include="GlueDynamicManager\DynamicInstances\Containers\DynamicEntityContainer.cs" />
+    <Compile Include="GlueDynamicManager\DynamicInstances\Containers\IInstanceContainer.cs" />
     <Compile Include="GlueDynamicManager\DynamicInstances\Containers\ObjectContainer.cs" />
     <Compile Include="GlueDynamicManager\DynamicInstances\Containers\PositionedListContainer.cs" />
     <Compile Include="GlueDynamicManager\DynamicInstances\DynamicEntity.cs" />

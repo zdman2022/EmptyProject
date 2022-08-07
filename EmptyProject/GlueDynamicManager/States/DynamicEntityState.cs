@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace EmptyProject.GlueDynamicManager.States
 {
-    internal class DynamicEntityState
+    public class DynamicEntityState
     {
         public EntitySave EntitySave { get; internal set; }
     }

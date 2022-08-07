@@ -13,8 +13,8 @@
   ],
   "NamedObjects": [
     {
-      "InstanceName": "CircleInstance",
-      "SourceClassType": "FlatRedBall.Math.Geometry.Circle",
+      "InstanceName": "CircleList",
+      "SourceClassType": "FlatRedBall.Math.PositionedObjectList<T>",
       "Properties": [
         {
           "Name": "AssociateWithFactory",
@@ -31,217 +31,246 @@
           "Type": "String"
         }
       ],
-      "InstructionSaves": [
-        {
-          "Type": "float",
-          "Member": "Radius",
-          "Value": 16.0,
-          "Time": 0.0
-        },
-        {
-          "Type": "float",
-          "Member": "X",
-          "Value": 0.0,
-          "Time": 0.0
-        },
-        {
-          "Type": "float",
-          "Member": "Y",
-          "Value": 8.0,
-          "Time": 0.0
-        }
-      ],
+      "InstructionSaves": [],
       "SourceType": 2,
-      "SourceFile": "Circle",
-      "HasPublicProperty": true,
+      "SourceFile": "PositionedObjectList (Generic)",
+      "SourceClassGenericType": "FlatRedBall.Math.Geometry.Circle",
+      "ExposedInDerived": true,
       "AttachToContainer": true,
-      "GenerateTimedEmit": true
-    },
-    {
-      "InstanceName": "CircleInstance1",
-      "SourceClassType": "FlatRedBall.Math.Geometry.Circle",
-      "Properties": [
+      "GenerateTimedEmit": true,
+      "ContainedObjects": [
         {
-          "Name": "AssociateWithFactory",
-          "Value": true,
-          "Type": "Boolean"
+          "InstanceName": "CircleInstance",
+          "SourceClassType": "FlatRedBall.Math.Geometry.Circle",
+          "Properties": [
+            {
+              "Name": "AssociateWithFactory",
+              "Value": true,
+              "Type": "Boolean"
+            },
+            {
+              "Name": "SourceType",
+              "Value": 2,
+              "Type": "SourceType"
+            },
+            {
+              "Name": "ConditionalCompilationSymbols",
+              "Type": "String"
+            }
+          ],
+          "InstructionSaves": [
+            {
+              "Type": "float",
+              "Member": "Radius",
+              "Value": 16.0,
+              "Time": 0.0
+            },
+            {
+              "Type": "float",
+              "Member": "X",
+              "Value": 0.0,
+              "Time": 0.0
+            },
+            {
+              "Type": "float",
+              "Member": "Y",
+              "Value": 8.0,
+              "Time": 0.0
+            }
+          ],
+          "SourceType": 2,
+          "SourceFile": "Circle",
+          "HasPublicProperty": true,
+          "AttachToContainer": true,
+          "GenerateTimedEmit": true
         },
         {
-          "Name": "SourceType",
-          "Value": 2,
-          "Type": "SourceType"
+          "InstanceName": "CircleInstance1",
+          "SourceClassType": "FlatRedBall.Math.Geometry.Circle",
+          "Properties": [
+            {
+              "Name": "AssociateWithFactory",
+              "Value": true,
+              "Type": "Boolean"
+            },
+            {
+              "Name": "SourceType",
+              "Value": 2,
+              "Type": "SourceType"
+            },
+            {
+              "Name": "ConditionalCompilationSymbols",
+              "Type": "String"
+            }
+          ],
+          "InstructionSaves": [
+            {
+              "Type": "float",
+              "Member": "Radius",
+              "Value": 16.0,
+              "Time": 0.0
+            },
+            {
+              "Type": "float",
+              "Member": "X",
+              "Value": 8.0,
+              "Time": 0.0
+            },
+            {
+              "Type": "float",
+              "Member": "Y",
+              "Value": -24.0,
+              "Time": 0.0
+            }
+          ],
+          "SourceType": 2,
+          "SourceFile": "Circle",
+          "HasPublicProperty": true,
+          "AttachToContainer": true,
+          "GenerateTimedEmit": true
         },
         {
-          "Name": "ConditionalCompilationSymbols",
-          "Type": "String"
+          "InstanceName": "CircleInstance2",
+          "SourceClassType": "FlatRedBall.Math.Geometry.Circle",
+          "Properties": [
+            {
+              "Name": "AssociateWithFactory",
+              "Value": true,
+              "Type": "Boolean"
+            },
+            {
+              "Name": "SourceType",
+              "Value": 2,
+              "Type": "SourceType"
+            },
+            {
+              "Name": "ConditionalCompilationSymbols",
+              "Type": "String"
+            }
+          ],
+          "InstructionSaves": [
+            {
+              "Type": "float",
+              "Member": "Radius",
+              "Value": 16.0,
+              "Time": 0.0
+            },
+            {
+              "Type": "float",
+              "Member": "X",
+              "Value": 64.0,
+              "Time": 0.0
+            },
+            {
+              "Type": "float",
+              "Member": "Y",
+              "Value": 8.0,
+              "Time": 0.0
+            }
+          ],
+          "SourceType": 2,
+          "SourceFile": "Circle",
+          "HasPublicProperty": true,
+          "AttachToContainer": true,
+          "GenerateTimedEmit": true
+        },
+        {
+          "InstanceName": "CircleInstance3",
+          "SourceClassType": "FlatRedBall.Math.Geometry.Circle",
+          "Properties": [
+            {
+              "Name": "AssociateWithFactory",
+              "Value": true,
+              "Type": "Boolean"
+            },
+            {
+              "Name": "SourceType",
+              "Value": 2,
+              "Type": "SourceType"
+            },
+            {
+              "Name": "ConditionalCompilationSymbols",
+              "Type": "String"
+            }
+          ],
+          "InstructionSaves": [
+            {
+              "Type": "float",
+              "Member": "Radius",
+              "Value": 60.666664,
+              "Time": 0.0
+            },
+            {
+              "Type": "float",
+              "Member": "X",
+              "Value": 24.0,
+              "Time": 0.0
+            },
+            {
+              "Type": "float",
+              "Member": "Y",
+              "Value": 84.66667,
+              "Time": 0.0
+            }
+          ],
+          "SourceType": 2,
+          "SourceFile": "Circle",
+          "HasPublicProperty": true,
+          "AttachToContainer": true,
+          "GenerateTimedEmit": true
+        },
+        {
+          "InstanceName": "CircleInstance4",
+          "SourceClassType": "FlatRedBall.Math.Geometry.Circle",
+          "Properties": [
+            {
+              "Name": "AssociateWithFactory",
+              "Value": true,
+              "Type": "Boolean"
+            },
+            {
+              "Name": "SourceType",
+              "Value": 2,
+              "Type": "SourceType"
+            },
+            {
+              "Name": "ConditionalCompilationSymbols",
+              "Type": "String"
+            }
+          ],
+          "InstructionSaves": [
+            {
+              "Type": "Microsoft.Xna.Framework.Color",
+              "Member": "Color",
+              "Value": "Red",
+              "Time": 0.0
+            },
+            {
+              "Type": "float",
+              "Member": "Radius",
+              "Value": 16.0,
+              "Time": 0.0
+            },
+            {
+              "Type": "float",
+              "Member": "X",
+              "Value": -152.0,
+              "Time": 0.0
+            },
+            {
+              "Type": "float",
+              "Member": "Y",
+              "Value": 80.0,
+              "Time": 0.0
+            }
+          ],
+          "SourceType": 2,
+          "SourceFile": "Circle",
+          "HasPublicProperty": true,
+          "AttachToContainer": true,
+          "GenerateTimedEmit": true
         }
-      ],
-      "InstructionSaves": [
-        {
-          "Type": "float",
-          "Member": "Radius",
-          "Value": 16.0,
-          "Time": 0.0
-        },
-        {
-          "Type": "float",
-          "Member": "X",
-          "Value": 8.0,
-          "Time": 0.0
-        },
-        {
-          "Type": "float",
-          "Member": "Y",
-          "Value": -24.0,
-          "Time": 0.0
-        }
-      ],
-      "SourceType": 2,
-      "SourceFile": "Circle",
-      "HasPublicProperty": true,
-      "AttachToContainer": true,
-      "GenerateTimedEmit": true
-    },
-    {
-      "InstanceName": "CircleInstance2",
-      "SourceClassType": "FlatRedBall.Math.Geometry.Circle",
-      "Properties": [
-        {
-          "Name": "AssociateWithFactory",
-          "Value": true,
-          "Type": "Boolean"
-        },
-        {
-          "Name": "SourceType",
-          "Value": 2,
-          "Type": "SourceType"
-        },
-        {
-          "Name": "ConditionalCompilationSymbols",
-          "Type": "String"
-        }
-      ],
-      "InstructionSaves": [
-        {
-          "Type": "float",
-          "Member": "Radius",
-          "Value": 16.0,
-          "Time": 0.0
-        },
-        {
-          "Type": "float",
-          "Member": "X",
-          "Value": 64.0,
-          "Time": 0.0
-        },
-        {
-          "Type": "float",
-          "Member": "Y",
-          "Value": 8.0,
-          "Time": 0.0
-        }
-      ],
-      "SourceType": 2,
-      "SourceFile": "Circle",
-      "HasPublicProperty": true,
-      "AttachToContainer": true,
-      "GenerateTimedEmit": true
-    },
-    {
-      "InstanceName": "CircleInstance3",
-      "SourceClassType": "FlatRedBall.Math.Geometry.Circle",
-      "Properties": [
-        {
-          "Name": "AssociateWithFactory",
-          "Value": true,
-          "Type": "Boolean"
-        },
-        {
-          "Name": "SourceType",
-          "Value": 2,
-          "Type": "SourceType"
-        },
-        {
-          "Name": "ConditionalCompilationSymbols",
-          "Type": "String"
-        }
-      ],
-      "InstructionSaves": [
-        {
-          "Type": "float",
-          "Member": "Radius",
-          "Value": 60.666664,
-          "Time": 0.0
-        },
-        {
-          "Type": "float",
-          "Member": "X",
-          "Value": 24.0,
-          "Time": 0.0
-        },
-        {
-          "Type": "float",
-          "Member": "Y",
-          "Value": 84.66667,
-          "Time": 0.0
-        }
-      ],
-      "SourceType": 2,
-      "SourceFile": "Circle",
-      "HasPublicProperty": true,
-      "AttachToContainer": true,
-      "GenerateTimedEmit": true
-    },
-    {
-      "InstanceName": "CircleInstance4",
-      "SourceClassType": "FlatRedBall.Math.Geometry.Circle",
-      "Properties": [
-        {
-          "Name": "AssociateWithFactory",
-          "Value": true,
-          "Type": "Boolean"
-        },
-        {
-          "Name": "SourceType",
-          "Value": 2,
-          "Type": "SourceType"
-        },
-        {
-          "Name": "ConditionalCompilationSymbols",
-          "Type": "String"
-        }
-      ],
-      "InstructionSaves": [
-        {
-          "Type": "Microsoft.Xna.Framework.Color",
-          "Member": "Color",
-          "Value": "Red",
-          "Time": 0.0
-        },
-        {
-          "Type": "float",
-          "Member": "Radius",
-          "Value": 16.0,
-          "Time": 0.0
-        },
-        {
-          "Type": "float",
-          "Member": "X",
-          "Value": -152.0,
-          "Time": 0.0
-        },
-        {
-          "Type": "float",
-          "Member": "Y",
-          "Value": 80.0,
-          "Time": 0.0
-        }
-      ],
-      "SourceType": 2,
-      "SourceFile": "Circle",
-      "HasPublicProperty": true,
-      "AttachToContainer": true,
-      "GenerateTimedEmit": true
+      ]
     },
     {
       "InstanceName": "AxisAlignedRectangleInstance",
