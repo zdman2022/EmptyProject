@@ -1,4 +1,4 @@
-﻿namespace EmptyProject.GlueDynamicManager.Operations
+﻿namespace GlueDynamicManager.Operations
 {
     public interface IOperation
     {

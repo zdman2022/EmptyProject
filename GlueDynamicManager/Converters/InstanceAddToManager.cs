@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EmptyProject.GlueDynamicManager
+namespace GlueDynamicManager
 {
     internal class InstanceAddToManager
     {

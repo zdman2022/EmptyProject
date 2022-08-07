@@ -1,5 +1,5 @@
-﻿using EmptyProject.GlueDynamicManager.DynamicInstances;
-using EmptyProject.GlueDynamicManager.States;
+﻿using GlueDynamicManager.DynamicInstances;
+using GlueDynamicManager.States;
 using GlueControl.Models;
 using Newtonsoft.Json;
 using System;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EmptyProject.GlueDynamicManager
+namespace GlueDynamicManager
 {
     internal class GlueDynamicManager
     {

@@ -1,6 +1,6 @@
-﻿using EmptyProject.GlueDynamicManager.Converters;
-using EmptyProject.GlueDynamicManager.DynamicInstances.Containers;
-using EmptyProject.GlueDynamicManager.States;
+﻿using GlueDynamicManager.Converters;
+using GlueDynamicManager.DynamicInstances.Containers;
+using GlueDynamicManager.States;
 using FlatRedBall;
 using FlatRedBall.Entities;
 using FlatRedBall.Graphics;
@@ -12,7 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EmptyProject.GlueDynamicManager.DynamicInstances
+namespace GlueDynamicManager.DynamicInstances
 {
     public class DynamicEntity : PositionedObject, ICollidable, IDestroyable, IEntity
     {

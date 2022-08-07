@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EmptyProject.GlueDynamicManager.States
+namespace GlueDynamicManager.States
 {
     internal class DynamicScreenState
     {

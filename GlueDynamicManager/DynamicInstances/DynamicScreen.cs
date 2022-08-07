@@ -1,6 +1,6 @@
-﻿using EmptyProject.GlueDynamicManager.Converters;
-using EmptyProject.GlueDynamicManager.DynamicInstances.Containers;
-using EmptyProject.GlueDynamicManager.States;
+﻿using GlueDynamicManager.Converters;
+using GlueDynamicManager.DynamicInstances.Containers;
+using GlueDynamicManager.States;
 using FlatRedBall;
 using FlatRedBall.Content.Instructions;
 using FlatRedBall.Math;
@@ -16,7 +16,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EmptyProject.GlueDynamicManager.DynamicInstances
+namespace GlueDynamicManager.DynamicInstances
 {
     internal class DynamicScreen : FlatRedBall.Screens.Screen
     {
@@ -347,7 +347,9 @@ namespace EmptyProject.GlueDynamicManager.DynamicInstances
             }
 
             base.AddToManagers();
-            CameraSetup.ResetCamera(SpriteManager.Camera);
+
+            //Might need to do this from json file
+            //CameraSetup.ResetCamera(SpriteManager.Camera);
         }
         public override void Activity(bool firstTimeCalled)
         {

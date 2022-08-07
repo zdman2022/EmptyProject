@@ -67,7 +67,7 @@ namespace EmptyProject
 
 
             //Test Code
-            GlueDynamicManager.GlueDynamicManager.Self.SetInitialState(GlueDynamicManager.GlueJsonProcessor.GetTest("Test1", "Base"));
+            GlueDynamicManager.GlueDynamicManager.Self.SetInitialState(GlueDynamicManager.GlueJsonProcessor.GetTest(FileManager.RelativeDirectory + "../../../../EmptyProject.gluj"));
             FilePath gluj = FileManager.RelativeDirectory + "../../../../../ProjectWithCodegen/ProjectWithCodegen/ProjectWithCodegen.gluj";
 
             GlueDynamicManager.GlueDynamicManager.Self.UpdateState(GlueDynamicManager.GlueJsonProcessor.GetTest(gluj));
@@ -86,7 +86,7 @@ namespace EmptyProject
             //Scott:
             //No DynamicManager will have to be the authority.  We have to allow updates, which dynamic manager is going to be processing.
             GlueCommands.Self.LoadProject(gluj.FullPath);
-            GlueDynamicManager.DynamicInstances.DynamicScreen.CurrentScreen = "TiledScreen";
+            GlueDynamicManager.DynamicInstances.DynamicScreen.CurrentScreen = "SpriteScreen";
             ScreenManager.Start(typeof(GlueDynamicManager.DynamicInstances.DynamicScreen));
         }
 

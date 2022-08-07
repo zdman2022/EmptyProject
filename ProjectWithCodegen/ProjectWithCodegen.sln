@@ -1,9 +1,10 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectWithCodegen", "ProjectWithCodegen\ProjectWithCodegen.csproj", "{B7F3EF5F-DB33-465F-A72E-95DC77CEA432}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "GlueDynamicManager", "..\GlueDynamicManager\GlueDynamicManager.shproj", "{940124BA-17D4-4901-BCFF-EC9BFD96130F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,5 +25,9 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2AD2E216-1070-4FED-B72B-C94FFB5120C8}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		..\GlueDynamicManager\GlueDynamicManager.projitems*{940124ba-17d4-4901-bcff-ec9bfd96130f}*SharedItemsImports = 13
+		..\GlueDynamicManager\GlueDynamicManager.projitems*{b7f3ef5f-db33-465f-a72e-95dc77cea432}*SharedItemsImports = 4
 	EndGlobalSection
 EndGlobal
