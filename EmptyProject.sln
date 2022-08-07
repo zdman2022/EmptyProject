@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlatRedBallDesktopGL", "..\
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "FlatRedBallShared", "..\FlatRedBall\Engines\FlatRedBallXNA\FlatRedBall\FlatRedBallShared.shproj", "{0BB8CBE3-8503-46C1-9272-D98E153A230E}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "GlueDynamicManager", "GlueDynamicManager\GlueDynamicManager.shproj", "{940124BA-17D4-4901-BCFF-EC9BFD96130F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -52,5 +54,6 @@ Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		..\FlatRedBall\Engines\FlatRedBallXNA\FlatRedBall\FlatRedBallShared.projitems*{0bb8cbe3-8503-46c1-9272-d98e153a230e}*SharedItemsImports = 13
 		..\FlatRedBall\Engines\FlatRedBallXNA\FlatRedBall\FlatRedBallShared.projitems*{10bda06c-7269-4cce-ae2a-d445f414520a}*SharedItemsImports = 4
+		GlueDynamicManager\GlueDynamicManager.projitems*{940124ba-17d4-4901-bcff-ec9bfd96130f}*SharedItemsImports = 13
 	EndGlobalSection
 EndGlobal
