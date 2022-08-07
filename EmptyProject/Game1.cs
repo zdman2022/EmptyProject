@@ -82,6 +82,9 @@ namespace EmptyProject
             // ObjectFinder do not match the references
             // stored by the dynamic objects. We need to
             // make ObjectFinder the authority.
+            //
+            //Scott:
+            //No DynamicManager will have to be the authority.  We have to allow updates, which dynamic manager is going to be processing.
             GlueCommands.Self.LoadProject(gluj.FullPath);
             GlueDynamicManager.DynamicInstances.DynamicScreen.CurrentScreen = "StateEntityScreen";
             ScreenManager.Start(typeof(GlueDynamicManager.DynamicInstances.DynamicScreen));
