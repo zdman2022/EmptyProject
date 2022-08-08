@@ -16,6 +16,15 @@ namespace GlueDynamicManager.DynamicInstances
 {
     public class DynamicEntity : PositionedObject, ICollidable, IDestroyable, IEntity
     {
+        public delegate void InitializeDelegate(object caller, bool addToManagers);
+        public event InitializeDelegate InitializeEvent;
+        public delegate void ActivityDelegate(object caller);
+        public event ActivityDelegate ActivityEvent;
+        public delegate void ActivityEditModeDelegate(object caller);
+        public event ActivityEditModeDelegate ActivityEditModeEvent;
+        public delegate void DestroyDelegate(object caller);
+        public event DestroyDelegate DestroyEvent;
+
         private FlatRedBall.Math.Geometry.ShapeCollection mGeneratedCollision;
         public FlatRedBall.Math.Geometry.ShapeCollection Collision
         {

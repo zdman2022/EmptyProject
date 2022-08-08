@@ -21,6 +21,15 @@ namespace GlueDynamicManager.DynamicInstances
 {
     internal class DynamicScreen : FlatRedBall.Screens.Screen
     {
+        public delegate void InitializeDelegate(object caller, bool addToManagers);
+        public event InitializeDelegate InitializeEvent;
+        public delegate void ActivityDelegate(object caller);
+        public event ActivityDelegate ActivityEvent;
+        public delegate void ActivityEditModeDelegate(object caller);
+        public event ActivityEditModeDelegate ActivityEditModeEvent;
+        public delegate void DestroyDelegate(object caller);
+        public event DestroyDelegate DestroyEvent;
+
         public static string CurrentScreen { get; internal set; }
 
 

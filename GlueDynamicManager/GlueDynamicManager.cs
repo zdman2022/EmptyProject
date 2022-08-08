@@ -44,10 +44,10 @@ namespace GlueDynamicManager
             {
                 var returnValue = new DynamicScreenState();
 
-                returnValue.ScreenSave = JsonConvert.DeserializeObject<ScreenSave>(_curState.Screens[correctedScreenName].ToString());
+                returnValue.ScreenSave = _curState.Screens[correctedScreenName].Value;
 
                 if (!string.IsNullOrEmpty(returnValue.ScreenSave.BaseScreen))
-                    returnValue.BaseScreenSave = JsonConvert.DeserializeObject<ScreenSave>(_curState.Screens[CorrectScreenName(returnValue.ScreenSave.BaseScreen)].ToString());
+                    returnValue.BaseScreenSave = _curState.Screens[CorrectScreenName(returnValue.ScreenSave.BaseScreen)].Value;
 
                 return returnValue;
             }
