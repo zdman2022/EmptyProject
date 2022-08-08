@@ -1,0 +1,1007 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{B7F3EF5F-DB33-465F-A72E-95DC77CEA432}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ProjectWithCodegen</RootNamespace>
+    <AssemblyName>ProjectWithCodegen</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MonoGamePlatform>DesktopGL</MonoGamePlatform>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <RuntimeIdentifier>win-x86</RuntimeIdentifier>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\$(MonoGamePlatform)\$(Platform)\$(Configuration)\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;MONOGAME; DESKTOP_GL; XNA4; FRB_XNA;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\$(MonoGamePlatform)\$(Platform)\$(Configuration)\</OutputPath>
+    <DefineConstants>TRACE;MONOGAME; DESKTOP_GL; XNA4; FRB_XNA;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Icon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugWindows|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\DebugWindows\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;MONOGAME; DESKTOP_GL; XNA4; FRB_XNA; WINDOWS</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\$(MonoGamePlatform)\$(Platform)\$(Configuration)\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;MONOGAME; DESKTOP_GL; XNA4; FRB_XNA;</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\$(MonoGamePlatform)\$(Platform)\$(Configuration)\</OutputPath>
+    <DefineConstants>TRACE;MONOGAME; DESKTOP_GL; XNA4; FRB_XNA;</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="DataTypes\PlatformerValues.Generated.cs" />
+    <Compile Include="DataTypes\TileMapInfo.Generated.cs" />
+    <Compile Include="Entities\BaseEntity.cs" />
+    <Compile Include="Entities\BaseEntity.Generated.cs">
+      <DependentUpon>BaseEntity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\CollidableEnemy.cs" />
+    <Compile Include="Entities\CollidableEnemy.Generated.cs">
+      <DependentUpon>CollidableEnemy.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\DerivedEntity.cs" />
+    <Compile Include="Entities\DerivedEntity.Generated.cs">
+      <DependentUpon>DerivedEntity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\Entity1WithSubcollision.cs" />
+    <Compile Include="Entities\Entity1WithSubcollision.Generated.cs">
+      <DependentUpon>Entity1WithSubcollision.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\Entity2WithSubcollision.cs" />
+    <Compile Include="Entities\Entity2WithSubcollision.Generated.cs">
+      <DependentUpon>Entity2WithSubcollision.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\EntityWithShapes.cs" />
+    <Compile Include="Entities\EntityWithShapes.Generated.cs">
+      <DependentUpon>EntityWithShapes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\EntityWithTunneledVariables.cs" />
+    <Compile Include="Entities\EntityWithTunneledVariables.Generated.cs">
+      <DependentUpon>EntityWithTunneledVariables.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\Player.cs" />
+    <Compile Include="Entities\Player.Generated.cs">
+      <DependentUpon>Player.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\StateEntity.cs" />
+    <Compile Include="Entities\StateEntity.Generated.cs">
+      <DependentUpon>StateEntity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Factories\BaseEntityFactory.Generated.cs" />
+    <Compile Include="Factories\CollidableEnemyFactory.Generated.cs" />
+    <Compile Include="Factories\DerivedEntityFactory.Generated.cs" />
+    <Compile Include="Factories\Entity2WithSubcollisionFactory.Generated.cs" />
+    <Compile Include="Factories\Entity1WithSubcollisionFactory.Generated.cs" />
+    <Compile Include="Factories\EntityWithShapesFactory.Generated.cs" />
+    <Compile Include="Factories\EntityWithTunneledVariablesFactory.Generated.cs" />
+    <Compile Include="Factories\PlayerFactory.Generated.cs" />
+    <Compile Include="Factories\StateEntityFactory.Generated.cs" />
+    <Compile Include="FileAliases.Generated.cs" />
+    <Compile Include="Forms\Screens\AnimationScreenGumForms.cs" />
+    <Compile Include="Forms\Screens\AnimationScreenGumForms.Generated.cs">
+      <DependentUpon>AnimationScreenGumForms.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Screens\CollidableScreenGumForms.cs" />
+    <Compile Include="Forms\Screens\CollidableScreenGumForms.Generated.cs">
+      <DependentUpon>CollidableScreenGumForms.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Screens\CollidableSubcollisionScreenGumForms.cs" />
+    <Compile Include="Forms\Screens\CollidableSubcollisionScreenGumForms.Generated.cs">
+      <DependentUpon>CollidableSubcollisionScreenGumForms.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Screens\EntityInheritanceScreenGumForms.cs" />
+    <Compile Include="Forms\Screens\EntityInheritanceScreenGumForms.Generated.cs">
+      <DependentUpon>EntityInheritanceScreenGumForms.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Screens\EntityWithTunneledVariablesScreenGumForms.cs" />
+    <Compile Include="Forms\Screens\EntityWithTunneledVariablesScreenGumForms.Generated.cs">
+      <DependentUpon>EntityWithTunneledVariablesScreenGumForms.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Screens\GameScreenGumForms.cs" />
+    <Compile Include="Forms\Screens\GameScreenGumForms.Generated.cs">
+      <DependentUpon>GameScreenGumForms.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Screens\Level1GumForms.cs" />
+    <Compile Include="Forms\Screens\Level1GumForms.Generated.cs">
+      <DependentUpon>Level1GumForms.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Screens\Level2GumForms.cs" />
+    <Compile Include="Forms\Screens\Level2GumForms.Generated.cs">
+      <DependentUpon>Level2GumForms.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Screens\ScreenWithEntityWithShapesGumForms.cs" />
+    <Compile Include="Forms\Screens\ScreenWithEntityWithShapesGumForms.Generated.cs">
+      <DependentUpon>ScreenWithEntityWithShapesGumForms.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Screens\ScreenWithShapesGumForms.cs" />
+    <Compile Include="Forms\Screens\ScreenWithShapesGumForms.Generated.cs">
+      <DependentUpon>ScreenWithShapesGumForms.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Screens\SimpleMixGumForms.cs" />
+    <Compile Include="Forms\Screens\SimpleMixGumForms.Generated.cs">
+      <DependentUpon>SimpleMixGumForms.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Screens\SpriteScreenGumForms.cs" />
+    <Compile Include="Forms\Screens\SpriteScreenGumForms.Generated.cs">
+      <DependentUpon>SpriteScreenGumForms.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Screens\StateEntityScreenGumForms.cs" />
+    <Compile Include="Forms\Screens\StateEntityScreenGumForms.Generated.cs">
+      <DependentUpon>StateEntityScreenGumForms.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Screens\TiledScreenGumForms.cs" />
+    <Compile Include="Forms\Screens\TiledScreenGumForms.Generated.cs">
+      <DependentUpon>TiledScreenGumForms.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Screens\TileShapeCollectionNoTmxGumForms.cs" />
+    <Compile Include="Forms\Screens\TileShapeCollectionNoTmxGumForms.Generated.cs">
+      <DependentUpon>TileShapeCollectionNoTmxGumForms.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Game1.cs" />
+    <Compile Include="Game1.Generated.cs">
+      <DependentUpon>Game1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GlobalContent.Generated.cs" />
+    <Compile Include="GlueCommunication\GameConnectionManager.Generated.cs" />
+    <Compile Include="GlueControl\CommandReceiver.Generated.cs" />
+    <Compile Include="GlueControl\Dtos.Generated.cs" />
+    <Compile Include="GlueControl\Editing\CameraLogic.Generated.cs" />
+    <Compile Include="GlueControl\Editing\CopyPasteManager.Generated.cs" />
+    <Compile Include="GlueControl\Editing\EditingManager.Generated.cs" />
+    <Compile Include="GlueControl\Editing\EditorVisuals.Generated.cs" />
+    <Compile Include="GlueControl\Editing\Guides.Generated.cs" />
+    <Compile Include="GlueControl\Editing\Managers\GenerateCodeCommands.Generated.cs" />
+    <Compile Include="GlueControl\Editing\Managers\GlueCommands.Generated.cs" />
+    <Compile Include="GlueControl\Editing\Managers\GlueCommandsStateBase.Generated.cs" />
+    <Compile Include="GlueControl\Editing\Managers\GlueState.Generated.cs" />
+    <Compile Include="GlueControl\Editing\Managers\GluxCommands.Generated.cs" />
+    <Compile Include="GlueControl\Editing\Managers\ObjectFinder.Generated.cs" />
+    <Compile Include="GlueControl\Editing\Managers\RefreshCommands.Generated.cs" />
+    <Compile Include="GlueControl\Editing\Markers\MeasurementMarker.Generated.cs" />
+    <Compile Include="GlueControl\Editing\Markers\PolygonPointHandles.Generated.cs" />
+    <Compile Include="GlueControl\Editing\Markers\SelectionMarker.Generated.cs" />
+    <Compile Include="GlueControl\Editing\Markers\TileShapeCollectionMarker.Generated.cs" />
+    <Compile Include="GlueControl\Editing\MoveObjectToContainerLogic.Generated.cs" />
+    <Compile Include="GlueControl\Editing\SelectionLogic.Generated.cs" />
+    <Compile Include="GlueControl\Editing\VariableAssignmentLogic.Generated.cs" />
+    <Compile Include="GlueControl\Editing\Visuals\Arrow.Generated.cs" />
+    <Compile Include="GlueControl\Forms\ObjectCreationWindow.Generated.cs" />
+    <Compile Include="GlueControl\GlueCallsClassGenerationManager.Generated.cs" />
+    <Compile Include="GlueControl\GlueControlManager.Generated.cs" />
+    <Compile Include="GlueControl\InstanceLogic.Generated.cs" />
+    <Compile Include="GlueControl\Models\CustomVariable.Generated.cs" />
+    <Compile Include="GlueControl\Models\GlueElement.Generated.cs" />
+    <Compile Include="GlueControl\Models\GlueElementFileReference.Generated.cs" />
+    <Compile Include="GlueControl\Models\GlueProjectSave.Generated.cs" />
+    <Compile Include="GlueControl\Models\GlueProjectSaveExtensions.Generated.cs" />
+    <Compile Include="GlueControl\Models\IElementExtensionMethods.Generated.cs" />
+    <Compile Include="GlueControl\Models\INamedObjectContainer.Generated.cs" />
+    <Compile Include="GlueControl\Models\NamedObjectSave.Generated.cs" />
+    <Compile Include="GlueControl\Models\NamedObjectSaveExtensionMethods.Generated.cs" />
+    <Compile Include="GlueControl\Models\ReferencedFileSave.Generated.cs" />
+    <Compile Include="GlueControl\Models\StateSave.Generated.cs" />
+    <Compile Include="GlueControl\Models\StateSaveCategory.Generated.cs" />
+    <Compile Include="GlueControl\Runtime\DynamicEntity.Generated.cs" />
+    <Compile Include="GlueControl\Screens\EntityViewingScreen.Generated.cs" />
+    <Compile Include="GumRuntimes\AnimationScreenGumRuntime.cs" />
+    <Compile Include="GumRuntimes\AnimationScreenGumRuntime.Generated.cs">
+      <DependentUpon>AnimationScreenGumRuntime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GumRuntimes\Behaviors\IButtonBehavior.Generated.cs" />
+    <Compile Include="GumRuntimes\Behaviors\ICheckBoxBehavior.Generated.cs" />
+    <Compile Include="GumRuntimes\Behaviors\IComboBoxBehavior.Generated.cs" />
+    <Compile Include="GumRuntimes\Behaviors\IDialogBoxBehavior.Generated.cs" />
+    <Compile Include="GumRuntimes\Behaviors\ILabelBehavior.Generated.cs" />
+    <Compile Include="GumRuntimes\Behaviors\IListBoxBehavior.Generated.cs" />
+    <Compile Include="GumRuntimes\Behaviors\IListBoxItemBehavior.Generated.cs" />
+    <Compile Include="GumRuntimes\Behaviors\IOnScreenKeyboardBehavior.Generated.cs" />
+    <Compile Include="GumRuntimes\Behaviors\IPasswordBoxBehavior.Generated.cs" />
+    <Compile Include="GumRuntimes\Behaviors\IRadioButtonBehavior.Generated.cs" />
+    <Compile Include="GumRuntimes\Behaviors\IScrollBarBehavior.Generated.cs" />
+    <Compile Include="GumRuntimes\Behaviors\IScrollViewerBehavior.Generated.cs" />
+    <Compile Include="GumRuntimes\Behaviors\ISliderBehavior.Generated.cs" />
+    <Compile Include="GumRuntimes\Behaviors\ITextBoxBehavior.Generated.cs" />
+    <Compile Include="GumRuntimes\Behaviors\IToastBehavior.Generated.cs" />
+    <Compile Include="GumRuntimes\Behaviors\IToggleBehavior.Generated.cs" />
+    <Compile Include="GumRuntimes\Behaviors\ITreeViewBehavior.Generated.cs" />
+    <Compile Include="GumRuntimes\Behaviors\ITreeViewItemBehavior.Generated.cs" />
+    <Compile Include="GumRuntimes\Behaviors\IUserControlBehavior.Generated.cs" />
+    <Compile Include="GumRuntimes\CircleRuntime.Generated.cs" />
+    <Compile Include="GumRuntimes\CollidableScreenGumRuntime.cs" />
+    <Compile Include="GumRuntimes\CollidableScreenGumRuntime.Generated.cs">
+      <DependentUpon>CollidableScreenGumRuntime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GumRuntimes\CollidableSubcollisionScreenGumRuntime.cs" />
+    <Compile Include="GumRuntimes\CollidableSubcollisionScreenGumRuntime.Generated.cs">
+      <DependentUpon>CollidableSubcollisionScreenGumRuntime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GumRuntimes\ColoredRectangleRuntime.Generated.cs" />
+    <Compile Include="GumRuntimes\ContainerRuntime.Generated.cs" />
+    <Compile Include="GumRuntimes\Controls\ButtonCloseRuntime.cs" />
+    <Compile Include="GumRuntimes\Controls\ButtonCloseRuntime.Generated.cs">
+      <DependentUpon>ButtonCloseRuntime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GumRuntimes\Controls\ButtonConfirmRuntime.cs" />
+    <Compile Include="GumRuntimes\Controls\ButtonConfirmRuntime.Generated.cs">
+      <DependentUpon>ButtonConfirmRuntime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GumRuntimes\Controls\ButtonDenyRuntime.cs" />
+    <Compile Include="GumRuntimes\Controls\ButtonDenyRuntime.Generated.cs">
+      <DependentUpon>ButtonDenyRuntime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GumRuntimes\Controls\ButtonIconRuntime.cs" />
+    <Compile Include="GumRuntimes\Controls\ButtonIconRuntime.Generated.cs">
+      <DependentUpon>ButtonIconRuntime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GumRuntimes\Controls\ButtonStandardIconRuntime.cs" />
+    <Compile Include="GumRuntimes\Controls\ButtonStandardIconRuntime.Generated.cs">
+      <DependentUpon>ButtonStandardIconRuntime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GumRuntimes\Controls\ButtonStandardRuntime.cs" />
+    <Compile Include="GumRuntimes\Controls\ButtonStandardRuntime.Generated.cs">
+      <DependentUpon>ButtonStandardRuntime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GumRuntimes\Controls\ButtonTabRuntime.cs" />
+    <Compile Include="GumRuntimes\Controls\ButtonTabRuntime.Generated.cs">
+      <DependentUpon>ButtonTabRuntime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GumRuntimes\Controls\CheckBoxRuntime.cs" />
+    <Compile Include="GumRuntimes\Controls\CheckBoxRuntime.Generated.cs">
+      <DependentUpon>CheckBoxRuntime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GumRuntimes\Controls\ComboBoxRuntime.cs" />
+    <Compile Include="GumRuntimes\Controls\ComboBoxRuntime.Generated.cs">
+      <DependentUpon>ComboBoxRuntime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GumRuntimes\Controls\DialogBoxRuntime.cs" />
+    <Compile Include="GumRuntimes\Controls\DialogBoxRuntime.Generated.cs">
+      <DependentUpon>DialogBoxRuntime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GumRuntimes\Controls\KeyboardKeyRuntime.cs" />
+    <Compile Include="GumRuntimes\Controls\KeyboardKeyRuntime.Generated.cs">
+      <DependentUpon>KeyboardKeyRuntime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GumRuntimes\Controls\KeyboardRuntime.cs" />
+    <Compile Include="GumRuntimes\Controls\KeyboardRuntime.Generated.cs">
+      <DependentUpon>KeyboardRuntime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GumRuntimes\Controls\ListBoxItemRuntime.cs" />
+    <Compile Include="GumRuntimes\Controls\ListBoxItemRuntime.Generated.cs">
+      <DependentUpon>ListBoxItemRuntime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GumRuntimes\Controls\ListBoxRuntime.cs" />
+    <Compile Include="GumRuntimes\Controls\ListBoxRuntime.Generated.cs">
+      <DependentUpon>ListBoxRuntime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GumRuntimes\Controls\PasswordBoxRuntime.cs" />
+    <Compile Include="GumRuntimes\Controls\PasswordBoxRuntime.Generated.cs">
+      <DependentUpon>PasswordBoxRuntime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GumRuntimes\Controls\RadioButtonRuntime.cs" />
+    <Compile Include="GumRuntimes\Controls\RadioButtonRuntime.Generated.cs">
+      <DependentUpon>RadioButtonRuntime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GumRuntimes\Controls\ScrollBarRuntime.cs" />
+    <Compile Include="GumRuntimes\Controls\ScrollBarRuntime.Generated.cs">
+      <DependentUpon>ScrollBarRuntime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GumRuntimes\Controls\ScrollViewerRuntime.cs" />
+    <Compile Include="GumRuntimes\Controls\ScrollViewerRuntime.Generated.cs">
+      <DependentUpon>ScrollViewerRuntime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GumRuntimes\Controls\SliderRuntime.cs" />
+    <Compile Include="GumRuntimes\Controls\SliderRuntime.Generated.cs">
+      <DependentUpon>SliderRuntime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GumRuntimes\Controls\TextBoxRuntime.cs" />
+    <Compile Include="GumRuntimes\Controls\TextBoxRuntime.Generated.cs">
+      <DependentUpon>TextBoxRuntime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GumRuntimes\Controls\ToastRuntime.cs" />
+    <Compile Include="GumRuntimes\Controls\ToastRuntime.Generated.cs">
+      <DependentUpon>ToastRuntime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GumRuntimes\Controls\TreeViewItemRuntime.cs" />
+    <Compile Include="GumRuntimes\Controls\TreeViewItemRuntime.Generated.cs">
+      <DependentUpon>TreeViewItemRuntime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GumRuntimes\Controls\TreeViewRuntime.cs" />
+    <Compile Include="GumRuntimes\Controls\TreeViewRuntime.Generated.cs">
+      <DependentUpon>TreeViewRuntime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GumRuntimes\Controls\TreeViewToggleRuntime.cs" />
+    <Compile Include="GumRuntimes\Controls\TreeViewToggleRuntime.Generated.cs">
+      <DependentUpon>TreeViewToggleRuntime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GumRuntimes\Controls\UserControlRuntime.cs" />
+    <Compile Include="GumRuntimes\Controls\UserControlRuntime.Generated.cs">
+      <DependentUpon>UserControlRuntime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GumRuntimes\Elements\CautionLinesRuntime.cs" />
+    <Compile Include="GumRuntimes\Elements\CautionLinesRuntime.Generated.cs">
+      <DependentUpon>CautionLinesRuntime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GumRuntimes\Elements\DividerHorizontalRuntime.cs" />
+    <Compile Include="GumRuntimes\Elements\DividerHorizontalRuntime.Generated.cs">
+      <DependentUpon>DividerHorizontalRuntime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GumRuntimes\Elements\DividerRuntime.cs" />
+    <Compile Include="GumRuntimes\Elements\DividerRuntime.Generated.cs">
+      <DependentUpon>DividerRuntime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GumRuntimes\Elements\DividerVerticalRuntime.cs" />
+    <Compile Include="GumRuntimes\Elements\DividerVerticalRuntime.Generated.cs">
+      <DependentUpon>DividerVerticalRuntime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GumRuntimes\Elements\IconRuntime.cs" />
+    <Compile Include="GumRuntimes\Elements\IconRuntime.Generated.cs">
+      <DependentUpon>IconRuntime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GumRuntimes\Elements\LabelRuntime.cs" />
+    <Compile Include="GumRuntimes\Elements\LabelRuntime.Generated.cs">
+      <DependentUpon>LabelRuntime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GumRuntimes\Elements\PercentBarIconRuntime.cs" />
+    <Compile Include="GumRuntimes\Elements\PercentBarIconRuntime.Generated.cs">
+      <DependentUpon>PercentBarIconRuntime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GumRuntimes\Elements\PercentBarRuntime.cs" />
+    <Compile Include="GumRuntimes\Elements\PercentBarRuntime.Generated.cs">
+      <DependentUpon>PercentBarRuntime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GumRuntimes\Elements\VerticalLinesRuntime.cs" />
+    <Compile Include="GumRuntimes\Elements\VerticalLinesRuntime.Generated.cs">
+      <DependentUpon>VerticalLinesRuntime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GumRuntimes\EntityInheritanceScreenGumRuntime.cs" />
+    <Compile Include="GumRuntimes\EntityInheritanceScreenGumRuntime.Generated.cs">
+      <DependentUpon>EntityInheritanceScreenGumRuntime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GumRuntimes\EntityWithTunneledVariablesScreenGumRuntime.cs" />
+    <Compile Include="GumRuntimes\EntityWithTunneledVariablesScreenGumRuntime.Generated.cs">
+      <DependentUpon>EntityWithTunneledVariablesScreenGumRuntime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GumRuntimes\GameScreenGumRuntime.cs" />
+    <Compile Include="GumRuntimes\GameScreenGumRuntime.Generated.cs">
+      <DependentUpon>GameScreenGumRuntime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GumRuntimes\GumIdb.Generated.cs" />
+    <Compile Include="GumRuntimes\Level1GumRuntime.cs" />
+    <Compile Include="GumRuntimes\Level1GumRuntime.Generated.cs">
+      <DependentUpon>Level1GumRuntime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GumRuntimes\Level2GumRuntime.cs" />
+    <Compile Include="GumRuntimes\Level2GumRuntime.Generated.cs">
+      <DependentUpon>Level2GumRuntime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GumRuntimes\NineSliceRuntime.Generated.cs" />
+    <Compile Include="GumRuntimes\PolygonRuntime.Generated.cs" />
+    <Compile Include="GumRuntimes\RectangleRuntime.Generated.cs" />
+    <Compile Include="GumRuntimes\ScreenWithEntityWithShapesGumRuntime.cs" />
+    <Compile Include="GumRuntimes\ScreenWithEntityWithShapesGumRuntime.Generated.cs">
+      <DependentUpon>ScreenWithEntityWithShapesGumRuntime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GumRuntimes\ScreenWithShapesGumRuntime.cs" />
+    <Compile Include="GumRuntimes\ScreenWithShapesGumRuntime.Generated.cs">
+      <DependentUpon>ScreenWithShapesGumRuntime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GumRuntimes\SimpleMixGumRuntime.cs" />
+    <Compile Include="GumRuntimes\SimpleMixGumRuntime.Generated.cs">
+      <DependentUpon>SimpleMixGumRuntime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GumRuntimes\SpriteRuntime.Generated.cs" />
+    <Compile Include="GumRuntimes\SpriteScreenGumRuntime.cs" />
+    <Compile Include="GumRuntimes\SpriteScreenGumRuntime.Generated.cs">
+      <DependentUpon>SpriteScreenGumRuntime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GumRuntimes\StateEntityScreenGumRuntime.cs" />
+    <Compile Include="GumRuntimes\StateEntityScreenGumRuntime.Generated.cs">
+      <DependentUpon>StateEntityScreenGumRuntime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GumRuntimes\TextRuntime.Generated.cs" />
+    <Compile Include="GumRuntimes\TiledScreenGumRuntime.cs" />
+    <Compile Include="GumRuntimes\TiledScreenGumRuntime.Generated.cs">
+      <DependentUpon>TiledScreenGumRuntime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GumRuntimes\TileShapeCollectionNoTmxGumRuntime.cs" />
+    <Compile Include="GumRuntimes\TileShapeCollectionNoTmxGumRuntime.Generated.cs">
+      <DependentUpon>TileShapeCollectionNoTmxGumRuntime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Performance\IEntityFactory.Generated.cs" />
+    <Compile Include="Performance\PoolList.Generated.cs" />
+    <Compile Include="Platformer\Enums.Generated.cs" />
+    <Compile Include="Platformer\IPlatformer.Generated.cs" />
+    <Compile Include="Platformer\PlatformerAnimationController.Generated.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Screens\AnimationScreen.cs" />
+    <Compile Include="Screens\AnimationScreen.Generated.cs">
+      <DependentUpon>AnimationScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\CollidableScreen.cs" />
+    <Compile Include="Screens\CollidableScreen.Generated.cs">
+      <DependentUpon>CollidableScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\CollidableSubcollisionScreen.cs" />
+    <Compile Include="Screens\CollidableSubcollisionScreen.Generated.cs">
+      <DependentUpon>CollidableSubcollisionScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\EntityInheritanceScreen.cs" />
+    <Compile Include="Screens\EntityInheritanceScreen.Generated.cs">
+      <DependentUpon>EntityInheritanceScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\EntityWithTunneledVariablesScreen.cs" />
+    <Compile Include="Screens\EntityWithTunneledVariablesScreen.Generated.cs">
+      <DependentUpon>EntityWithTunneledVariablesScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\GameScreen.cs" />
+    <Compile Include="Screens\GameScreen.Generated.cs">
+      <DependentUpon>GameScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\Level1.cs" />
+    <Compile Include="Screens\Level1.Generated.cs">
+      <DependentUpon>Level1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\Level2.cs" />
+    <Compile Include="Screens\Level2.Generated.cs">
+      <DependentUpon>Level2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ScreenWithEntityWithShapes.cs" />
+    <Compile Include="Screens\ScreenWithEntityWithShapes.Generated.cs">
+      <DependentUpon>ScreenWithEntityWithShapes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ScreenWithShapes.cs" />
+    <Compile Include="Screens\ScreenWithShapes.Generated.cs">
+      <DependentUpon>ScreenWithShapes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\SimpleMix.cs" />
+    <Compile Include="Screens\SimpleMix.Generated.cs">
+      <DependentUpon>SimpleMix.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\SpriteScreen.cs" />
+    <Compile Include="Screens\SpriteScreen.Generated.cs">
+      <DependentUpon>SpriteScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\StateEntityScreen.cs" />
+    <Compile Include="Screens\StateEntityScreen.Generated.cs">
+      <DependentUpon>StateEntityScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\TiledScreen.cs" />
+    <Compile Include="Screens\TiledScreen.Generated.cs">
+      <DependentUpon>TiledScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\TileShapeCollectionNoTmx.cs" />
+    <Compile Include="Screens\TileShapeCollectionNoTmx.Generated.cs">
+      <DependentUpon>TileShapeCollectionNoTmx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Setup\CameraSetup.cs" />
+    <Compile Include="TileCollisions\CollidableListVsTileShapeCollectionRelationship.cs" />
+    <Compile Include="TileCollisions\CollidableVsTileShapeCollectionRelationship.cs" />
+    <Compile Include="TileCollisions\CollisionManagerTileShapeCollectionExtensions.cs" />
+    <Compile Include="TileCollisions\TileShapeCollection.cs" />
+    <Compile Include="TileEntities\TileEntityInstantiator.cs" />
+    <Compile Include="TileGraphics\AbstractMapLayer.cs" />
+    <Compile Include="TileGraphics\AnimationChainContainer.cs" />
+    <Compile Include="TileGraphics\ExternalTileset.cs" />
+    <Compile Include="TileGraphics\LayeredTileMap.cs" />
+    <Compile Include="TileGraphics\LayeredTileMapAnimation.cs" />
+    <Compile Include="TileGraphics\MapDrawableBatch.cs" />
+    <Compile Include="TileGraphics\MapLayer.cs" />
+    <Compile Include="TileGraphics\MapTileset.cs" />
+    <Compile Include="TileGraphics\MapTilesetTile.cs" />
+    <Compile Include="TileGraphics\NamedValue.cs" />
+    <Compile Include="TileGraphics\ReducedTileMapInfo.cs" />
+    <Compile Include="TileGraphics\ReducedTileMapInfo.TiledMapSave.cs">
+      <DependentUpon>ReducedTileMapInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TileGraphics\TileAnimation.cs" />
+    <Compile Include="TileGraphics\TileAnimationFrame.cs" />
+    <Compile Include="TileGraphics\TiledMapSave.Conversion.cs" />
+    <Compile Include="TileGraphics\TiledMapSave.Serialization.cs" />
+    <Compile Include="TileGraphics\TiledMapToShapeCollectionConverter.cs" />
+    <Compile Include="TileGraphics\TileNodeNetworkCreator.cs" />
+    <Compile Include="TileGraphics\Tileset.cs" />
+    <Compile Include="TileGraphics\TilesetExtensionMethods.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="FlatRedBall.Forms, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Libraries\DesktopGl\Debug\FlatRedBall.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="FlatRedBallDesktopGL, Version=2016.3.17.461, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Libraries\DesktopGl\Debug\FlatRedBallDesktopGL.dll</HintPath>
+    </Reference>
+    <Reference Include="GumCoreXnaPc, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Libraries\DesktopGl\Debug\GumCoreXnaPc.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoGame.Framework, Version=3.5.1.1679, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Libraries\DesktopGl\Debug\MonoGame.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="NVorbis, Version=0.8.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Libraries\DesktopGl\Debug\NVorbis.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTK, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Libraries\DesktopGl\Debug\OpenTK.dll</HintPath>
+    </Reference>
+    <Reference Include="StateInterpolation, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Libraries\DesktopGl\Debug\StateInterpolation.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\shader.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="content\entities\player\frbeefcakespritesheet.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>frbeefcakespritesheet</Name>
+    </None>
+    <None Include="content\entities\player\platformeranimations.achx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>PlatformerAnimations</Name>
+    </None>
+    <None Include="content\entities\player\platformervaluesstatic.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>PlatformerValuesStatic</Name>
+    </None>
+    <None Include="content\gumproject\components\controls\buttonclose.gucx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>buttonclose</Name>
+    </None>
+    <None Include="content\gumproject\components\controls\buttonconfirm.gucx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>buttonconfirm</Name>
+    </None>
+    <None Include="content\gumproject\components\controls\buttondeny.gucx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>buttondeny</Name>
+    </None>
+    <None Include="content\gumproject\components\controls\buttonicon.gucx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>buttonicon</Name>
+    </None>
+    <None Include="content\gumproject\components\controls\buttonstandard.gucx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>buttonstandard</Name>
+    </None>
+    <None Include="content\gumproject\components\controls\buttonstandardicon.gucx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>buttonstandardicon</Name>
+    </None>
+    <None Include="content\gumproject\components\controls\buttontab.gucx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>buttontab</Name>
+    </None>
+    <None Include="content\gumproject\components\controls\checkbox.gucx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>checkbox</Name>
+    </None>
+    <None Include="content\gumproject\components\controls\combobox.gucx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>combobox</Name>
+    </None>
+    <None Include="content\gumproject\components\controls\dialogbox.gucx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>dialogbox</Name>
+    </None>
+    <None Include="content\gumproject\components\controls\keyboard.gucx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>keyboard</Name>
+    </None>
+    <None Include="content\gumproject\components\controls\keyboardkey.gucx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>keyboardkey</Name>
+    </None>
+    <None Include="content\gumproject\components\controls\listbox.gucx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>listbox</Name>
+    </None>
+    <None Include="content\gumproject\components\controls\listboxitem.gucx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>listboxitem</Name>
+    </None>
+    <None Include="content\gumproject\components\controls\passwordbox.gucx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>passwordbox</Name>
+    </None>
+    <None Include="content\gumproject\components\controls\radiobutton.gucx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>radiobutton</Name>
+    </None>
+    <None Include="content\gumproject\components\controls\scrollbar.gucx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>scrollbar</Name>
+    </None>
+    <None Include="content\gumproject\components\controls\scrollviewer.gucx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>scrollviewer</Name>
+    </None>
+    <None Include="content\gumproject\components\controls\slider.gucx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>slider</Name>
+    </None>
+    <None Include="content\gumproject\components\controls\textbox.gucx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>textbox</Name>
+    </None>
+    <None Include="content\gumproject\components\controls\toast.gucx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>toast</Name>
+    </None>
+    <None Include="content\gumproject\components\controls\treeview.gucx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>treeview</Name>
+    </None>
+    <None Include="content\gumproject\components\controls\treeviewitem.gucx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>treeviewitem</Name>
+    </None>
+    <None Include="content\gumproject\components\controls\treeviewtoggle.gucx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>treeviewtoggle</Name>
+    </None>
+    <None Include="content\gumproject\components\controls\usercontrol.gucx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>usercontrol</Name>
+    </None>
+    <None Include="content\gumproject\components\elements\cautionlines.gucx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>cautionlines</Name>
+    </None>
+    <None Include="content\gumproject\components\elements\divider.gucx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>divider</Name>
+    </None>
+    <None Include="content\gumproject\components\elements\dividerhorizontal.gucx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>dividerhorizontal</Name>
+    </None>
+    <None Include="content\gumproject\components\elements\dividervertical.gucx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>dividervertical</Name>
+    </None>
+    <None Include="content\gumproject\components\elements\icon.gucx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>icon</Name>
+    </None>
+    <None Include="content\gumproject\components\elements\label.gucx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>label</Name>
+    </None>
+    <None Include="content\gumproject\components\elements\percentbar.gucx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>percentbar</Name>
+    </None>
+    <None Include="content\gumproject\components\elements\percentbaricon.gucx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>percentbaricon</Name>
+    </None>
+    <None Include="content\gumproject\components\elements\verticallines.gucx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>verticallines</Name>
+    </None>
+    <None Include="content\gumproject\fontcache\font10arial.fnt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>font10arial</Name>
+    </None>
+    <None Include="content\gumproject\fontcache\font10arial_0.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>font10arial_0</Name>
+    </None>
+    <None Include="content\gumproject\fontcache\font12arial.fnt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>font12arial</Name>
+    </None>
+    <None Include="content\gumproject\fontcache\font12arial_0.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>font12arial_0</Name>
+    </None>
+    <None Include="content\gumproject\fontcache\font14arial.fnt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>font14arial</Name>
+    </None>
+    <None Include="content\gumproject\fontcache\font14arial_0.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>font14arial_0</Name>
+    </None>
+    <None Include="content\gumproject\fontcache\font14arial_bold.fnt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>font14arial_bold</Name>
+    </None>
+    <None Include="content\gumproject\fontcache\font14arial_bold_0.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>font14arial_bold_0</Name>
+    </None>
+    <None Include="content\gumproject\fontcache\font14arial_italic.fnt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>font14arial_italic</Name>
+    </None>
+    <None Include="content\gumproject\fontcache\font14arial_italic_0.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>font14arial_italic_0</Name>
+    </None>
+    <None Include="content\gumproject\fontcache\font16arial_bold.fnt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>font16arial_bold</Name>
+    </None>
+    <None Include="content\gumproject\fontcache\font16arial_bold_0.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>font16arial_bold_0</Name>
+    </None>
+    <None Include="content\gumproject\fontcache\font18arial_bold.fnt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>font18arial_bold</Name>
+    </None>
+    <None Include="content\gumproject\fontcache\font18arial_bold_0.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>font18arial_bold_0</Name>
+    </None>
+    <None Include="content\gumproject\fontcache\font22arial_bold.fnt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>font22arial_bold</Name>
+    </None>
+    <None Include="content\gumproject\fontcache\font22arial_bold_0.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>font22arial_bold_0</Name>
+    </None>
+    <None Include="content\gumproject\fontcache\font28arial_bold.fnt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>font28arial_bold</Name>
+    </None>
+    <None Include="content\gumproject\fontcache\font28arial_bold_0.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>font28arial_bold_0</Name>
+    </None>
+    <None Include="content\gumproject\gumproject.gumx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>GumProject</Name>
+    </None>
+    <None Include="content\gumproject\screens\animationscreengum.gusx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>AnimationScreenGum</Name>
+    </None>
+    <None Include="content\gumproject\screens\collidablescreengum.gusx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>CollidableScreenGum</Name>
+    </None>
+    <None Include="content\gumproject\screens\collidablesubcollisionscreengum.gusx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>CollidableSubcollisionScreenGum</Name>
+    </None>
+    <None Include="content\gumproject\screens\entityinheritancescreengum.gusx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>EntityInheritanceScreenGum</Name>
+    </None>
+    <None Include="content\gumproject\screens\entitywithtunneledvariablesscreengum.gusx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>EntityWithTunneledVariablesScreenGum</Name>
+    </None>
+    <None Include="content\gumproject\screens\gamescreengum.gusx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>GameScreenGum</Name>
+    </None>
+    <None Include="content\gumproject\screens\level1gum.gusx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>Level1Gum</Name>
+    </None>
+    <None Include="content\gumproject\screens\level2gum.gusx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>Level2Gum</Name>
+    </None>
+    <None Include="content\gumproject\screens\screenwithentitywithshapesgum.gusx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>ScreenWithEntityWithShapesGum</Name>
+    </None>
+    <None Include="content\gumproject\screens\screenwithshapesgum.gusx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>ScreenWithShapesGum</Name>
+    </None>
+    <None Include="content\gumproject\screens\simplemixgum.gusx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>SimpleMixGum</Name>
+    </None>
+    <None Include="content\gumproject\screens\spritescreengum.gusx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>SpriteScreenGum</Name>
+    </None>
+    <None Include="content\gumproject\screens\stateentityscreengum.gusx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>StateEntityScreenGum</Name>
+    </None>
+    <None Include="content\gumproject\screens\tiledscreengum.gusx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>TiledScreenGum</Name>
+    </None>
+    <None Include="content\gumproject\screens\tileshapecollectionnotmxgum.gusx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>TileShapeCollectionNoTmxGum</Name>
+    </None>
+    <None Include="content\gumproject\standards\circle.gutx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>circle</Name>
+    </None>
+    <None Include="content\gumproject\standards\coloredrectangle.gutx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>coloredrectangle</Name>
+    </None>
+    <None Include="content\gumproject\standards\component.gutx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>component</Name>
+    </None>
+    <None Include="content\gumproject\standards\container.gutx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>container</Name>
+    </None>
+    <None Include="content\gumproject\standards\nineslice.gutx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>nineslice</Name>
+    </None>
+    <None Include="content\gumproject\standards\polygon.gutx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>polygon</Name>
+    </None>
+    <None Include="content\gumproject\standards\rectangle.gutx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>rectangle</Name>
+    </None>
+    <None Include="content\gumproject\standards\sprite.gutx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>sprite</Name>
+    </None>
+    <None Include="content\gumproject\standards\text.gutx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>text</Name>
+    </None>
+    <None Include="content\gumproject\uispritesheet.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>uispritesheet</Name>
+    </None>
+    <None Include="content\screens\level1\level1map.tmx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>Level1Map</Name>
+    </None>
+    <None Include="content\screens\level2\level2map.tmx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>Level2Map</Name>
+    </None>
+    <None Include="content\screens\spritescreen\texturefile.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>TextureFile</Name>
+    </None>
+    <None Include="content\screens\tiledscreen\layeredtilemapfile.tmx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>LayeredTileMapFile</Name>
+    </None>
+    <None Include="content\standardtileset.tsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>standardtileset</Name>
+    </None>
+    <None Include="content\standardtileseticons.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>standardtileseticons</Name>
+    </None>
+    <None Include="Libraries\DesktopGl\Debug\FlatRedBall.Forms.dll" />
+    <None Include="Libraries\DesktopGl\Debug\GumCoreXnaPc.dll" />
+    <None Include="Libraries\DesktopGl\Debug\StateInterpolation.dll" />
+    <None Include="Libraries\DesktopGl\Release\FlatRedBall.Forms.dll" />
+    <None Include="Libraries\DesktopGl\Release\GumCoreXnaPc.dll" />
+    <None Include="Libraries\DesktopGl\Release\StateInterpolation.dll" />
+    <Content Include="MonoGame.Framework.dll.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="libopenal.1.dylib">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="libSDL2-2.0.0.dylib">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="x64\SDL2.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="x64\soft_oal.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="x86\SDL2.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="x86\soft_oal.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <EmbeddedResource Include="Icon.ico" />
+    <None Include="Libraries\DesktopGl\Debug\FlatRedBallDesktopGL.dll" />
+    <None Include="Libraries\DesktopGl\Debug\FlatRedBallDesktopGL.pdb" />
+    <None Include="Libraries\DesktopGl\Debug\Lidgren.Network.dll" />
+    <None Include="Libraries\DesktopGl\Debug\MonoGame.Framework.dll" />
+    <None Include="Libraries\DesktopGl\Debug\MonoGame.Framework.Net.dll" />
+    <None Include="Libraries\DesktopGl\Debug\NVorbis.dll" />
+    <None Include="Libraries\DesktopGl\Debug\OpenTK.dll" />
+    <None Include="Libraries\DesktopGl\Release\FlatRedBallDesktopGL.dll" />
+    <None Include="Libraries\DesktopGl\Release\FlatRedBallDesktopGL.pdb" />
+    <None Include="Libraries\DesktopGl\Release\Lidgren.Network.dll" />
+    <None Include="Libraries\DesktopGl\Release\MonoGame.Framework.dll" />
+    <None Include="Libraries\DesktopGl\Release\MonoGame.Framework.Net.dll" />
+    <None Include="Libraries\DesktopGl\Release\NVorbis.dll" />
+    <None Include="Libraries\DesktopGl\Release\OpenTK.dll" />
+    <Content Include="OpenTK.dll.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="x64\libopenal.so.1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="x64\libSDL2-2.0.so.0">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="x86\libopenal.so.1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="x86\libSDL2-2.0.so.0">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="JsonDiffPatch.Net">
+      <Version>2.3.0</Version>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>12.0.3</Version>
+    </PackageReference>
+  </ItemGroup>
+  <Import Project="..\..\..\GlueDynamicManager\GlueDynamicManager.projitems" Label="Shared" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

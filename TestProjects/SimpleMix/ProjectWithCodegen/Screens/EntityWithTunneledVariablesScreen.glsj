@@ -1,0 +1,81 @@
+{
+  "Tags": [
+    "GLUE"
+  ],
+  "Source": "GLUE",
+  "ReferencedFiles": [
+    {
+      "Name": "gumproject/Screens/EntityWithTunneledVariablesScreenGum.gusx",
+      "IsSharedStatic": true,
+      "RuntimeType": "ProjectWithCodegen.GumRuntimes.EntityWithTunneledVariablesScreenGumRuntime",
+      "ProjectsToExcludeFrom": []
+    }
+  ],
+  "NamedObjects": [
+    {
+      "InstanceName": "EntityWithTunneledVariablesInstance",
+      "SourceClassType": "Entities\\EntityWithTunneledVariables",
+      "Properties": [
+        {
+          "Name": "AssociateWithFactory",
+          "Value": true,
+          "Type": "Boolean"
+        },
+        {
+          "Name": "SourceType",
+          "Value": 1,
+          "Type": "SourceType"
+        },
+        {
+          "Name": "ConditionalCompilationSymbols",
+          "Type": "String"
+        }
+      ],
+      "InstructionSaves": [],
+      "SourceType": 1,
+      "SourceFile": "Entities/EntityWithTunneledVariables",
+      "AttachToContainer": true,
+      "GenerateTimedEmit": true
+    },
+    {
+      "InstanceName": "EntityWithTunneledVariablesInstance1",
+      "SourceClassType": "Entities\\EntityWithTunneledVariables",
+      "Properties": [
+        {
+          "Name": "AssociateWithFactory",
+          "Value": true,
+          "Type": "Boolean"
+        },
+        {
+          "Name": "SourceType",
+          "Value": 1,
+          "Type": "SourceType"
+        },
+        {
+          "Name": "ConditionalCompilationSymbols",
+          "Type": "String"
+        }
+      ],
+      "InstructionSaves": [
+        {
+          "Type": "float",
+          "Member": "CircleInstanceRadius",
+          "Value": 55.0,
+          "Time": 0.0
+        },
+        {
+          "Type": "float",
+          "Member": "X",
+          "Value": 100.0,
+          "Time": 0.0
+        }
+      ],
+      "SourceType": 1,
+      "SourceFile": "Entities/EntityWithTunneledVariables",
+      "AttachToContainer": true,
+      "GenerateTimedEmit": true
+    }
+  ],
+  "Name": "Screens\\EntityWithTunneledVariablesScreen",
+  "CustomClassesForExport": []
+}

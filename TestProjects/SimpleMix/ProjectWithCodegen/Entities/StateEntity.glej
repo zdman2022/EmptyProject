@@ -1,0 +1,168 @@
+{
+  "Tags": [
+    "GLUE"
+  ],
+  "Source": "GLUE",
+  "CreatedByOtherEntities": true,
+  "Is2D": true,
+  "CustomVariables": [
+    {
+      "Properties": [
+        {
+          "Name": "Type",
+          "Value": "float",
+          "Type": "String"
+        },
+        {
+          "Name": "Category",
+          "Type": "String"
+        }
+      ],
+      "Name": "X"
+    },
+    {
+      "Properties": [
+        {
+          "Name": "Type",
+          "Value": "float",
+          "Type": "String"
+        },
+        {
+          "Name": "Category",
+          "Type": "String"
+        }
+      ],
+      "Name": "Y"
+    },
+    {
+      "Properties": [
+        {
+          "Name": "Type",
+          "Value": "float",
+          "Type": "String"
+        },
+        {
+          "Name": "Category",
+          "Type": "String"
+        }
+      ],
+      "Name": "Z"
+    },
+    {
+      "Properties": [
+        {
+          "Name": "Type",
+          "Value": "float",
+          "Type": "String"
+        },
+        {
+          "Name": "Category",
+          "Value": "Size",
+          "Type": "String"
+        }
+      ],
+      "Name": "CircleInstanceRadius",
+      "DefaultValue": 16.0,
+      "SourceObject": "CircleInstance",
+      "SourceObjectProperty": "Radius",
+      "Category": "Size"
+    },
+    {
+      "Properties": [
+        {
+          "Name": "Type",
+          "Value": "Category1",
+          "Type": "String"
+        },
+        {
+          "Name": "Category",
+          "Type": "String"
+        }
+      ],
+      "Name": "CurrentCategory1State"
+    }
+  ],
+  "Properties": [
+    {
+      "Name": "InputDevice",
+      "Value": 0
+    },
+    {
+      "Name": "ImplementsICollidable",
+      "Value": true,
+      "Type": "Boolean"
+    }
+  ],
+  "NamedObjects": [
+    {
+      "InstanceName": "CircleInstance",
+      "SourceClassType": "FlatRedBall.Math.Geometry.Circle",
+      "Properties": [
+        {
+          "Name": "AssociateWithFactory",
+          "Value": true,
+          "Type": "Boolean"
+        },
+        {
+          "Name": "SourceType",
+          "Value": 2,
+          "Type": "SourceType"
+        },
+        {
+          "Name": "ConditionalCompilationSymbols",
+          "Type": "String"
+        }
+      ],
+      "InstructionSaves": [
+        {
+          "Type": "float",
+          "Member": "Radius",
+          "Value": 16.0,
+          "Time": 0.0
+        }
+      ],
+      "SourceType": 2,
+      "SourceFile": "Circle",
+      "HasPublicProperty": true,
+      "AttachToContainer": true,
+      "GenerateTimedEmit": true
+    }
+  ],
+  "StateCategoryList": [
+    {
+      "Name": "Category1",
+      "States": [
+        {
+          "Name": "Big",
+          "InstructionSaves": [
+            {
+              "Type": "float",
+              "Member": "CircleInstanceRadius",
+              "Value": 100.0,
+              "Time": 0.0
+            }
+          ]
+        },
+        {
+          "Name": "Small",
+          "InstructionSaves": [
+            {
+              "Type": "float",
+              "Member": "CircleInstanceRadius",
+              "Value": 8.0,
+              "Time": 0.0
+            }
+          ]
+        }
+      ],
+      "ExcludedVariables": [
+        "X",
+        "Y",
+        "Z",
+        "CurrentCategory1State"
+      ]
+    }
+  ],
+  "Name": "Entities\\StateEntity",
+  "CustomClassesForExport": []
+}

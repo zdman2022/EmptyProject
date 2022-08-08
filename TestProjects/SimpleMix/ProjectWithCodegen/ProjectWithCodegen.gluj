@@ -1,0 +1,190 @@
+{
+  "In2D": true,
+  "ResolutionWidth": 800,
+  "ResolutionHeight": 600,
+  "OrthogonalWidth": 800,
+  "OrthogonalHeight": 600,
+  "Screens": [],
+  "Entities": [],
+  "GlobalFiles": [
+    {
+      "Name": "GumProject/GumProject.gumx",
+      "Properties": [
+        {
+          "Name": "FileAdditionBehavior",
+          "Value": 1,
+          "Type": "int"
+        },
+        {
+          "Name": "AutoCreateGumScreens",
+          "Value": true,
+          "Type": "Boolean"
+        },
+        {
+          "Name": "ShowMouse",
+          "Value": true,
+          "Type": "Boolean"
+        },
+        {
+          "Name": "MakeGumInstancesPublic",
+          "Value": true,
+          "Type": "Boolean"
+        },
+        {
+          "Name": "IsMatchGameResolutionInGumChecked",
+          "Value": true,
+          "Type": "Boolean"
+        },
+        {
+          "Name": "IncludeFormsInComponents",
+          "Value": true
+        },
+        {
+          "Name": "IncludeComponentToFormsAssociation",
+          "Value": true
+        }
+      ],
+      "IsSharedStatic": true,
+      "DestroyOnUnload": false,
+      "HasPublicProperty": true,
+      "ProjectsToExcludeFrom": []
+    }
+  ],
+  "GlobalContentSettingsSave": {},
+  "SyncedProjects": [],
+  "StartUpScreen": "Screens\\SimpleMix",
+  "ResolutionPresets": [],
+  "PerformanceSettingsSave": {},
+  "IgnoredDirectories": [],
+  "CustomClasses": [
+    {
+      "Name": "TileMapInfo",
+      "CsvFilesUsingThis": [],
+      "RequiredProperties": [
+        {
+          "Type": "string",
+          "Member": "Name",
+          "Time": 0.0
+        },
+        {
+          "Type": "System.Collections.Generic.List<FlatRedBall.Content.AnimationChain.AnimationFrameSave>",
+          "Member": "EmbeddedAnimation",
+          "Time": 0.0
+        }
+      ],
+      "GenerateCode": true
+    },
+    {
+      "Name": "PlatformerValues",
+      "CsvFilesUsingThis": [
+        "Entities/Player/PlatformerValuesStatic.csv"
+      ],
+      "RequiredProperties": [],
+      "GenerateCode": true
+    }
+  ],
+  "ApplyToFixedResolutionPlatforms": true,
+  "ExternallyBuiltFileDirectory": "../../",
+  "FileVersion": 20,
+  "ScreenReferences": [
+    {
+      "Name": "Screens\\AnimationScreen"
+    },
+    {
+      "Name": "Screens\\CollidableScreen"
+    },
+    {
+      "Name": "Screens\\CollidableSubcollisionScreen"
+    },
+    {
+      "Name": "Screens\\EntityInheritanceScreen"
+    },
+    {
+      "Name": "Screens\\EntityWithTunneledVariablesScreen"
+    },
+    {
+      "Name": "Screens\\GameScreen"
+    },
+    {
+      "Name": "Screens\\Level1"
+    },
+    {
+      "Name": "Screens\\Level2"
+    },
+    {
+      "Name": "Screens\\ScreenWithEntityWithShapes"
+    },
+    {
+      "Name": "Screens\\ScreenWithShapes"
+    },
+    {
+      "Name": "Screens\\SimpleMix"
+    },
+    {
+      "Name": "Screens\\SpriteScreen"
+    },
+    {
+      "Name": "Screens\\StateEntityScreen"
+    },
+    {
+      "Name": "Screens\\TiledScreen"
+    },
+    {
+      "Name": "Screens\\TileShapeCollectionNoTmx"
+    }
+  ],
+  "EntityReferences": [
+    {
+      "Name": "Entities\\BaseEntity"
+    },
+    {
+      "Name": "Entities\\CollidableEnemy"
+    },
+    {
+      "Name": "Entities\\DerivedEntity"
+    },
+    {
+      "Name": "Entities\\Entity1WithSubcollision"
+    },
+    {
+      "Name": "Entities\\Entity2WithSubcollision"
+    },
+    {
+      "Name": "Entities\\EntityWithShapes"
+    },
+    {
+      "Name": "Entities\\EntityWithTunneledVariables"
+    },
+    {
+      "Name": "Entities\\Player"
+    },
+    {
+      "Name": "Entities\\StateEntity"
+    }
+  ],
+  "PluginData": {
+    "RequiredPlugins": [
+      {
+        "Name": "Tiled Plugin",
+        "Version": "2.16.0.0",
+        "VersionRequirement": 2
+      }
+    ]
+  },
+  "DisplaySettings": {
+    "Name": "Custom",
+    "GenerateDisplayCode": true,
+    "Is2D": true,
+    "ResolutionWidth": 800,
+    "ResolutionHeight": 600,
+    "FixedAspectRatio": true,
+    "AspectRatioWidth": 4.0,
+    "AspectRatioHeight": 3.0,
+    "SupportLandscape": true,
+    "Scale": 100,
+    "ScaleGum": 100,
+    "DominantInternalCoordinates": 1,
+    "TextureFilter": 1
+  },
+  "AllDisplaySettings": []
+}
