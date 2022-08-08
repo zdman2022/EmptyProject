@@ -1,0 +1,14 @@
+{
+  "EntityManagementValueList": [
+    {
+      "Name": "Entities\\Entity1WithSubcollision",
+      "SelectedProperties": [],
+      "InstanceManagementValuesList": []
+    },
+    {
+      "Name": "Entities\\Entity1WithSubcollisionCopy",
+      "SelectedProperties": [],
+      "InstanceManagementValuesList": []
+    }
+  ]
+}

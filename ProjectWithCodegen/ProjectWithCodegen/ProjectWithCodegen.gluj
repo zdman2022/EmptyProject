@@ -118,6 +118,9 @@
       "Name": "Screens\\ScreenWithShapes"
     },
     {
+      "Name": "Screens\\SimpleMix"
+    },
+    {
       "Name": "Screens\\SpriteScreen"
     },
     {

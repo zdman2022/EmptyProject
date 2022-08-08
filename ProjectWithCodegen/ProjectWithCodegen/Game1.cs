@@ -49,47 +49,33 @@ namespace ProjectWithCodegen
 
         protected override void Initialize()
         {
-            #if IOS
+            if (false)
+            {
+                //Test Code
+                GlueDynamicManager.GlueDynamicManager.Self.SetInitialState(GlueDynamicManager.GlueDynamicTest.GetTest(FileManager.RelativeDirectory + "../../../../ProjectWithCodegen.gluj"));
+                FilePath gluj = FileManager.RelativeDirectory + "../../../../../../../ProjectWithCodegen/ProjectWithCodegen/ProjectWithCodegen.gluj";
+
+                GlueDynamicManager.GlueDynamicManager.Self.UpdateState(GlueDynamicManager.GlueDynamicTest.GetTest(gluj));
+
+                //GlueDynamicManager.DynamicInstances.DynamicScreen.CurrentScreen = "SpriteScreen";
+                //ScreenManager.MoveToScreen(typeof(GlueDynamicManager.DynamicInstances.DynamicScreen));
+            }
+
+#if IOS
             var bounds = UIKit.UIScreen.MainScreen.Bounds;
             var nativeScale = UIKit.UIScreen.MainScreen.Scale;
             var screenWidth = (int)(bounds.Width * nativeScale);
             var screenHeight = (int)(bounds.Height * nativeScale);
             graphics.PreferredBackBufferWidth = screenWidth;
             graphics.PreferredBackBufferHeight = screenHeight;
-            #endif
-        
+#endif
+
             FlatRedBallServices.InitializeFlatRedBall(this, graphics);
 
             GlobalContent.Initialize();
             GeneratedInitialize();
 
             base.Initialize();
-
-            if (false)
-            {
-                //Test Code
-                GlueDynamicManager.GlueDynamicManager.Self.SetInitialState(GlueDynamicManager.GlueJsonProcessor.GetTest(FileManager.RelativeDirectory + "../../../../EmptyProject.gluj"));
-                FilePath gluj = FileManager.RelativeDirectory + "../../../../../ProjectWithCodegen/ProjectWithCodegen/ProjectWithCodegen.gluj";
-
-                GlueDynamicManager.GlueDynamicManager.Self.UpdateState(GlueDynamicManager.GlueJsonProcessor.GetTest(gluj));
-                // temporary hack:
-                // GlueCommands (and
-                // ObjectFinder) need
-                // to have access to the
-                // entire Glue project. However
-                // calling LoadProject re-creates
-                // the entire project from the json 
-                // files, so the references stored by
-                // ObjectFinder do not match the references
-                // stored by the dynamic objects. We need to
-                // make ObjectFinder the authority.
-                //
-                //Scott:
-                //No DynamicManager will have to be the authority.  We have to allow updates, which dynamic manager is going to be processing.
-                GlueCommands.Self.LoadProject(gluj.FullPath);
-                GlueDynamicManager.DynamicInstances.DynamicScreen.CurrentScreen = "TiledScreen";
-                ScreenManager.Start(typeof(GlueDynamicManager.DynamicInstances.DynamicScreen));
-            }
         }
 
         protected override void Update(GameTime gameTime)

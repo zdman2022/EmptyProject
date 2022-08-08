@@ -9,6 +9,33 @@
     <Import_RootNamespace>GlueDynamicManager</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)**/*.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\FileLoader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\InstanceAddToManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\InstanceInstantiator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\InstanceVariableAssigner.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\ShapeManagerHandler.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\ValueConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DynamicInstances\Containers\BaseContainer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DynamicInstances\Containers\DynamicEntityContainer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DynamicInstances\Containers\IInstanceContainer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DynamicInstances\Containers\ObjectContainer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DynamicInstances\Containers\PositionedListContainer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DynamicInstances\DynamicEntity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DynamicInstances\DynamicScreen.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DynamicInstances\HybridScreen.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GlueDynamicManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GlueDynamicTest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GlueHelpers\NamedObjectSaveHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GlueJsonContainer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Operations\CreateNewEntityOperation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Operations\CreateNewScreenOperation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Operations\IOperation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Processors\ScreenOperationProcessor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)States\DynamicEntityState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)States\DynamicScreenState.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)SharedProject1\SharedProject1.projitems" />
+    <None Include="$(MSBuildThisFileDirectory)SharedProject1\SharedProject1.shproj" />
   </ItemGroup>
 </Project>
