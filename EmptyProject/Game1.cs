@@ -67,10 +67,10 @@ namespace EmptyProject
 
 
             //Test Code
-            GlueDynamicManager.GlueDynamicManager.Self.SetInitialState(GlueDynamicManager.GlueJsonProcessor.GetTest(FileManager.RelativeDirectory + "../../../../EmptyProject.gluj"));
+            GlueDynamicManager.GlueDynamicManager.Self.SetInitialState(GlueDynamicManager.GlueDynamicTest.GetTest(FileManager.RelativeDirectory + "../../../../EmptyProject.gluj"));
             FilePath gluj = FileManager.RelativeDirectory + "../../../../../ProjectWithCodegen/ProjectWithCodegen/ProjectWithCodegen.gluj";
 
-            GlueDynamicManager.GlueDynamicManager.Self.UpdateState(GlueDynamicManager.GlueJsonProcessor.GetTest(gluj));
+            GlueDynamicManager.GlueDynamicManager.Self.UpdateState(GlueDynamicManager.GlueDynamicTest.GetTest(gluj));
             // temporary hack:
             // GlueCommands (and
             // ObjectFinder) need
