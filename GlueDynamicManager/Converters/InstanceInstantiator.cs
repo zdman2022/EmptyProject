@@ -2,6 +2,7 @@
 using FlatRedBall.Graphics;
 using FlatRedBall.Math.Geometry;
 using FlatRedBall.TileGraphics;
+using GlueControl.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,26 @@ namespace GlueDynamicManager
 {
     internal class InstanceInstantiator
     {
+        public static readonly string[] IgnoreAssemblies = new[]
+        {
+            "mscorlib",
+            "MonoGame.Framework",
+            "System",
+            "System.Core",
+            "FlatRedBallDesktopGL",
+            "JsonDiffPatchDotNet",
+            "System.Xml",
+            "Newtonsoft.Json",
+            "System.Numerics",
+            "System.Runtime.Serialization",
+            "System.Data",
+            "GumCoreXnaPc",
+            "System.Configuration",
+            "Microsoft.GeneratedCode",
+            "FlatRedBall.Forms",
+            "Microsoft.VisualStudio.Debugger.Runtime.Desktop"
+        };
+
         internal static object Instantiate(string sourceClassType)
         {
             if (sourceClassType == typeof(AxisAlignedCube).FullName)
@@ -50,6 +71,15 @@ namespace GlueDynamicManager
             {
                 throw new NotImplementedException();
             }
+        }
+
+        internal static object InstantiateEntity(string sourceType)
+        {
+            var foundType = AppDomain.CurrentDomain.GetAssemblies().Where(assembly => !IgnoreAssemblies.Any(ignoreItem => assembly.FullName.StartsWith(ignoreItem))).SelectMany(assembly => assembly.DefinedTypes.Where(subType => subType.Name == sourceType)).FirstOrDefault();
+
+            var instance = Activator.CreateInstance(foundType);
+
+            return instance;
         }
     }
 }

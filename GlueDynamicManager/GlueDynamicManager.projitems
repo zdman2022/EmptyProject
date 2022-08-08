@@ -22,6 +22,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)DynamicInstances\Containers\PositionedListContainer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DynamicInstances\DynamicEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DynamicInstances\DynamicScreen.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DynamicInstances\HybridEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DynamicInstances\HybridScreen.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GlueDynamicManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GlueDynamicTest.cs" />
@@ -30,6 +31,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Operations\CreateNewEntityOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\CreateNewScreenOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\IOperation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Processors\EntityOperationProcessor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processors\ScreenOperationProcessor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\DynamicEntityState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\DynamicScreenState.cs" />

@@ -23,6 +23,7 @@ namespace GlueDynamicManager
         private GlueJsonContainer _initialState;
         private GlueJsonContainer _curState;
         private readonly List<HybridScreen> _hybridScreens = new List<HybridScreen>();
+        private readonly List<HybridEntity> _hybridEntities = new List<HybridEntity>();
 
         public static GlueDynamicManager Self { get; private set; } = new GlueDynamicManager();
 
@@ -168,6 +169,11 @@ namespace GlueDynamicManager
 
         }
 
+        internal bool IsAttachedEntity(object value)
+        {
+            return _hybridEntities.Any(item => item.Entity == value);
+        }
+
         private void ScreenDestroyHandler(object caller)
         {
             RemoveEventHandler(caller, "ActivityEvent", "ScreenActivityHandler");
@@ -175,6 +181,54 @@ namespace GlueDynamicManager
             RemoveEventHandler(caller, "DestroyEvent", "ScreenDestroyHandler");
 
             _hybridScreens.Remove(_hybridScreens.First(item => item.Screen == caller));
+        }
+
+        private void EntityActivityHandler(object caller)
+        {
+
+        }
+
+        private void EntityActivityEditModeHandler(object caller)
+        {
+
+        }
+
+        private void EntityDestroyHandler(object caller)
+        {
+            RemoveEventHandler(caller, "ActivityEvent", "EntityActivityHandler");
+            RemoveEventHandler(caller, "ActivityEditModeEvent", "EntityActivityEditModeHandler");
+            RemoveEventHandler(caller, "DestroyEvent", "EntityDestroyHandler");
+
+            _hybridEntities.Remove(_hybridEntities.First(item => item.Entity == caller));
+        }
+
+        public object AttachEntity(object instance)
+        {
+            _hybridEntities.Add(new HybridEntity(instance));
+
+            AddEventHandler(instance, "ActivityEvent", "EntityActivityHandler");
+            AddEventHandler(instance, "ActivityEditModeEvent", "EntityActivityEditModeHandler");
+            AddEventHandler(instance, "DestroyEvent", "EntityDestroyHandler");
+
+            EntityDoChanges(instance);
+
+            return instance;
+        }
+
+        private void EntityDoChanges(object entity)
+        {
+            if (entity.GetType() != typeof(DynamicEntity))
+            {
+                var entityName = entity.GetType().Name;
+
+                var oldEntityJson = _initialState.Entities[entityName];
+                var newEntityJson = _curState.Entities[entityName];
+
+                var glueDifferences = _jdp.Diff(oldEntityJson.Json, newEntityJson.Json);
+                var operations = _jdf.Format(glueDifferences);
+
+                EntityOperationProcessor.ApplyOperations(_hybridEntities.First(item => item.Entity == entity), oldEntityJson.Value, newEntityJson.Value, glueDifferences, operations);
+            }
         }
     }
 }

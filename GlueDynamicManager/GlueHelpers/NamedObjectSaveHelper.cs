@@ -41,7 +41,30 @@ namespace GlueDynamicManager.GlueHelpers
             return null;
         }
 
-        public static void InitializeNamedObject(NamedObjectSave nos, NamedObjectSave nosList, ScreenSave glueElement, Func<string, object> propertyFinder, out List<PositionedListContainer> positionedObjectLists, out List<ObjectContainer> instancedObjects, out List<DynamicEntityContainer> instancedEntities)
+        public static NamedObjectSave GetContainerFor(NamedObjectSave nos, EntitySave entitySave)
+        {
+            foreach (var candidate in entitySave.NamedObjects)
+            {
+                if (candidate.ContainedObjects.Any(item => item.InstanceName == nos.InstanceName))
+                {
+                    return candidate;
+                }
+            }
+
+            if (entitySave.BaseElement != null)
+            {
+                var baseScreen = ObjectFinder.Self.GetBaseElement(entitySave);
+
+                if (baseScreen is ScreenSave baseScreenSave)
+                {
+                    return GetContainerFor(nos, baseScreenSave);
+                }
+            }
+
+            return null;
+        }
+
+        public static void InitializeNamedObject(NamedObjectSave nos, NamedObjectSave nosList, GlueElement glueElement, Func<string, object> propertyFinder, out List<PositionedListContainer> positionedObjectLists, out List<ObjectContainer> instancedObjects, out List<DynamicEntityContainer> instancedEntities)
         {
             positionedObjectLists = new List<PositionedListContainer>();
             instancedObjects = new List<ObjectContainer>();
@@ -55,7 +78,7 @@ namespace GlueDynamicManager.GlueHelpers
                     {
                         var container = new PositionedListContainer
                         {
-                            Value = new PositionedObjectList<DynamicEntity>
+                            Value = new PositionedObjectList<PositionedObject>
                             {
                                 Name = nos.InstanceName
                             },
@@ -129,22 +152,45 @@ namespace GlueDynamicManager.GlueHelpers
             }
             else if (nos.SourceType == SourceType.Entity)
             {
-                var entityContainer = new DynamicEntityContainer
+                if (GlueDynamicManager.Self.EntityIsDynamic(nos.SourceClassType))
                 {
-                    NamedObjectSave = nos,
-                    Value = new DynamicEntity(GlueDynamicManager.Self.GetDynamicEntityState(nos.SourceClassType)),
-                    CombinedInstructionSaves = GetInstructionsRecursively(nos, glueElement)
-                };
-                instancedEntities.Add(entityContainer);
-
-                if (nosList != null)
-                {
-                    var container = positionedObjectLists.Find(item => item.Name == nosList.InstanceName);
-                    if (container != null)
+                    var entityContainer = new DynamicEntityContainer
                     {
-                        container.Value.Add(entityContainer.Value);
-                    }
+                        NamedObjectSave = nos,
+                        Value = new DynamicEntity(GlueDynamicManager.Self.GetDynamicEntityState(nos.SourceClassType)),
+                        CombinedInstructionSaves = GetInstructionsRecursively(nos, glueElement)
+                    };
+                    instancedEntities.Add(entityContainer);
 
+                    if (nosList != null)
+                    {
+                        var container = positionedObjectLists.Find(item => item.Name == nosList.InstanceName);
+                        if (container != null)
+                        {
+                            container.Value.Add(entityContainer.Value);
+                        }
+
+                    }
+                }
+                else
+                {
+                    var objectContainer = new ObjectContainer
+                    {
+                        NamedObjectSave = nos,
+                        Value = GlueDynamicManager.Self.AttachEntity(InstanceInstantiator.InstantiateEntity(nos.ClassType)),
+                        CombinedInstructionSaves = GetInstructionsRecursively(nos, glueElement)
+                    };
+                    instancedObjects.Add(objectContainer);
+
+                    if (nosList != null)
+                    {
+                        var container = positionedObjectLists.Find(item => item.Name == nosList.InstanceName);
+                        if (container != null)
+                        {
+                            container.Value.Add((PositionedObject)objectContainer.Value);
+                        }
+
+                    }
                 }
             }
             else

@@ -118,9 +118,12 @@ namespace GlueDynamicManager.Processors
 
             for (var i = 0; i < instancedObjects.Count; i++)
             {
-                // todo: need to support layers
-                FlatRedBall.Graphics.Layer layer = null;
-                InstanceAddToManager.AddToManager(instancedObjects[i].Value, layer);
+                if (!GlueDynamicManager.Self.IsAttachedEntity(instancedObjects[i].Value))
+                {
+                    // todo: need to support layers
+                    FlatRedBall.Graphics.Layer layer = null;
+                    InstanceAddToManager.AddToManager(instancedObjects[i].Value, layer);
+                }
             }
         }
     }

@@ -182,7 +182,8 @@ namespace GlueDynamicManager.DynamicInstances
                     var list = _positionedObjectLists[polIndex];
                     for (var i = list.Value.Count - 1; i > -1; i--)
                     {
-                        list.Value[i].Activity();
+                        var instance = list.Value[i];
+                        instance.GetType().GetMethod("Activity").Invoke(instance, new object[] { });
                     }
                 }
             }
@@ -218,7 +219,8 @@ namespace GlueDynamicManager.DynamicInstances
                 list.Value.MakeOneWay();
                 for (var i = list.Value.Count - 1; i > -1; i--)
                 {
-                    list.Value[i].Destroy();
+                    var instance = list.Value[i];
+                    instance.GetType().GetMethod("Destroy").Invoke(instance, new object[] { });
                 }
                 list.Value.MakeTwoWay();
             }
