@@ -33,11 +33,11 @@ namespace GlueDynamicManager.DynamicInstances
         public static string CurrentScreen { get; internal set; }
 
 
-        private List<PositionedListContainer> _positionedObjectLists = new List<PositionedListContainer>();
+        private readonly List<PositionedListContainer> _positionedObjectLists = new List<PositionedListContainer>();
 
         // Do we want a second list for entities?
-        private List<DynamicEntityContainer> _instancedEntities = new List<DynamicEntityContainer>();
-        private List<ObjectContainer> _instancedObjects = new List<ObjectContainer>();
+        private readonly List<DynamicEntityContainer> _instancedEntities = new List<DynamicEntityContainer>();
+        private readonly List<ObjectContainer> _instancedObjects = new List<ObjectContainer>();
         private DynamicScreenState _currentScreenState;
 
         public DynamicScreen() : base("DynamicScreen")
@@ -49,6 +49,9 @@ namespace GlueDynamicManager.DynamicInstances
 
             PostInitialize();
             base.Initialize(addToManagers);
+
+            InitializeEvent?.Invoke(this, addToManagers);
+
             if (addToManagers)
             {
                 AddToManagers();
@@ -185,6 +188,8 @@ namespace GlueDynamicManager.DynamicInstances
             }
 
             base.Activity(firstTimeCalled);
+
+            ActivityEvent?.Invoke(this);
         }
         public override void ActivityEditMode()
         {
@@ -199,6 +204,8 @@ namespace GlueDynamicManager.DynamicInstances
                 }
 
                 base.ActivityEditMode();
+
+                ActivityEditModeEvent?.Invoke(this);
             }
         }
         public override void Destroy()
@@ -217,6 +224,8 @@ namespace GlueDynamicManager.DynamicInstances
             }
 
             FlatRedBall.Math.Collision.CollisionManager.Self.Relationships.Clear();
+
+            DestroyEvent?.Invoke(this);
         }
     }
 }

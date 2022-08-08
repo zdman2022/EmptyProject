@@ -10,6 +10,8 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "FlatRedBallShared", "..\Fla
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "GlueDynamicManager", "GlueDynamicManager\GlueDynamicManager.shproj", "{940124BA-17D4-4901-BCFF-EC9BFD96130F}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{EA2BF423-2045-467E-9711-47EA306A1A60}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

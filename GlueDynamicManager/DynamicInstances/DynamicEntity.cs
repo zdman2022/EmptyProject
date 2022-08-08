@@ -82,15 +82,23 @@ namespace GlueDynamicManager.DynamicInstances
                     po.AttachTo(this, false);
                 }
             }
+
+            if (InitializeEvent != null)
+                InitializeEvent(this, true);
         }
 
         public void Activity()
         {
+            if (ActivityEvent != null)
+                ActivityEvent(this);
         }
 
         public void Destroy()
         {
             mGeneratedCollision.RemoveFromManagers(clearThis: false);
+
+            if (DestroyEvent != null)
+                DestroyEvent(this);
         }
 
         internal void SetVariable(string member, object convertedValue)
@@ -139,7 +147,8 @@ namespace GlueDynamicManager.DynamicInstances
 
         public void ActivityEditMode()
         {
-            throw new NotImplementedException();
+            if(ActivityEditModeEvent != null)
+                ActivityEditModeEvent(this);
         }
     }
 }

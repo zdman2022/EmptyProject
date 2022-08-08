@@ -18,11 +18,11 @@ namespace GlueDynamicManager
 {
     internal class GlueDynamicManager
     {
-        private JsonDiffPatch _jdp = new JsonDiffPatch();
-        private JsonDeltaFormatter _jdf = new JsonDeltaFormatter();
+        private readonly JsonDiffPatch _jdp = new JsonDiffPatch();
+        private readonly JsonDeltaFormatter _jdf = new JsonDeltaFormatter();
         private GlueJsonContainer _initialState;
         private GlueJsonContainer _curState;
-        private List<HybridScreen> _hybridScreens = new List<HybridScreen>();
+        private readonly List<HybridScreen> _hybridScreens = new List<HybridScreen>();
 
         public static GlueDynamicManager Self { get; private set; } = new GlueDynamicManager();
 
@@ -42,9 +42,10 @@ namespace GlueDynamicManager
             var correctedScreenName = CorrectScreenName(screenName);
             if (ScreenIsDynamic(correctedScreenName))
             {
-                var returnValue = new DynamicScreenState();
-
-                returnValue.ScreenSave = _curState.Screens[correctedScreenName].Value;
+                var returnValue = new DynamicScreenState
+                {
+                    ScreenSave = _curState.Screens[correctedScreenName].Value
+                };
 
                 if (!string.IsNullOrEmpty(returnValue.ScreenSave.BaseScreen))
                     returnValue.BaseScreenSave = _curState.Screens[CorrectScreenName(returnValue.ScreenSave.BaseScreen)].Value;
@@ -60,11 +61,12 @@ namespace GlueDynamicManager
             var correctedEntityName = CorrectEntityName(entityName);
             if (EntityIsDynamic(correctedEntityName))
             {
-                var returnValue = new DynamicEntityState();
-
-                returnValue.EntitySave = JsonConvert.DeserializeObject<EntitySave>(_curState.Entities[correctedEntityName].Json.ToString());
-                returnValue.CustomVariablesSave = JsonConvert.DeserializeObject<List<CustomVariable>>(_curState.Entities[correctedEntityName].Json["CustomVariables"].ToString());
-                returnValue.StateCategoryList = JsonConvert.DeserializeObject<List<StateSaveCategory>>(_curState.Entities[correctedEntityName].Json["StateCategoryList"].ToString());
+                var returnValue = new DynamicEntityState
+                {
+                    EntitySave = JsonConvert.DeserializeObject<EntitySave>(_curState.Entities[correctedEntityName].Json.ToString()),
+                    CustomVariablesSave = JsonConvert.DeserializeObject<List<CustomVariable>>(_curState.Entities[correctedEntityName].Json["CustomVariables"].ToString()),
+                    StateCategoryList = JsonConvert.DeserializeObject<List<StateSaveCategory>>(_curState.Entities[correctedEntityName].Json["StateCategoryList"].ToString())
+                };
 
                 return returnValue;
             }
@@ -119,10 +121,10 @@ namespace GlueDynamicManager
             AddEventHandler(screen, "ActivityEditModeEvent", "ScreenActivityEditModeHandler");
             AddEventHandler(screen, "DestroyEvent", "ScreenDestroyHandler");
 
-            ScreenDoChanges(screen, true);
+            ScreenDoChanges(screen);
         }
 
-        private void ScreenDoChanges(Screen screen, bool beforeInitialization)
+        private void ScreenDoChanges(Screen screen)
         {
             if (screen.GetType() != typeof(DynamicScreen))
             {
