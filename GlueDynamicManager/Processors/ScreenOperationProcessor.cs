@@ -112,7 +112,8 @@ namespace GlueDynamicManager.Processors
         {
             for (int i = 0; i < instancedEntities.Count; i++)
             {
-                instancedEntities[i].Value.AddToManagers((Layer)screen.Screen.GetType().BaseType.GetProperty("mLayer", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).GetValue(screen));
+                var mLayerProp = screen.Screen.GetType().BaseType.GetProperty("mLayer", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+                instancedEntities[i].Value.AddToManagers(mLayerProp == null ? null : (Layer)mLayerProp.GetValue(screen));
             }
 
             for (var i = 0; i < instancedObjects.Count; i++)

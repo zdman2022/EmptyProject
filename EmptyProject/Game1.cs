@@ -86,7 +86,7 @@ namespace EmptyProject
             //Scott:
             //No DynamicManager will have to be the authority.  We have to allow updates, which dynamic manager is going to be processing.
             GlueCommands.Self.LoadProject(gluj.FullPath);
-            GlueDynamicManager.DynamicInstances.DynamicScreen.CurrentScreen = "SpriteScreen";
+            GlueDynamicManager.DynamicInstances.DynamicScreen.CurrentScreen = "SimpleMix";
             ScreenManager.Start(typeof(GlueDynamicManager.DynamicInstances.DynamicScreen));
         }
 

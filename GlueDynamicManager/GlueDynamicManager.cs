@@ -65,7 +65,7 @@ namespace GlueDynamicManager
                 {
                     EntitySave = JsonConvert.DeserializeObject<EntitySave>(_curState.Entities[correctedEntityName].Json.ToString()),
                     CustomVariablesSave = JsonConvert.DeserializeObject<List<CustomVariable>>(_curState.Entities[correctedEntityName].Json["CustomVariables"].ToString()),
-                    StateCategoryList = JsonConvert.DeserializeObject<List<StateSaveCategory>>(_curState.Entities[correctedEntityName].Json["StateCategoryList"].ToString())
+                    StateCategoryList = JsonConvert.DeserializeObject<List<StateSaveCategory>>(_curState.Entities[correctedEntityName].Json["StateCategoryList"]?.ToString() ?? "[]")
                 };
 
                 return returnValue;
