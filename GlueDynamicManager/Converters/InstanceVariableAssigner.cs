@@ -1,4 +1,5 @@
-﻿using FlatRedBall.TileGraphics;
+﻿using FlatRedBall.TileEntities;
+using FlatRedBall.TileGraphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +26,8 @@ namespace GlueDynamicManager
             switch(member)
             {
                 case "CreateEntitiesFromTiles":
+                    TileEntityInstantiator.CreateEntitiesFrom(layeredTileMap);
+                    return true;
                 case "ShiftMapToMoveGameplayLayerToZ0":
                     return true;
             }

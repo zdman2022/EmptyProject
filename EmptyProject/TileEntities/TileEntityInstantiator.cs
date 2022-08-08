@@ -27,6 +27,25 @@ namespace FlatRedBall.TileEntities
             public bool RemoveTileObjectsAfterEntityCreation = true;
         }
 
+        static Type[] typesInThisAssembly;
+        static Type[] TypesInThisAssembly
+        {
+            get
+            {
+                if (typesInThisAssembly == null)
+                {
+#if WINDOWS_8 || UWP
+                var assembly = typeof(TileEntityInstantiator).GetTypeInfo().Assembly;
+                typesInThisAssembly = assembly.DefinedTypes.Select(item=>item.AsType()).ToArray();
+#else
+                    var assembly = Assembly.GetExecutingAssembly();
+                    typesInThisAssembly = assembly.GetTypes();
+#endif
+                }
+
+                return typesInThisAssembly;
+            }
+        }
         public static Settings CurrentSettings { get; set; } = new Settings();
 
         public static Func<string, PositionedObject> CreationFunction;
@@ -284,15 +303,7 @@ namespace FlatRedBall.TileEntities
 
                         if (factory == null && CreationFunction == null)
                         {
-                            bool isEntity = typesInThisAssembly.Any(item => item.Name.Contains($".Entities.") && item.Name.EndsWith(entityType));
-
-                            if (isEntity)
-                            {
-                                string message =
-                                    $"The factory for entity {entityType} could not be found. To create instances of this entity, " +
-                                    "set its 'CreatedByOtherEntities' property to true in Glue.";
-                                throw new Exception(message);
-                            }
+                            // do nothing?
                         }
                         else
                         {
@@ -520,7 +531,6 @@ namespace FlatRedBall.TileEntities
             return type;
         }
 
-
         private static object ConvertValueAccordingToType(object valueToSet, string valueName, string valueType, Type entityType)
         {
             if (valueType == "bool")
@@ -554,7 +564,7 @@ namespace FlatRedBall.TileEntities
             {
                 // Since it's part of the class, it uses the "+" separator
                 var enumTypeName = entityType.FullName + "+VariableState";
-                var enumType = typesInThisAssembly.FirstOrDefault(item => item.FullName == enumTypeName);
+                var enumType = TypesInThisAssembly.FirstOrDefault(item => item.FullName == enumTypeName);
 
                 valueToSet = Enum.Parse(enumType, (string)valueToSet);
             }
@@ -582,7 +592,7 @@ namespace FlatRedBall.TileEntities
             // it in allDictionaries to make future calls faster
             else if (valueType != null && valueType.Contains("+"))
             {
-                var stateType = typesInThisAssembly.FirstOrDefault(item => item.FullName == valueType);
+                var stateType = TypesInThisAssembly.FirstOrDefault(item => item.FullName == valueType);
 
                 if (stateType != null)
                 {
@@ -627,66 +637,6 @@ namespace FlatRedBall.TileEntities
             throw new NotImplementedException();
         }
 
-
-        static Type[] typesInThisAssembly;
-        public static IEntityFactory GetFactory(string entityType)
-        {
-            if (typesInThisAssembly == null)
-            {
-#if WINDOWS_8 || UWP
-                var assembly = typeof(TileEntityInstantiator).GetTypeInfo().Assembly;
-                typesInThisAssembly = assembly.DefinedTypes.Select(item=>item.AsType()).ToArray();
-
-#else
-                var assembly = Assembly.GetExecutingAssembly();
-                typesInThisAssembly = assembly.GetTypes();
-#endif
-            }
-
-
-#if WINDOWS_8 || UWP
-            var filteredTypes =
-                typesInThisAssembly.Where(t => t.GetInterfaces().Contains(typeof(IEntityFactory))
-                            && t.GetConstructors().Any(c=>c.GetParameters().Count() == 0));
-#else
-            var filteredTypes =
-                typesInThisAssembly.Where(t => t.GetInterfaces().Contains(typeof(IEntityFactory))
-                            && t.GetConstructor(Type.EmptyTypes) != null);
-#endif
-
-            var factories = filteredTypes
-                .Select(
-                    t =>
-                    {
-#if WINDOWS_8 || UWP
-                        var propertyInfo = t.GetProperty("Self");
-#else
-                        var propertyInfo = t.GetProperty("Self");
-#endif
-                        var value = propertyInfo.GetValue(null, null);
-                        return value as IEntityFactory;
-                    }).ToList();
-
-
-            var factory = factories.FirstOrDefault(item =>
-            {
-                if (string.IsNullOrEmpty(entityType))
-                {
-                    return false;
-                }
-                else
-                {
-                    var type = item.GetType();
-                    var methodInfo = type.GetMethod("CreateNew", new[] { typeof(Layer), typeof(float), typeof(float), typeof(float) });
-                    var returntypeString = methodInfo.ReturnType.Name;
-
-                    return entityType == returntypeString ||
-                        entityType == methodInfo.ReturnType.FullName ||
-                        entityType.EndsWith("\\" + returntypeString) ||
-                        entityType.EndsWith("/" + returntypeString);
-                }
-            });
-            return factory;
-        }
+        public static IEntityFactory GetFactory(string entityType) => FactoryManager.Get(entityType);
     }
 }
