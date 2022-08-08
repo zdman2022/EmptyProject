@@ -142,7 +142,7 @@
         }
       ],
       "SourceType": 1,
-      "SourceFile": "Entities\\MixEntity",
+      "SourceFile": "Entities/MixEntity",
       "AttachToContainer": true,
       "GenerateTimedEmit": true
     },
@@ -180,7 +180,7 @@
         }
       ],
       "SourceType": 1,
-      "SourceFile": "Entities\\BaseEntity",
+      "SourceFile": "Entities/BaseEntity",
       "AttachToContainer": true,
       "GenerateTimedEmit": true
     }

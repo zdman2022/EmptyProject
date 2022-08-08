@@ -76,15 +76,15 @@
       ],
       "InstructionSaves": [
         {
-          "Type": "float",
-          "Member": "Radius",
-          "Value": 30.0,
-          "Time": 0.0
-        },
-        {
           "Type": "Microsoft.Xna.Framework.Color",
           "Member": "Color",
           "Value": "Teal",
+          "Time": 0.0
+        },
+        {
+          "Type": "float",
+          "Member": "Radius",
+          "Value": 30.0,
           "Time": 0.0
         }
       ],

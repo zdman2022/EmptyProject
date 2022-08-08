@@ -169,6 +169,13 @@ namespace GlueDynamicManager
 
         }
 
+        internal bool IsEntity(object value)
+        {
+            var name = value.GetType().Name;
+
+            return _curState.Entities.ContainsKey(name);
+        }
+
         internal bool IsAttachedEntity(object value)
         {
             return _hybridEntities.Any(item => item.Entity == value);
@@ -204,6 +211,9 @@ namespace GlueDynamicManager
 
         public object AttachEntity(object instance)
         {
+            if (instance is Screen)
+                return null;
+
             _hybridEntities.Add(new HybridEntity(instance));
 
             AddEventHandler(instance, "ActivityEvent", "EntityActivityHandler");
@@ -221,13 +231,16 @@ namespace GlueDynamicManager
             {
                 var entityName = entity.GetType().Name;
 
-                var oldEntityJson = _initialState.Entities[entityName];
-                var newEntityJson = _curState.Entities[entityName];
+                if (_initialState != null)
+                {
+                    var oldEntityJson = _initialState.Entities[entityName];
+                    var newEntityJson = _curState.Entities[entityName];
 
-                var glueDifferences = _jdp.Diff(oldEntityJson.Json, newEntityJson.Json);
-                var operations = _jdf.Format(glueDifferences);
+                    var glueDifferences = _jdp.Diff(oldEntityJson.Json, newEntityJson.Json);
+                    var operations = _jdf.Format(glueDifferences);
 
-                EntityOperationProcessor.ApplyOperations(_hybridEntities.First(item => item.Entity == entity), oldEntityJson.Value, newEntityJson.Value, glueDifferences, operations);
+                    EntityOperationProcessor.ApplyOperations(_hybridEntities.First(item => item.Entity == entity), oldEntityJson.Value, newEntityJson.Value, glueDifferences, operations);
+                }
             }
         }
     }

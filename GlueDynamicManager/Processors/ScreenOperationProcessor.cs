@@ -118,7 +118,7 @@ namespace GlueDynamicManager.Processors
 
             for (var i = 0; i < instancedObjects.Count; i++)
             {
-                if (!GlueDynamicManager.Self.IsAttachedEntity(instancedObjects[i].Value))
+                if (!GlueDynamicManager.Self.IsEntity(instancedObjects[i].Value))
                 {
                     // todo: need to support layers
                     FlatRedBall.Graphics.Layer layer = null;

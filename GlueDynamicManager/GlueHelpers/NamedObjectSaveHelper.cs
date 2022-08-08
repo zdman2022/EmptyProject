@@ -177,7 +177,7 @@ namespace GlueDynamicManager.GlueHelpers
                     var objectContainer = new ObjectContainer
                     {
                         NamedObjectSave = nos,
-                        Value = GlueDynamicManager.Self.AttachEntity(InstanceInstantiator.InstantiateEntity(nos.ClassType)),
+                        Value = InstanceInstantiator.InstantiateEntity(nos.ClassType),
                         CombinedInstructionSaves = GetInstructionsRecursively(nos, glueElement)
                     };
                     instancedObjects.Add(objectContainer);
