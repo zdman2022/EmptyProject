@@ -98,10 +98,6 @@
     <Compile Include="Entities\EntityWithTunneledVariables.Generated.cs">
       <DependentUpon>EntityWithTunneledVariables.cs</DependentUpon>
     </Compile>
-    <Compile Include="Entities\MixEntity.cs" />
-    <Compile Include="Entities\MixEntity.Generated.cs">
-      <DependentUpon>MixEntity.cs</DependentUpon>
-    </Compile>
     <Compile Include="Entities\Player.cs" />
     <Compile Include="Entities\Player.Generated.cs">
       <DependentUpon>Player.cs</DependentUpon>

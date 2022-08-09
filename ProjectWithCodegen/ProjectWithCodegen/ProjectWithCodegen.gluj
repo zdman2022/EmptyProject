@@ -156,9 +156,6 @@
       "Name": "Entities\\EntityWithTunneledVariables"
     },
     {
-      "Name": "Entities\\MixEntity"
-    },
-    {
       "Name": "Entities\\Player"
     },
     {
