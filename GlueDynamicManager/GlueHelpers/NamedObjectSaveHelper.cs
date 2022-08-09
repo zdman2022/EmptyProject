@@ -150,7 +150,7 @@ namespace GlueDynamicManager.GlueHelpers
                     var entityContainer = new DynamicEntityContainer
                     {
                         NamedObjectSave = nos,
-                        Value = new DynamicEntity(GlueDynamicManager.Self.GetDynamicEntityState(nos.SourceClassType)),
+                        Value = new DynamicEntity(GlueDynamicManager.Self.GetEntityState(nos.SourceClassType)),
                         CombinedInstructionSaves = GetInstructionsRecursively(nos, glueElement)
                     };
                     instancedEntities.Add(entityContainer);

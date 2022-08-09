@@ -34,11 +34,11 @@ namespace GlueDynamicManager.DynamicInstances
             }
         }
 
-        private DynamicEntityState _dynamicEntityState;
+        private EntityState _dynamicEntityState;
         protected FlatRedBall.Graphics.Layer LayerProvidedByContainer = null;
         private List<ObjectContainer> _instancedObjects = new List<ObjectContainer>();
 
-        public DynamicEntity(DynamicEntityState dynamicEntityState)
+        public DynamicEntity(EntityState dynamicEntityState)
         {
             _dynamicEntityState = dynamicEntityState;
             InitializeEntity();

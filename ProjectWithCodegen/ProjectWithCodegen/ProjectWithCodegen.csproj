@@ -173,7 +173,9 @@
       <DependentUpon>TiledScreenGumForms.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Screens\TileShapeCollectionFromTmxGumForms.cs" />
-    <Compile Include="Forms\Screens\TileShapeCollectionFromTmxGumForms.Generated.cs" />
+    <Compile Include="Forms\Screens\TileShapeCollectionFromTmxGumForms.Generated.cs">
+      <DependentUpon>TileShapeCollectionFromTmxGumForms.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Screens\TileShapeCollectionNoTmxGumForms.cs" />
     <Compile Include="Forms\Screens\TileShapeCollectionNoTmxGumForms.Generated.cs">
       <DependentUpon>TileShapeCollectionNoTmxGumForms.cs</DependentUpon>
@@ -446,7 +448,9 @@
       <DependentUpon>TiledScreenGumRuntime.cs</DependentUpon>
     </Compile>
     <Compile Include="GumRuntimes\TileShapeCollectionFromTmxGumRuntime.cs" />
-    <Compile Include="GumRuntimes\TileShapeCollectionFromTmxGumRuntime.Generated.cs" />
+    <Compile Include="GumRuntimes\TileShapeCollectionFromTmxGumRuntime.Generated.cs">
+      <DependentUpon>TileShapeCollectionFromTmxGumRuntime.cs</DependentUpon>
+    </Compile>
     <Compile Include="GumRuntimes\TileShapeCollectionNoTmxGumRuntime.cs" />
     <Compile Include="GumRuntimes\TileShapeCollectionNoTmxGumRuntime.Generated.cs">
       <DependentUpon>TileShapeCollectionNoTmxGumRuntime.cs</DependentUpon>

@@ -57,27 +57,22 @@ namespace GlueDynamicManager
             return null;
         }
 
-        internal DynamicEntityState GetDynamicEntityState(string entityName)
+        internal EntityState GetEntityState(string entityName)
         {
             var correctedEntityName = CorrectEntityName(entityName);
-            if (EntityIsDynamic(correctedEntityName))
+            var returnValue = new EntityState
             {
-                var returnValue = new DynamicEntityState
-                {
-                    EntitySave = JsonConvert.DeserializeObject<EntitySave>(_curState.Entities[correctedEntityName].Json.ToString()),
-                    CustomVariablesSave = JsonConvert.DeserializeObject<List<CustomVariable>>(_curState.Entities[correctedEntityName].Json["CustomVariables"].ToString()),
-                    StateCategoryList = JsonConvert.DeserializeObject<List<StateSaveCategory>>(_curState.Entities[correctedEntityName].Json["StateCategoryList"]?.ToString() ?? "[]")
-                };
+                EntitySave = JsonConvert.DeserializeObject<EntitySave>(_curState.Entities[correctedEntityName].Json.ToString()),
+                CustomVariablesSave = JsonConvert.DeserializeObject<List<CustomVariable>>(_curState.Entities[correctedEntityName].Json["CustomVariables"]?.ToString() ?? "[]"),
+                StateCategoryList = JsonConvert.DeserializeObject<List<StateSaveCategory>>(_curState.Entities[correctedEntityName].Json["StateCategoryList"]?.ToString() ?? "[]")
+            };
 
-                return returnValue;
-            }
-
-            return null;
+            return returnValue;
         }
 
         internal bool ScreenIsDynamic(string screenName)
         {
-            if(_curState == null)
+            if (_curState == null)
                 return false;
 
             if (_curState.Screens.ContainsKey(screenName) && !_initialState.Screens.ContainsKey(screenName))
@@ -96,7 +91,7 @@ namespace GlueDynamicManager
             {
                 return dynamicEntity.PropertyFinder(name);
             }
-            else if(container is Screen screen)
+            else if (container is Screen screen)
             {
                 var hScreen = _hybridScreens.Where(item => item.Screen == screen).FirstOrDefault();
 
@@ -124,7 +119,7 @@ namespace GlueDynamicManager
 
         private string CorrectEntityName(string entityName)
         {
-            return entityName.Replace("Entities\\", "");
+            return entityName.Replace("Entities\\", "").Replace("Entities.", "");
         }
 
         private string CorrectScreenName(string entityName)

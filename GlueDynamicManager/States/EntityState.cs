@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace GlueDynamicManager.States
 {
-    public class DynamicEntityState
+    public class EntityState
     {
         public EntitySave EntitySave { get; internal set; }
         public List<CustomVariable> CustomVariablesSave { get; internal set; }

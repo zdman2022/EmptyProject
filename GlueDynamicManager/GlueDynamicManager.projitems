@@ -34,7 +34,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Processors\EntityOperationProcessor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processors\GlueElementOperationProcessor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processors\ScreenOperationProcessor.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)States\DynamicEntityState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)States\EntityState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\DynamicScreenState.cs" />
   </ItemGroup>
   <ItemGroup>
