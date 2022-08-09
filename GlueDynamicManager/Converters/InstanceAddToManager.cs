@@ -61,6 +61,30 @@ namespace GlueDynamicManager
                 //    asTileShapeCollection.Visible = true;
                 //}
 
+                var nos = objectContainer.NamedObjectSave;
+                T GetProperty<T>(string name) =>
+                    ObjectFinder.Self.GetPropertyValueRecursively<T>(nos, name);
+
+
+                var creationOption = GetProperty<int>("CollisionCreationOptions");
+                var collisionTileSize = GetProperty<float>("CollisionTileSize");
+                var collisionFillWidth = GetProperty<float>("CollisionFillWidth");
+                var collisionFillHeight = GetProperty<float>("CollisionFillHeight");
+                var innerSizeWidth = GetProperty<float>("InnerSizeWidth");
+                var innerSizeHeight = GetProperty<float>("InnerSizeHeight");
+
+                switch(creationOption)
+                {
+                    case 0: // empty
+                        // do nothing
+                        break;
+                    case 1: // FillCompletely
+
+                        break;
+                    case 2: // BorderOutline
+
+                        break;
+                }
             }    
             else
             {
