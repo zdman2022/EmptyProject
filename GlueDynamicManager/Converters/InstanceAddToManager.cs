@@ -17,7 +17,7 @@ namespace GlueDynamicManager
 {
     internal class InstanceAddToManager
     {
-        public static void AddToManager(ObjectContainer objectContainer, Layer layer)
+        public static void AddToManager(ObjectContainer objectContainer, List<ObjectContainer> otherObjects, Layer layer)
         {
             var instance = objectContainer.Value;
 
@@ -151,6 +151,30 @@ namespace GlueDynamicManager
                             }
                         }
 
+
+                        break;
+                    case 4: // FromType
+
+                        var sourceTmxName = GetProperty<string>("SourceTmxName");
+                        var collisionTileTypeName = GetProperty<string>("CollisionTileTypeName");
+                        var removeTilesAfterCreatingCollision = GetProperty<bool>("RemoveTilesAfterCreatingCollision");
+                        var isCollisionMerged = GetProperty<bool>("IsCollisionMerged");
+
+                        if (!string.IsNullOrEmpty(sourceTmxName) && !string.IsNullOrEmpty(collisionTileTypeName))
+                        {
+                            LayeredTileMap layeredTileMap = otherObjects.Find(item => item.Name == sourceTmxName)?.Value as LayeredTileMap;
+                            if(isCollisionMerged)
+                            {
+                                FlatRedBall.TileCollisions.TileShapeCollectionLayeredTileMapExtensions.AddMergedCollisionFromTilesWithType(
+                                    asTileShapeCollection, layeredTileMap, collisionTileTypeName);
+                            }
+                            else
+                            {
+                                FlatRedBall.TileCollisions.TileShapeCollectionLayeredTileMapExtensions.AddCollisionFromTilesWithType(
+                                    asTileShapeCollection, layeredTileMap, collisionTileTypeName, removeTilesAfterCreatingCollision);
+                            }
+
+                        }
 
                         break;
                 }

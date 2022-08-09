@@ -172,6 +172,8 @@
     <Compile Include="Forms\Screens\TiledScreenGumForms.Generated.cs">
       <DependentUpon>TiledScreenGumForms.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Screens\TileShapeCollectionFromTmxGumForms.cs" />
+    <Compile Include="Forms\Screens\TileShapeCollectionFromTmxGumForms.Generated.cs" />
     <Compile Include="Forms\Screens\TileShapeCollectionNoTmxGumForms.cs" />
     <Compile Include="Forms\Screens\TileShapeCollectionNoTmxGumForms.Generated.cs">
       <DependentUpon>TileShapeCollectionNoTmxGumForms.cs</DependentUpon>
@@ -443,6 +445,8 @@
     <Compile Include="GumRuntimes\TiledScreenGumRuntime.Generated.cs">
       <DependentUpon>TiledScreenGumRuntime.cs</DependentUpon>
     </Compile>
+    <Compile Include="GumRuntimes\TileShapeCollectionFromTmxGumRuntime.cs" />
+    <Compile Include="GumRuntimes\TileShapeCollectionFromTmxGumRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\TileShapeCollectionNoTmxGumRuntime.cs" />
     <Compile Include="GumRuntimes\TileShapeCollectionNoTmxGumRuntime.Generated.cs">
       <DependentUpon>TileShapeCollectionNoTmxGumRuntime.cs</DependentUpon>
@@ -509,6 +513,10 @@
     <Compile Include="Screens\TiledScreen.cs" />
     <Compile Include="Screens\TiledScreen.Generated.cs">
       <DependentUpon>TiledScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\TileShapeCollectionFromTmx.cs" />
+    <Compile Include="Screens\TileShapeCollectionFromTmx.Generated.cs">
+      <DependentUpon>TileShapeCollectionFromTmx.cs</DependentUpon>
     </Compile>
     <Compile Include="Screens\TileShapeCollectionNoTmx.cs" />
     <Compile Include="Screens\TileShapeCollectionNoTmx.Generated.cs">
@@ -859,6 +867,10 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>TiledScreenGum</Name>
     </None>
+    <None Include="content\gumproject\screens\tileshapecollectionfromtmxgum.gusx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>TileShapeCollectionFromTmxGum</Name>
+    </None>
     <None Include="content\gumproject\screens\tileshapecollectionnotmxgum.gusx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>TileShapeCollectionNoTmxGum</Name>
@@ -918,6 +930,10 @@
     <None Include="content\screens\tiledscreen\layeredtilemapfile.tmx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>LayeredTileMapFile</Name>
+    </None>
+    <None Include="content\screens\tileshapecollectionfromtmx\mapfile.tmx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>MapFile</Name>
     </None>
     <None Include="content\standardtileset.tsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
