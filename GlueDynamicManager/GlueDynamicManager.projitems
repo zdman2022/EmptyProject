@@ -19,7 +19,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)DynamicInstances\Containers\DynamicEntityContainer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DynamicInstances\Containers\IInstanceContainer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DynamicInstances\Containers\ObjectContainer.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DynamicInstances\Containers\PositionedListContainer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DynamicInstances\DynamicEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DynamicInstances\DynamicScreen.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DynamicInstances\HybridEntity.cs" />

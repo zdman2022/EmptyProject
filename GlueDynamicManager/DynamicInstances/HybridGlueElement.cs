@@ -8,8 +8,6 @@ namespace GlueDynamicManager.DynamicInstances
 {
     internal class HybridGlueElement
     {
-        public List<PositionedListContainer> PositionedObjectLists = new List<PositionedListContainer>();
-
         // Do we want a second list for entities?
         public List<DynamicEntityContainer> InstancedEntities = new List<DynamicEntityContainer>();
         public List<ObjectContainer> InstancedObjects = new List<ObjectContainer>();
@@ -23,17 +21,10 @@ namespace GlueDynamicManager.DynamicInstances
 
         public object PropertyFinder(string name)
         {
-            object foundItem;
-
-            foundItem = PositionedObjectLists.Where(item => item.Name == name).FirstOrDefault();
+            var foundItem = InstancedObjects.Where(item => item.Name == name).FirstOrDefault();
 
             if (foundItem != null)
-                return foundItem;
-
-            foundItem = InstancedObjects.Where(item => item.Name == name).FirstOrDefault();
-
-            if (foundItem != null)
-                return foundItem;
+                return foundItem.Value;
 
             var prop = GlueElement.GetType().GetProperty(name, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
 

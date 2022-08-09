@@ -13,84 +13,6 @@
   ],
   "NamedObjects": [
     {
-      "InstanceName": "PlayerList",
-      "SourceClassType": "FlatRedBall.Math.PositionedObjectList<T>",
-      "Properties": [
-        {
-          "Name": "AssociateWithFactory",
-          "Value": true,
-          "Type": "Boolean"
-        },
-        {
-          "Name": "SourceType",
-          "Value": 2,
-          "Type": "SourceType"
-        },
-        {
-          "Name": "SortAxis",
-          "Value": 0
-        },
-        {
-          "Name": "PartitionWidthHeight",
-          "Value": 32.0
-        },
-        {
-          "Name": "IsSortListEveryFrameChecked",
-          "Value": true
-        },
-        {
-          "Name": "ConditionalCompilationSymbols",
-          "Type": "String"
-        }
-      ],
-      "InstructionSaves": [],
-      "SourceType": 2,
-      "SourceFile": "PositionedObjectList (Generic)",
-      "SourceClassGenericType": "Entities\\Player",
-      "ExposedInDerived": true,
-      "AttachToContainer": true,
-      "GenerateTimedEmit": true,
-      "ContainedObjects": [
-        {
-          "InstanceName": "Player1",
-          "SourceClassType": "Entities\\Player",
-          "Properties": [
-            {
-              "Name": "AssociateWithFactory",
-              "Value": true,
-              "Type": "Boolean"
-            },
-            {
-              "Name": "SourceType",
-              "Value": 1,
-              "Type": "SourceType"
-            },
-            {
-              "Name": "ConditionalCompilationSymbols",
-              "Type": "String"
-            }
-          ],
-          "InstructionSaves": [
-            {
-              "Type": "float",
-              "Member": "X",
-              "Value": 104.0,
-              "Time": 0.0
-            },
-            {
-              "Type": "float",
-              "Member": "Y",
-              "Value": 48.0,
-              "Time": 0.0
-            }
-          ],
-          "SourceType": 1,
-          "AttachToContainer": true,
-          "GenerateTimedEmit": true
-        }
-      ]
-    },
-    {
       "InstanceName": "CollidableEnemyList",
       "SourceClassType": "FlatRedBall.Math.PositionedObjectList<T>",
       "Properties": [
@@ -169,8 +91,8 @@
       ]
     },
     {
-      "InstanceName": "PlayerListAlwaysColliding",
-      "SourceClassType": "FlatRedBall.Math.Collision.AlwaysCollidingListCollisionRelationship<Entities.Player>",
+      "InstanceName": "BaseEntityList",
+      "SourceClassType": "FlatRedBall.Math.PositionedObjectList<T>",
       "Properties": [
         {
           "Name": "AssociateWithFactory",
@@ -183,104 +105,15 @@
           "Type": "SourceType"
         },
         {
-          "Name": "IsAutoNameEnabled",
-          "Value": true,
-          "Type": "Boolean"
+          "Name": "SortAxis",
+          "Value": 0
         },
         {
-          "Name": "FirstCollisionName",
-          "Value": "PlayerList",
-          "Type": "String"
+          "Name": "PartitionWidthHeight",
+          "Value": 32.0
         },
         {
-          "Name": "SecondCollisionName",
-          "Type": "String"
-        },
-        {
-          "Name": "SecondSubCollisionSelectedItem"
-        },
-        {
-          "Name": "FirstCollisionMass",
-          "Value": 1.0
-        },
-        {
-          "Name": "SecondCollisionMass",
-          "Value": 1.0
-        },
-        {
-          "Name": "CollisionElasticity",
-          "Value": 1.0
-        },
-        {
-          "Name": "IsCollisionActive",
-          "Value": true
-        },
-        {
-          "Name": "FirstSubCollisionSelectedItem",
-          "Value": "<Entire Object>"
-        },
-        {
-          "Name": "ConditionalCompilationSymbols",
-          "Type": "String"
-        }
-      ],
-      "InstructionSaves": [],
-      "SourceType": 2,
-      "SourceFile": "FlatRedBall.Math.Collision.AlwaysCollidingListCollisionRelationship<Entities.Player>",
-      "AttachToContainer": true,
-      "GenerateTimedEmit": true
-    },
-    {
-      "InstanceName": "PlayerListVsCollidableEnemyList",
-      "SourceClassType": "FlatRedBall.Math.Collision.ListVsListRelationship<Entities.Player, Entities.CollidableEnemy>",
-      "Properties": [
-        {
-          "Name": "AssociateWithFactory",
-          "Value": true,
-          "Type": "Boolean"
-        },
-        {
-          "Name": "SourceType",
-          "Value": 2,
-          "Type": "SourceType"
-        },
-        {
-          "Name": "IsAutoNameEnabled",
-          "Value": true,
-          "Type": "Boolean"
-        },
-        {
-          "Name": "FirstCollisionName",
-          "Value": "PlayerList",
-          "Type": "String"
-        },
-        {
-          "Name": "SecondCollisionName",
-          "Value": "CollidableEnemyList",
-          "Type": "String"
-        },
-        {
-          "Name": "FirstSubCollisionSelectedItem",
-          "Value": "<Entire Object>"
-        },
-        {
-          "Name": "SecondSubCollisionSelectedItem",
-          "Value": "<Entire Object>"
-        },
-        {
-          "Name": "FirstCollisionMass",
-          "Value": 1.0
-        },
-        {
-          "Name": "SecondCollisionMass",
-          "Value": 1.0
-        },
-        {
-          "Name": "CollisionElasticity",
-          "Value": 1.0
-        },
-        {
-          "Name": "IsCollisionActive",
+          "Name": "IsSortListEveryFrameChecked",
           "Value": true
         },
         {
@@ -290,9 +123,37 @@
       ],
       "InstructionSaves": [],
       "SourceType": 2,
-      "SourceFile": "FlatRedBall.Math.Collision.ListVsListRelationship<Entities.Player, Entities.CollidableEnemy>",
+      "SourceFile": "PositionedObjectList (Generic)",
+      "SourceClassGenericType": "Entities\\BaseEntity",
+      "ExposedInDerived": true,
       "AttachToContainer": true,
-      "GenerateTimedEmit": true
+      "GenerateTimedEmit": true,
+      "ContainedObjects": [
+        {
+          "InstanceName": "BaseEntity1",
+          "SourceClassType": "Entities\\BaseEntity",
+          "Properties": [
+            {
+              "Name": "AssociateWithFactory",
+              "Value": true,
+              "Type": "Boolean"
+            },
+            {
+              "Name": "SourceType",
+              "Value": 1,
+              "Type": "SourceType"
+            },
+            {
+              "Name": "ConditionalCompilationSymbols",
+              "Type": "String"
+            }
+          ],
+          "InstructionSaves": [],
+          "SourceType": 1,
+          "AttachToContainer": true,
+          "GenerateTimedEmit": true
+        }
+      ]
     },
     {
       "InstanceName": "SolidCollision",
@@ -348,8 +209,57 @@
       "GenerateTimedEmit": true
     },
     {
-      "InstanceName": "PlayerListVsSolidCollision",
-      "SourceClassType": "FlatRedBall.Math.Collision.DelegateListVsSingleRelationship<Entities.Player, FlatRedBall.TileCollisions.TileShapeCollection>",
+      "InstanceName": "BaseEntityListAlwaysColliding",
+      "SourceClassType": "FlatRedBall.Math.Collision.AlwaysCollidingListCollisionRelationship<Entities.BaseEntity>",
+      "Properties": [
+        {
+          "Name": "AssociateWithFactory",
+          "Value": true,
+          "Type": "Boolean"
+        },
+        {
+          "Name": "SourceType",
+          "Value": 2,
+          "Type": "SourceType"
+        },
+        {
+          "Name": "FirstSubCollisionSelectedItem",
+          "Value": "<Entire Object>"
+        },
+        {
+          "Name": "FirstCollisionMass",
+          "Value": 1.0
+        },
+        {
+          "Name": "SecondCollisionMass",
+          "Value": 1.0
+        },
+        {
+          "Name": "CollisionElasticity",
+          "Value": 1.0
+        },
+        {
+          "Name": "IsCollisionActive",
+          "Value": true
+        },
+        {
+          "Name": "FirstCollisionName",
+          "Value": "BaseEntityList"
+        },
+        {
+          "Name": "ConditionalCompilationSymbols",
+          "Type": "String"
+        }
+      ],
+      "InstructionSaves": [],
+      "SourceType": 2,
+      "SourceFile": "Collision Relationship",
+      "AttachToContainer": true,
+      "GenerateTimedEmit": true
+    },
+    {
+      "InstanceName": "BaseEntityListVsCollidableEnemyList",
+      "SourceClassType": "FlatRedBall.Math.Collision.ListVsListRelationship<Entities.BaseEntity, Entities.CollidableEnemy>",
       "Properties": [
         {
           "Name": "AssociateWithFactory",
@@ -368,7 +278,71 @@
         },
         {
           "Name": "FirstCollisionName",
-          "Value": "PlayerList",
+          "Value": "BaseEntityList",
+          "Type": "String"
+        },
+        {
+          "Name": "SecondCollisionName",
+          "Value": "CollidableEnemyList",
+          "Type": "String"
+        },
+        {
+          "Name": "SecondSubCollisionSelectedItem",
+          "Value": "<Entire Object>"
+        },
+        {
+          "Name": "FirstCollisionMass",
+          "Value": 1.0
+        },
+        {
+          "Name": "SecondCollisionMass",
+          "Value": 1.0
+        },
+        {
+          "Name": "CollisionElasticity",
+          "Value": 1.0
+        },
+        {
+          "Name": "IsCollisionActive",
+          "Value": true
+        },
+        {
+          "Name": "FirstSubCollisionSelectedItem",
+          "Value": "<Entire Object>"
+        },
+        {
+          "Name": "ConditionalCompilationSymbols",
+          "Type": "String"
+        }
+      ],
+      "InstructionSaves": [],
+      "SourceType": 2,
+      "SourceFile": "FlatRedBall.Math.Collision.ListVsListRelationship<Entities.BaseEntity, Entities.CollidableEnemy>",
+      "AttachToContainer": true,
+      "GenerateTimedEmit": true
+    },
+    {
+      "InstanceName": "BaseEntityListVsSolidCollision",
+      "SourceClassType": "FlatRedBall.Math.Collision.CollidableListVsTileShapeCollectionRelationship<Entities.BaseEntity>",
+      "Properties": [
+        {
+          "Name": "AssociateWithFactory",
+          "Value": true,
+          "Type": "Boolean"
+        },
+        {
+          "Name": "SourceType",
+          "Value": 2,
+          "Type": "SourceType"
+        },
+        {
+          "Name": "IsAutoNameEnabled",
+          "Value": true,
+          "Type": "Boolean"
+        },
+        {
+          "Name": "FirstCollisionName",
+          "Value": "BaseEntityList",
           "Type": "String"
         },
         {
@@ -378,12 +352,11 @@
         },
         {
           "Name": "CollisionType",
-          "Value": 3,
+          "Value": 2,
           "Type": "int"
         },
         {
-          "Name": "FirstSubCollisionSelectedItem",
-          "Value": "<Entire Object>"
+          "Name": "SecondSubCollisionSelectedItem"
         },
         {
           "Name": "FirstCollisionMass",
@@ -402,7 +375,8 @@
           "Value": true
         },
         {
-          "Name": "SecondSubCollisionSelectedItem"
+          "Name": "FirstSubCollisionSelectedItem",
+          "Value": "<Entire Object>"
         },
         {
           "Name": "ConditionalCompilationSymbols",
@@ -411,13 +385,13 @@
       ],
       "InstructionSaves": [],
       "SourceType": 2,
-      "SourceFile": "FlatRedBall.Math.Collision.DelegateListVsSingleRelationship<Entities.Player, FlatRedBall.TileCollisions.TileShapeCollection>",
+      "SourceFile": "FlatRedBall.Math.Collision.CollidableListVsTileShapeCollectionRelationship<Entities.BaseEntity>",
       "AttachToContainer": true,
       "GenerateTimedEmit": true
     },
     {
-      "InstanceName": "PlayerListVsPlayerList",
-      "SourceClassType": "FlatRedBall.Math.Collision.ListVsListRelationship<Entities.Player, Entities.Player>",
+      "InstanceName": "BaseEntityListVsBaseEntityList",
+      "SourceClassType": "FlatRedBall.Math.Collision.ListVsListRelationship<Entities.BaseEntity, Entities.BaseEntity>",
       "Properties": [
         {
           "Name": "AssociateWithFactory",
@@ -428,21 +402,6 @@
           "Name": "SourceType",
           "Value": 2,
           "Type": "SourceType"
-        },
-        {
-          "Name": "IsAutoNameEnabled",
-          "Value": true,
-          "Type": "Boolean"
-        },
-        {
-          "Name": "FirstCollisionName",
-          "Value": "PlayerList",
-          "Type": "String"
-        },
-        {
-          "Name": "SecondCollisionName",
-          "Value": "PlayerList",
-          "Type": "String"
         },
         {
           "Name": "FirstCollisionMass",
@@ -461,8 +420,16 @@
           "Value": true
         },
         {
+          "Name": "FirstCollisionName",
+          "Value": "BaseEntityList"
+        },
+        {
           "Name": "FirstSubCollisionSelectedItem",
           "Value": "<Entire Object>"
+        },
+        {
+          "Name": "SecondCollisionName",
+          "Value": "BaseEntityList"
         },
         {
           "Name": "SecondSubCollisionSelectedItem",
@@ -475,7 +442,7 @@
       ],
       "InstructionSaves": [],
       "SourceType": 2,
-      "SourceFile": "FlatRedBall.Math.Collision.ListVsListRelationship<Entities.Player, Entities.Player>",
+      "SourceFile": "Collision Relationship",
       "AttachToContainer": true,
       "GenerateTimedEmit": true
     }

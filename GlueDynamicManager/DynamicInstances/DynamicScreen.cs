@@ -16,6 +16,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using GlueDynamicManager.GlueHelpers;
+using System.Collections;
 
 namespace GlueDynamicManager.DynamicInstances
 {
@@ -32,8 +33,6 @@ namespace GlueDynamicManager.DynamicInstances
 
         public static string CurrentScreen { get; internal set; }
 
-
-        private readonly List<PositionedListContainer> _positionedObjectLists = new List<PositionedListContainer>();
 
         // Do we want a second list for entities?
         private readonly List<DynamicEntityContainer> _instancedEntities = new List<DynamicEntityContainer>();
@@ -123,9 +122,8 @@ namespace GlueDynamicManager.DynamicInstances
             foreach (var nos in namedObjects)
             {
                 var itemContainer = NamedObjectSaveHelper.GetContainerFor(nos, _currentScreenState.ScreenSave);
-                NamedObjectSaveHelper.InitializeNamedObject(nos, itemContainer, _currentScreenState.ScreenSave, PropertyFinder, out var positionedObjectLists, out var instancedObjects, out var instancedEntities);
+                NamedObjectSaveHelper.InitializeNamedObject(this, nos, itemContainer, _currentScreenState.ScreenSave, PropertyFinder, out var instancedObjects, out var instancedEntities);
 
-                _positionedObjectLists.AddRange(positionedObjectLists);
                 _instancedObjects.AddRange(instancedObjects);
                 _instancedEntities.AddRange(instancedEntities);
             }
@@ -135,19 +133,12 @@ namespace GlueDynamicManager.DynamicInstances
 
         
 
-        private object PropertyFinder(string name1)
+        public object PropertyFinder(string name1)
         {
-            object foundItem;
-
-            foundItem = _positionedObjectLists.Where(item => item.Name == name1).FirstOrDefault();
+            var foundItem = _instancedObjects.Where(item => item.Name == name1).FirstOrDefault();
 
             if (foundItem != null)
-                return foundItem;
-
-            foundItem = _instancedObjects.Where(item => item.Name == name1).FirstOrDefault();
-
-            if (foundItem != null)
-                return foundItem;
+                return foundItem.Value;
 
             return null;
         }
@@ -177,13 +168,14 @@ namespace GlueDynamicManager.DynamicInstances
         {
             if (!IsPaused)
             {
-                for (var polIndex = _positionedObjectLists.Count - 1; polIndex > -1; polIndex--)
+                for (var polIndex = _instancedObjects.Count - 1; polIndex > -1; polIndex--)
                 {
-                    var list = _positionedObjectLists[polIndex];
-                    for (var i = list.Value.Count - 1; i > -1; i--)
+                    if (_instancedObjects[polIndex] is IEnumerable enumerable)
                     {
-                        var instance = list.Value[i];
-                        instance.GetType().GetMethod("Activity").Invoke(instance, new object[] { });
+                        foreach(var item in enumerable)
+                        {
+                            item.GetType().GetMethod("Activity").Invoke(item, new object[] { });
+                        }
                     }
                 }
             }
@@ -213,16 +205,20 @@ namespace GlueDynamicManager.DynamicInstances
         {
             base.Destroy();
 
-            for (var polIndex = _positionedObjectLists.Count; polIndex > -1; polIndex--)
+            for (var polIndex = _instancedObjects.Count; polIndex > -1; polIndex--)
             {
-                var list = _positionedObjectLists[polIndex];
-                list.Value.MakeOneWay();
-                for (var i = list.Value.Count - 1; i > -1; i--)
+                var list = _instancedObjects[polIndex].Value;
+
+                if(list.GetType().IsGenericType && list.GetType().GetGenericTypeDefinition() == typeof(PositionedObjectList<>))
                 {
-                    var instance = list.Value[i];
-                    instance.GetType().GetMethod("Destroy").Invoke(instance, new object[] { });
+                    list.GetType().GetMethod("MakeOneWay").Invoke(list, new object[] { });
+                    var enumerable = list as IEnumerable;
+                    foreach (var item in enumerable)
+                    {
+                        item.GetType().GetMethod("Destroy").Invoke(item, new object[] { });
+                    }
+                    list.GetType().GetMethod("MakeTwoWay").Invoke(list, new object[] { });
                 }
-                list.Value.MakeTwoWay();
             }
 
             FlatRedBall.Math.Collision.CollisionManager.Self.Relationships.Clear();

@@ -86,6 +86,37 @@ namespace GlueDynamicManager
             return false;
         }
 
+        internal object GetProperty(object container, string name)
+        {
+            if (container is DynamicScreen dynamicScreen)
+            {
+                return dynamicScreen.PropertyFinder(name);
+            }
+            else if (container is DynamicEntity dynamicEntity)
+            {
+                return dynamicEntity.PropertyFinder(name);
+            }
+            else if(container is Screen screen)
+            {
+                var hScreen = _hybridScreens.Where(item => item.Screen == screen).FirstOrDefault();
+
+                if (hScreen == null)
+                    throw new Exception("Hybrid Screen not found");
+
+                return hScreen.PropertyFinder(name);
+            }
+            //Entity
+            else
+            {
+                var hEntity = _hybridEntities.Where(item => item.Entity == container).FirstOrDefault();
+
+                if (hEntity == null)
+                    throw new Exception("Hybrid Entity not found");
+
+                return hEntity.PropertyFinder(name);
+            }
+        }
+
         internal bool ContainsEntity(string entityName)
         {
             return _curState.Entities.ContainsKey(CorrectEntityName(entityName));

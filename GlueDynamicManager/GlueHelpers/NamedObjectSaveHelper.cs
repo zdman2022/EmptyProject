@@ -41,9 +41,8 @@ namespace GlueDynamicManager.GlueHelpers
             return null;
         }
 
-        public static void InitializeNamedObject(NamedObjectSave nos, NamedObjectSave nosList, GlueElement glueElement, Func<string, object> propertyFinder, out List<PositionedListContainer> positionedObjectLists, out List<ObjectContainer> instancedObjects, out List<DynamicEntityContainer> instancedEntities)
+        public static void InitializeNamedObject(object noContainer, NamedObjectSave nos, NamedObjectSave nosList, GlueElement glueElement, Func<string, object> propertyFinder, out List<ObjectContainer> instancedObjects, out List<DynamicEntityContainer> instancedEntities)
         {
-            positionedObjectLists = new List<PositionedListContainer>();
             instancedObjects = new List<ObjectContainer>();
             instancedEntities = new List<DynamicEntityContainer>();
 
@@ -53,80 +52,97 @@ namespace GlueDynamicManager.GlueHelpers
                 {
                     if (GlueDynamicManager.Self.EntityIsDynamic(nos.SourceClassGenericType))
                     {
-                        var container = new PositionedListContainer
+                        var container = new ObjectContainer
                         {
-                            Value = new PositionedObjectList<PositionedObject>
+                            Value = new PositionedObjectList<DynamicEntity>
                             {
                                 Name = nos.InstanceName
                             },
                             NamedObjectSave = nos
                         };
-                        positionedObjectLists.Add(container);
+                        instancedObjects.Add(container);
                     }
                 }
             }
-            else if (nos.SourceClassType?.StartsWith("FlatRedBall.Math.Collision.ListVsListRelationship<") == true)
-            {
-                var name1 = (string)nos.Properties.Where(item => item.Name == "FirstCollisionName").Select(item => item.Value).First();
-                var name2 = (string)nos.Properties.Where(item => item.Name == "SecondCollisionName").Select(item => item.Value).First();
-                var item1 = propertyFinder(name1);
-                var item2 = propertyFinder(name2);
+            //else if (nos.SourceClassType?.StartsWith("FlatRedBall.Math.Collision.ListVsListRelationship<") == true)
+            //{
+            //    var name1 = (string)nos.Properties.Where(item => item.Name == "FirstCollisionName").Select(item => item.Value).First();
+            //    var name2 = (string)nos.Properties.Where(item => item.Name == "SecondCollisionName").Select(item => item.Value).First();
+            //    var item1 = propertyFinder(name1);
+            //    var item2 = propertyFinder(name2);
 
-                var value1 = item1 as IInstanceContainer;
-                var value2 = item2 as IInstanceContainer;
+            //    var value1 = item1 as IInstanceContainer;
+            //    var value2 = item2 as IInstanceContainer;
 
-                var methods = typeof(CollisionManager).GetMethods().Where(item => item.Name == "CreateRelationship").ToList();
+            //    var methods = typeof(CollisionManager).GetMethods().Where(item => item.Name == "CreateRelationship").ToList();
 
-                // Entity vs. Entity
-                if (value1.GetValue() is PositionedObject && value2.GetValue() is PositionedObject)
-                {
-                    throw new NotImplementedException();
-                }
-                // Entity vs. List
-                else if (value1.GetValue() is PositionedObject && value2.GetValue().GetType().GetGenericTypeDefinition() == typeof(PositionedObjectList<>))
-                {
-                    throw new NotImplementedException();
-                }
-                // List vs. Entity
-                else if (value1.GetValue().GetType().GetGenericTypeDefinition() == typeof(PositionedObjectList<>) && value2.GetValue() is PositionedObject)
-                {
-                    throw new NotImplementedException();
-                }
-                // List vs. List
-                else if (value1.GetValue().GetType().GetGenericTypeDefinition() == typeof(PositionedObjectList<>) && value2.GetValue().GetType().GetGenericTypeDefinition() == typeof(PositionedObjectList<>))
-                {
-                    var listVsListMethod = methods.Where(item => item.ReturnType.GetGenericTypeDefinition() == typeof(ListVsListRelationship<,>)).First();
+            //    // Entity vs. Entity
+            //    if (value1.GetValue() is PositionedObject && value2.GetValue() is PositionedObject)
+            //    {
+            //        var listVsListMethod = methods.Where(item => item.ReturnType.GetGenericTypeDefinition() == typeof(ListVsListRelationship<,>)).First();
 
-                    var genericMethod = listVsListMethod.MakeGenericMethod(value1.GetValue().GetType().GetGenericArguments()[0], value2.GetValue().GetType().GetGenericArguments()[0]);
+            //        var genericMethod = listVsListMethod.MakeGenericMethod(value1.GetValue().GetType().GetGenericArguments()[0], value2.GetValue().GetType().GetGenericArguments()[0]);
 
-                    var returnValue = genericMethod.Invoke(CollisionManager.Self, System.Reflection.BindingFlags.Default, null, new object[] { value1.GetValue(), value2.GetValue() }, CultureInfo.InvariantCulture);
+            //        var returnValue = genericMethod.Invoke(CollisionManager.Self, System.Reflection.BindingFlags.Default, null, new object[] { value1.GetValue(), value2.GetValue() }, CultureInfo.InvariantCulture);
 
-                    var entityContainer = new ObjectContainer
-                    {
-                        NamedObjectSave = nos,
-                        Value = returnValue
-                    };
-                    instancedObjects.Add(entityContainer);
+            //        var entityContainer = new ObjectContainer
+            //        {
+            //            NamedObjectSave = nos,
+            //            Value = returnValue
+            //        };
+            //        instancedObjects.Add(entityContainer);
 
-                    var prop = returnValue.GetType().GetProperty("CollisionLimit", BindingFlags.Public | BindingFlags.Instance);
-                    prop.SetValue(returnValue, FlatRedBall.Math.Collision.CollisionLimit.All);
+            //        var prop = returnValue.GetType().GetProperty("CollisionLimit", BindingFlags.Public | BindingFlags.Instance);
+            //        prop.SetValue(returnValue, FlatRedBall.Math.Collision.CollisionLimit.All);
 
-                    prop = returnValue.GetType().GetProperty("ListVsListLoopingMode", BindingFlags.Public | BindingFlags.Instance);
-                    prop.SetValue(returnValue, FlatRedBall.Math.Collision.ListVsListLoopingMode.PreventDoubleChecksPerFrame);
-                }
-                // Entity vs ShapeCollection
-                else if (value1.GetValue() is PositionedObject && value2.GetValue() is ShapeCollection)
-                {
-                    throw new NotImplementedException();
-                }
-                // List vs. ShapeCollection
-                else if (value1.GetValue().GetType().GetGenericTypeDefinition() == typeof(PositionedObjectList<>) && value2.GetValue() is ShapeCollection)
-                {
-                    throw new NotImplementedException();
-                }
+            //        prop = returnValue.GetType().GetProperty("ListVsListLoopingMode", BindingFlags.Public | BindingFlags.Instance);
+            //        prop.SetValue(returnValue, FlatRedBall.Math.Collision.ListVsListLoopingMode.PreventDoubleChecksPerFrame);
+            //    }
+            //    // Entity vs. List
+            //    else if (value1.GetValue() is PositionedObject && value2.GetValue().GetType().GetGenericTypeDefinition() == typeof(PositionedObjectList<>))
+            //    {
+            //        throw new NotImplementedException();
+            //    }
+            //    // List vs. Entity
+            //    else if (value1.GetValue().GetType().GetGenericTypeDefinition() == typeof(PositionedObjectList<>) && value2.GetValue() is PositionedObject)
+            //    {
+            //        throw new NotImplementedException();
+            //    }
+            //    // List vs. List
+            //    else if (value1.GetValue().GetType().GetGenericTypeDefinition() == typeof(PositionedObjectList<>) && value2.GetValue().GetType().GetGenericTypeDefinition() == typeof(PositionedObjectList<>))
+            //    {
+            //        var listVsListMethod = methods.Where(item => item.ReturnType.GetGenericTypeDefinition() == typeof(ListVsListRelationship<,>)).First();
 
-                //var collideList = CollisionManager.Self.CreateRelationship()
-            }
+            //        var genericMethod = listVsListMethod.MakeGenericMethod(value1.GetValue().GetType().GetGenericArguments()[0], value2.GetValue().GetType().GetGenericArguments()[0]);
+
+            //        var returnValue = genericMethod.Invoke(CollisionManager.Self, System.Reflection.BindingFlags.Default, null, new object[] { value1.GetValue(), value2.GetValue() }, CultureInfo.InvariantCulture);
+
+            //        var entityContainer = new ObjectContainer
+            //        {
+            //            NamedObjectSave = nos,
+            //            Value = returnValue
+            //        };
+            //        instancedObjects.Add(entityContainer);
+
+            //        var prop = returnValue.GetType().GetProperty("CollisionLimit", BindingFlags.Public | BindingFlags.Instance);
+            //        prop.SetValue(returnValue, FlatRedBall.Math.Collision.CollisionLimit.All);
+
+            //        prop = returnValue.GetType().GetProperty("ListVsListLoopingMode", BindingFlags.Public | BindingFlags.Instance);
+            //        prop.SetValue(returnValue, FlatRedBall.Math.Collision.ListVsListLoopingMode.PreventDoubleChecksPerFrame);
+            //    }
+            //    // Entity vs ShapeCollection
+            //    else if (value1.GetValue() is PositionedObject && value2.GetValue() is ShapeCollection)
+            //    {
+            //        throw new NotImplementedException();
+            //    }
+            //    // List vs. ShapeCollection
+            //    else if (value1.GetValue().GetType().GetGenericTypeDefinition() == typeof(PositionedObjectList<>) && value2.GetValue() is ShapeCollection)
+            //    {
+            //        throw new NotImplementedException();
+            //    }
+
+            //    //var collideList = CollisionManager.Self.CreateRelationship()
+            //}
             else if (nos.SourceType == SourceType.Entity)
             {
                 if (GlueDynamicManager.Self.EntityIsDynamic(nos.SourceClassType))
@@ -141,10 +157,10 @@ namespace GlueDynamicManager.GlueHelpers
 
                     if (nosList != null)
                     {
-                        var container = positionedObjectLists.Find(item => item.Name == nosList.InstanceName);
+                        var container = instancedObjects.Find(item => item.Name == nosList.InstanceName);
                         if (container != null)
                         {
-                            container.Value.Add(entityContainer.Value);
+                            InstanceInstantiator.AddItemToList(container.Value, entityContainer.Value);
                         }
 
                     }
@@ -161,10 +177,10 @@ namespace GlueDynamicManager.GlueHelpers
 
                     if (nosList != null)
                     {
-                        var container = positionedObjectLists.Find(item => item.Name == nosList.InstanceName);
+                        var container = instancedObjects.Find(item => item.Name == nosList.InstanceName);
                         if (container != null)
                         {
-                            container.Value.Add((PositionedObject)objectContainer.Value);
+                            InstanceInstantiator.AddItemToList(container.Value, objectContainer.Value);
                         }
 
                     }
@@ -214,7 +230,7 @@ namespace GlueDynamicManager.GlueHelpers
                 }
                 else
                 {
-                    objectContainer.Value = InstanceInstantiator.Instantiate(nos.SourceClassType);
+                    objectContainer.Value = InstanceInstantiator.Instantiate(nos.SourceClassType, nos.Properties, noContainer);
                 }
 
                 instancedObjects.Add(objectContainer);

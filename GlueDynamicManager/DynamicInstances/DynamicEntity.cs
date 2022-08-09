@@ -59,7 +59,7 @@ namespace GlueDynamicManager.DynamicInstances
                     _instancedObjects.Add(new ObjectContainer
                     {
                         NamedObjectSave = no,
-                        Value = InstanceInstantiator.Instantiate(no.SourceClassType),
+                        Value = InstanceInstantiator.Instantiate(no.SourceClassType, no.Properties, this),
                         CombinedInstructionSaves = no.InstructionSaves
                     });
                 }
@@ -149,6 +149,16 @@ namespace GlueDynamicManager.DynamicInstances
         {
             if(ActivityEditModeEvent != null)
                 ActivityEditModeEvent(this);
+        }
+
+        public object PropertyFinder(string name1)
+        {
+            var foundItem = _instancedObjects.Where(item => item.Name == name1).FirstOrDefault();
+
+            if (foundItem != null)
+                return foundItem.Value;
+
+            return null;
         }
     }
 }

@@ -33,18 +33,6 @@
       ],
       "InstructionSaves": [
         {
-          "Type": "float",
-          "Member": "Radius",
-          "Value": 116.0,
-          "Time": 0.0
-        },
-        {
-          "Type": "float",
-          "Member": "Y",
-          "Value": 0.0,
-          "Time": 0.0
-        },
-        {
           "Type": "Microsoft.Xna.Framework.Color",
           "Member": "Color",
           "Value": "Pink",
@@ -52,52 +40,26 @@
         },
         {
           "Type": "float",
+          "Member": "Radius",
+          "Value": 116.0,
+          "Time": 0.0
+        },
+        {
+          "Type": "float",
           "Member": "X",
           "Value": 136.0,
+          "Time": 0.0
+        },
+        {
+          "Type": "float",
+          "Member": "Y",
+          "Value": 0.0,
           "Time": 0.0
         }
       ],
       "SourceType": 2,
       "SourceFile": "Circle",
       "HasPublicProperty": true,
-      "AttachToContainer": true,
-      "GenerateTimedEmit": true
-    },
-    {
-      "InstanceName": "BaseEntityInstance",
-      "SourceClassType": "Entities\\BaseEntity",
-      "Properties": [
-        {
-          "Name": "AssociateWithFactory",
-          "Value": true,
-          "Type": "Boolean"
-        },
-        {
-          "Name": "SourceType",
-          "Value": 1,
-          "Type": "SourceType"
-        },
-        {
-          "Name": "ConditionalCompilationSymbols",
-          "Type": "String"
-        }
-      ],
-      "InstructionSaves": [
-        {
-          "Type": "float",
-          "Member": "X",
-          "Value": -104.0,
-          "Time": 0.0
-        },
-        {
-          "Type": "float",
-          "Member": "Y",
-          "Value": -56.0,
-          "Time": 0.0
-        }
-      ],
-      "SourceType": 1,
-      "SourceFile": "Entities\\BaseEntity",
       "AttachToContainer": true,
       "GenerateTimedEmit": true
     }

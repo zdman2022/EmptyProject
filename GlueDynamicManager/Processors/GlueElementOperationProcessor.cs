@@ -79,18 +79,17 @@ namespace GlueDynamicManager.Processors
         private static void AddNamedObject(HybridGlueElement element, GlueElement newSave, NamedObjectSave nos, bool addToManagers)
         {
             var itemContainer = NamedObjectSaveHelper.GetContainerFor(nos, newSave);
-            NamedObjectSaveHelper.InitializeNamedObject(nos, itemContainer, newSave, element.PropertyFinder, out var positionedObjectLists, out var instancedObjects, out var instancedEntities);
+            NamedObjectSaveHelper.InitializeNamedObject(element.GlueElement, nos, itemContainer, newSave, element.PropertyFinder, out var instancedObjects, out var instancedEntities);
 
-            DoInitialize(element, newSave, positionedObjectLists, instancedObjects, instancedEntities);
+            DoInitialize(element, newSave, instancedObjects, instancedEntities);
             if(addToManagers)
-                AddToManagers(element, newSave, positionedObjectLists, instancedObjects, instancedEntities);
+                AddToManagers(element, newSave, instancedObjects, instancedEntities);
 
-            element.PositionedObjectLists.AddRange(positionedObjectLists);
             element.InstancedObjects.AddRange(instancedObjects);
             element.InstancedEntities.AddRange(instancedEntities);
         }
 
-        private static void DoInitialize(HybridGlueElement element, GlueElement save, List<PositionedListContainer> positionedObjectLists, List<ObjectContainer> instancedObjects, List<DynamicEntityContainer> instancedEntities)
+        private static void DoInitialize(HybridGlueElement element, GlueElement save, List<ObjectContainer> instancedObjects, List<DynamicEntityContainer> instancedEntities)
         {
             bool oldShapeManagerSuppressAdd = FlatRedBall.Math.Geometry.ShapeManager.SuppressAddingOnVisibilityTrue;
             FlatRedBall.Math.Geometry.ShapeManager.SuppressAddingOnVisibilityTrue = true;
@@ -124,7 +123,7 @@ namespace GlueDynamicManager.Processors
             FlatRedBall.Math.Geometry.ShapeManager.SuppressAddingOnVisibilityTrue = oldShapeManagerSuppressAdd;
         }
 
-        private static void AddToManagers(HybridGlueElement element, GlueElement save, List<PositionedListContainer> positionedObjectLists, List<ObjectContainer> instancedObjects, List<DynamicEntityContainer> instancedEntities)
+        private static void AddToManagers(HybridGlueElement element, GlueElement save, List<ObjectContainer> instancedObjects, List<DynamicEntityContainer> instancedEntities)
         {
             for (int i = 0; i < instancedEntities.Count; i++)
             {

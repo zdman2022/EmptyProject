@@ -92,6 +92,18 @@
           "Member": "Radius",
           "Value": 20.0,
           "Time": 0.0
+        },
+        {
+          "Type": "float",
+          "Member": "X",
+          "Value": 0.0,
+          "Time": 0.0
+        },
+        {
+          "Type": "float",
+          "Member": "Y",
+          "Value": 0.0,
+          "Time": 0.0
         }
       ],
       "SourceType": 2,

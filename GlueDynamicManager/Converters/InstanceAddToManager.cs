@@ -93,6 +93,20 @@ namespace GlueDynamicManager
             {
                 method.Invoke(instance, new object[] { layer });
             }
+            else if(instance.GetType().IsGenericType && 
+                (
+                    instance.GetType().GetGenericTypeDefinition() == typeof(FlatRedBall.Math.PositionedObjectList<>)
+                    ||
+                    instance.GetType().GetGenericTypeDefinition() == typeof(FlatRedBall.Math.Collision.AlwaysCollidingListCollisionRelationship<>)
+                    ||
+                    instance.GetType().GetGenericTypeDefinition() == typeof(FlatRedBall.Math.Collision.CollidableListVsTileShapeCollectionRelationship<>)
+                    ||
+                    instance.GetType().GetGenericTypeDefinition() == typeof(FlatRedBall.Math.Collision.ListVsListRelationship<,>)
+                )
+            )
+            {
+                //Do nothing
+            }
             else
             {
                 throw new NotImplementedException($"Need to handle {instance.GetType()}");
