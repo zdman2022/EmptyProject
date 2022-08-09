@@ -8,6 +8,7 @@ using GlueDynamicManager.DynamicInstances.Containers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,6 +19,8 @@ namespace GlueDynamicManager
         public static void AddToManager(ObjectContainer objectContainer, Layer layer)
         {
             var instance = objectContainer.Value;
+
+            MethodInfo method;
 
             if (instance is AxisAlignedCube aaCube)
             {
@@ -86,6 +89,10 @@ namespace GlueDynamicManager
                         break;
                 }
             }    
+            else if((method = instance.GetType().GetMethods().Where(item => item.Name == "AddToManagers").FirstOrDefault()) != null)
+            {
+                method.Invoke(instance, new object[] { layer });
+            }
             else
             {
                 throw new NotImplementedException($"Need to handle {instance.GetType()}");
