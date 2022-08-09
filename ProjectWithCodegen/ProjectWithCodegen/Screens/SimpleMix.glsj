@@ -51,6 +51,26 @@
           "Time": 0.0
         },
         {
+          "Type": "Microsoft.Xna.Framework.Color",
+          "Member": "Color",
+          "Value": "Pink",
+          "Time": 0.0
+        },
+        {
+          "Type": "float",
+          "Member": "Y",
+          "Value": 0.0,
+          "Member": "Radius",
+          "Value": 116.0,
+          "Time": 0.0
+        },
+        {
+          "Type": "float",
+          "Member": "X",
+          "Value": 136.0,
+          "Time": 0.0
+        },
+        {
           "Type": "float",
           "Member": "Y",
           "Value": 0.0,
