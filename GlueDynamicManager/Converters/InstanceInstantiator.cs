@@ -67,9 +67,13 @@ namespace GlueDynamicManager
             {
                 return new Text();
             }
+            else if(sourceClassType == typeof(FlatRedBall.TileCollisions.TileShapeCollection).FullName)
+            {
+                return new FlatRedBall.TileCollisions.TileShapeCollection();
+            }
             else
             {
-                throw new NotImplementedException();
+                throw new NotImplementedException($"Need to handle instantiation for type {sourceClassType}");
             }
         }
 

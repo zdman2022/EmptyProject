@@ -108,7 +108,14 @@
           "Value": 100.0
         }
       ],
-      "InstructionSaves": [],
+      "InstructionSaves": [
+        {
+          "Type": "bool",
+          "Member": "Visible",
+          "Value": true,
+          "Time": 0.0
+        }
+      ],
       "SourceType": 2,
       "SourceFile": "TileShapeCollection",
       "AttachToContainer": true,
@@ -161,7 +168,14 @@
           "Value": 100.0
         }
       ],
-      "InstructionSaves": [],
+      "InstructionSaves": [
+        {
+          "Type": "bool",
+          "Member": "Visible",
+          "Value": true,
+          "Time": 0.0
+        }
+      ],
       "SourceType": 2,
       "SourceFile": "TileShapeCollection",
       "AttachToContainer": true,

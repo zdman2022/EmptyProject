@@ -165,7 +165,7 @@ namespace GlueDynamicManager.DynamicInstances
             {
                 // todo: need to support layers
                 FlatRedBall.Graphics.Layer layer = null;
-                InstanceAddToManager.AddToManager(_instancedObjects[i].Value, layer);
+                InstanceAddToManager.AddToManager(_instancedObjects[i], layer);
             }
 
             base.AddToManagers();

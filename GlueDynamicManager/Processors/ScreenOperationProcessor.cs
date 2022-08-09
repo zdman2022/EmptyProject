@@ -122,7 +122,7 @@ namespace GlueDynamicManager.Processors
                 {
                     // todo: need to support layers
                     FlatRedBall.Graphics.Layer layer = null;
-                    InstanceAddToManager.AddToManager(instancedObjects[i].Value, layer);
+                    InstanceAddToManager.AddToManager(instancedObjects[i], layer);
                 }
             }
         }

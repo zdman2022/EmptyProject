@@ -83,7 +83,7 @@ namespace FlatRedBall.TileEntities
 
             CreateEntitiesFrom(entitiesToRemove, mapLayer, layeredTileMap.TileProperties, layeredTileMap.WidthPerTile ?? 16);
 
-            if(CurrentSettings.RemoveTileObjectsAfterEntityCreation)
+            if (CurrentSettings.RemoveTileObjectsAfterEntityCreation)
             {
                 foreach (var entityToRemove in entitiesToRemove)
                 {
@@ -96,7 +96,7 @@ namespace FlatRedBall.TileEntities
 
         public static void CreateEntitiesFrom(LayeredTileMap layeredTileMap, InstantiationRestrictions restrictions = null)
         {
-            if(layeredTileMap != null)
+            if (layeredTileMap != null)
             {
                 var entitiesToRemove = new List<string>();
 
@@ -104,7 +104,7 @@ namespace FlatRedBall.TileEntities
                 {
                     CreateEntitiesFrom(entitiesToRemove, layer, layeredTileMap.TileProperties, layeredTileMap.WidthPerTile ?? 16, restrictions);
                 }
-                if(CurrentSettings.RemoveTileObjectsAfterEntityCreation)
+                if (CurrentSettings.RemoveTileObjectsAfterEntityCreation)
                 {
                     foreach (var entityToRemove in entitiesToRemove)
                     {
@@ -403,7 +403,7 @@ namespace FlatRedBall.TileEntities
                 // If name is EntityToCreate, skip it:
                 string propertyName = property.Name;
 
-                bool shouldSet = propertyName != "EntityToCreate" && 
+                bool shouldSet = propertyName != "EntityToCreate" &&
                             propertyName != "Type";
 
                 if (shouldSet)
@@ -425,14 +425,14 @@ namespace FlatRedBall.TileEntities
                     valueToSet = ConvertValueAccordingToType(valueToSet, propertyName, propertyType, entityType);
                     try
                     {
-                        switch(propertyName)
+                        switch (propertyName)
                         {
                             case "X":
-                                if(valueToSet is float)
+                                if (valueToSet is float)
                                 {
                                     entity.X += (float)valueToSet;
                                 }
-                                else if(valueToSet is int)
+                                else if (valueToSet is int)
                                 {
                                     entity.X += (int)valueToSet;
                                 }
@@ -639,4 +639,5 @@ namespace FlatRedBall.TileEntities
 
         public static IEntityFactory GetFactory(string entityType) => FactoryManager.Get(entityType);
     }
+
 }
