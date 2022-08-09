@@ -118,7 +118,7 @@
     <Compile Include="GlueControl\Models\ReferencedFileSave.Generated.cs" />
     <Compile Include="GlueControl\Models\StateSave.Generated.cs" />
     <Compile Include="GlueControl\Models\StateSaveCategory.Generated.cs" />
-    <Compile Include="GlueControl\Models\VariableDefinition.cs" />
+    <Compile Include="GlueControl\Models\VariableDefinition.Generated.cs" />
     <Compile Include="GlueControl\Runtime\DynamicEntity.Generated.cs" />
     <Compile Include="GlueControl\Screens\EntityViewingScreen.Generated.cs" />
     <Compile Include="Performance\IEntityFactory.Generated.cs" />
