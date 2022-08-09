@@ -122,10 +122,10 @@ namespace GlueDynamicManager
             AddEventHandler(screen, "ActivityEditModeEvent", "ScreenActivityEditModeHandler");
             AddEventHandler(screen, "DestroyEvent", "ScreenDestroyHandler");
 
-            ScreenDoChanges(screen);
+            ScreenDoChanges(screen, false);
         }
 
-        private void ScreenDoChanges(Screen screen)
+        private void ScreenDoChanges(Screen screen, bool addToManagers)
         {
             if (screen.GetType() != typeof(DynamicScreen))
             {
@@ -135,7 +135,7 @@ namespace GlueDynamicManager
                 var glueDifferences = _jdp.Diff(oldScreenJson.Json, newScreenJson.Json);
                 var operations = _jdf.Format(glueDifferences);
 
-                GlueElementOperationProcessor.ApplyOperations(_hybridScreens.First(item => item.Screen == screen), oldScreenJson.Value, newScreenJson.Value, glueDifferences, operations);
+                GlueElementOperationProcessor.ApplyOperations(_hybridScreens.First(item => item.Screen == screen), oldScreenJson.Value, newScreenJson.Value, glueDifferences, operations, addToManagers);
             }
         }
 
@@ -209,7 +209,7 @@ namespace GlueDynamicManager
             _hybridEntities.Remove(_hybridEntities.First(item => item.Entity == caller));
         }
 
-        public object AttachEntity(object instance)
+        public object AttachEntity(object instance, bool addToManagers)
         {
             if (instance is Screen)
                 return null;
@@ -220,12 +220,12 @@ namespace GlueDynamicManager
             AddEventHandler(instance, "ActivityEditModeEvent", "EntityActivityEditModeHandler");
             AddEventHandler(instance, "DestroyEvent", "EntityDestroyHandler");
 
-            EntityDoChanges(instance);
+            EntityDoChanges(instance, addToManagers);
 
             return instance;
         }
 
-        private void EntityDoChanges(object entity)
+        private void EntityDoChanges(object entity, bool addToManagers)
         {
             if (entity.GetType() != typeof(DynamicEntity))
             {
@@ -239,7 +239,7 @@ namespace GlueDynamicManager
                     var glueDifferences = _jdp.Diff(oldEntityJson.Json, newEntityJson.Json);
                     var operations = _jdf.Format(glueDifferences);
 
-                    GlueElementOperationProcessor.ApplyOperations(_hybridEntities.First(item => item.Entity == entity), oldEntityJson.Value, newEntityJson.Value, glueDifferences, operations);
+                    GlueElementOperationProcessor.ApplyOperations(_hybridEntities.First(item => item.Entity == entity), oldEntityJson.Value, newEntityJson.Value, glueDifferences, operations, addToManagers);
                 }
             }
         }

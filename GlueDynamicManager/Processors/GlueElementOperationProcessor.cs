@@ -21,7 +21,7 @@ namespace GlueDynamicManager.Processors
         private static Regex PathMatchRegEx_NamedObject_Item = new Regex("^/NamedObjects/\\d+?$");
         private static Regex PathMatchRegEx_NamedObjectInstructionSave = new Regex("^/NamedObjects/(\\d+)/InstructionSaves/(\\d+)(/Value)?$");
 
-        internal static void ApplyOperations(HybridGlueElement element, GlueElement oldSave, GlueElement newSave, JToken glueDifferences, IList<Operation> operations)
+        internal static void ApplyOperations(HybridGlueElement element, GlueElement oldSave, GlueElement newSave, JToken glueDifferences, IList<Operation> operations, bool addToManagers)
         {
             foreach (var operation in operations)
             {
@@ -33,13 +33,13 @@ namespace GlueDynamicManager.Processors
 
                         foreach(var nos in nosList)
                         {
-                            AddNamedObject(element, newSave, nos);
+                            AddNamedObject(element, newSave, nos, addToManagers);
                         }
                     }
                     else if (PathMatchRegEx_NamedObject_Item.IsMatch(operation.Path))
                     {
                         var nos = JsonConvert.DeserializeObject<NamedObjectSave>(operation.Value.ToString());
-                        AddNamedObject(element, newSave, nos);
+                        AddNamedObject(element, newSave, nos, addToManagers);
                     }
                     else if (PathMatchRegEx_NamedObjectInstructionSave.IsMatch(operation.Path))
                     {
@@ -76,13 +76,14 @@ namespace GlueDynamicManager.Processors
             }
         }
 
-        private static void AddNamedObject(HybridGlueElement element, GlueElement newSave, NamedObjectSave nos)
+        private static void AddNamedObject(HybridGlueElement element, GlueElement newSave, NamedObjectSave nos, bool addToManagers)
         {
             var itemContainer = NamedObjectSaveHelper.GetContainerFor(nos, newSave);
             NamedObjectSaveHelper.InitializeNamedObject(nos, itemContainer, newSave, element.PropertyFinder, out var positionedObjectLists, out var instancedObjects, out var instancedEntities);
 
             DoInitialize(element, newSave, positionedObjectLists, instancedObjects, instancedEntities);
-            AddToManagers(element, newSave, positionedObjectLists, instancedObjects, instancedEntities);
+            if(addToManagers)
+                AddToManagers(element, newSave, positionedObjectLists, instancedObjects, instancedEntities);
 
             element.PositionedObjectLists.AddRange(positionedObjectLists);
             element.InstancedObjects.AddRange(instancedObjects);

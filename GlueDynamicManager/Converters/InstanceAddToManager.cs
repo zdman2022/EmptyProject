@@ -5,6 +5,7 @@ using FlatRedBall.TileGraphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,6 +15,8 @@ namespace GlueDynamicManager
     {
         public static void AddToManager(object instance, Layer layer)
         {
+            MethodInfo method;
+
             if (instance is AxisAlignedCube aaCube)
             {
                 ShapeManager.AddAxisAlignedCube(aaCube);
@@ -41,6 +44,10 @@ namespace GlueDynamicManager
             else if(instance is LayeredTileMap asLayeredTileMap)
             {
                 asLayeredTileMap.AddToManagers(layer);
+            }
+            else if((method = instance.GetType().GetMethods().Where(item => item.Name == "AddToManagers").FirstOrDefault()) != null)
+            {
+                method.Invoke(instance, new object[] { layer });
             }
             else
             {
