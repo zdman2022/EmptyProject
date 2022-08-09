@@ -135,7 +135,7 @@ namespace GlueDynamicManager
                 var glueDifferences = _jdp.Diff(oldScreenJson.Json, newScreenJson.Json);
                 var operations = _jdf.Format(glueDifferences);
 
-                ScreenOperationProcessor.ApplyOperations(_hybridScreens.First(item => item.Screen == screen), oldScreenJson.Value, newScreenJson.Value, glueDifferences, operations);
+                GlueElementOperationProcessor.ApplyOperations(_hybridScreens.First(item => item.Screen == screen), oldScreenJson.Value, newScreenJson.Value, glueDifferences, operations);
             }
         }
 
@@ -239,7 +239,7 @@ namespace GlueDynamicManager
                     var glueDifferences = _jdp.Diff(oldEntityJson.Json, newEntityJson.Json);
                     var operations = _jdf.Format(glueDifferences);
 
-                    EntityOperationProcessor.ApplyOperations(_hybridEntities.First(item => item.Entity == entity), oldEntityJson.Value, newEntityJson.Value, glueDifferences, operations);
+                    GlueElementOperationProcessor.ApplyOperations(_hybridEntities.First(item => item.Entity == entity), oldEntityJson.Value, newEntityJson.Value, glueDifferences, operations);
                 }
             }
         }

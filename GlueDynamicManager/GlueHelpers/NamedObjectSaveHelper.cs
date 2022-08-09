@@ -18,9 +18,9 @@ namespace GlueDynamicManager.GlueHelpers
 {
     internal class NamedObjectSaveHelper
     {
-        public static NamedObjectSave GetContainerFor(NamedObjectSave nos, ScreenSave screenSave)
+        public static NamedObjectSave GetContainerFor(NamedObjectSave nos, GlueElement element)
         {
-            foreach (var candidate in screenSave.NamedObjects)
+            foreach (var candidate in element.NamedObjects)
             {
                 if (candidate.ContainedObjects.Any(item => item.InstanceName == nos.InstanceName))
                 {
@@ -28,32 +28,9 @@ namespace GlueDynamicManager.GlueHelpers
                 }
             }
 
-            if (screenSave.BaseElement != null)
+            if (element.BaseElement != null)
             {
-                var baseScreen = ObjectFinder.Self.GetBaseElement(screenSave);
-
-                if (baseScreen is ScreenSave baseScreenSave)
-                {
-                    return GetContainerFor(nos, baseScreenSave);
-                }
-            }
-
-            return null;
-        }
-
-        public static NamedObjectSave GetContainerFor(NamedObjectSave nos, EntitySave entitySave)
-        {
-            foreach (var candidate in entitySave.NamedObjects)
-            {
-                if (candidate.ContainedObjects.Any(item => item.InstanceName == nos.InstanceName))
-                {
-                    return candidate;
-                }
-            }
-
-            if (entitySave.BaseElement != null)
-            {
-                var baseScreen = ObjectFinder.Self.GetBaseElement(entitySave);
+                var baseScreen = ObjectFinder.Self.GetBaseElement(element);
 
                 if (baseScreen is ScreenSave baseScreenSave)
                 {

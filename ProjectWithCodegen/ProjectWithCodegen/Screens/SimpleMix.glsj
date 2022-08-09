@@ -35,152 +35,31 @@
         {
           "Type": "float",
           "Member": "Radius",
-          "Value": 50.0,
-          "Time": 0.0
-        },
-        {
-          "Type": "float",
-          "Member": "X",
-          "Value": 144.0,
+          "Value": 116.0,
           "Time": 0.0
         },
         {
           "Type": "float",
           "Member": "Y",
-          "Value": 224.0,
+          "Value": 0.0,
+          "Time": 0.0
+        },
+        {
+          "Type": "Microsoft.Xna.Framework.Color",
+          "Member": "Color",
+          "Value": "Pink",
+          "Time": 0.0
+        },
+        {
+          "Type": "float",
+          "Member": "X",
+          "Value": 136.0,
           "Time": 0.0
         }
       ],
       "SourceType": 2,
       "SourceFile": "Circle",
       "HasPublicProperty": true,
-      "AttachToContainer": true,
-      "GenerateTimedEmit": true
-    },
-    {
-      "InstanceName": "AxisAlignedRectangleInstance",
-      "SourceClassType": "FlatRedBall.Math.Geometry.AxisAlignedRectangle",
-      "Properties": [
-        {
-          "Name": "AssociateWithFactory",
-          "Value": true,
-          "Type": "Boolean"
-        },
-        {
-          "Name": "SourceType",
-          "Value": 2,
-          "Type": "SourceType"
-        },
-        {
-          "Name": "ConditionalCompilationSymbols",
-          "Type": "String"
-        }
-      ],
-      "InstructionSaves": [
-        {
-          "Type": "float",
-          "Member": "Height",
-          "Value": 64.0,
-          "Time": 0.0
-        },
-        {
-          "Type": "float",
-          "Member": "Width",
-          "Value": 80.0,
-          "Time": 0.0
-        },
-        {
-          "Type": "float",
-          "Member": "X",
-          "Value": 144.0,
-          "Time": 0.0
-        },
-        {
-          "Type": "float",
-          "Member": "Y",
-          "Value": 120.0,
-          "Time": 0.0
-        }
-      ],
-      "SourceType": 2,
-      "SourceFile": "AxisAlignedRectangle",
-      "HasPublicProperty": true,
-      "AttachToContainer": true,
-      "GenerateTimedEmit": true
-    },
-    {
-      "InstanceName": "MixEntityInstance",
-      "SourceClassType": "Entities\\MixEntity",
-      "Properties": [
-        {
-          "Name": "AssociateWithFactory",
-          "Value": true,
-          "Type": "Boolean"
-        },
-        {
-          "Name": "SourceType",
-          "Value": 1,
-          "Type": "SourceType"
-        },
-        {
-          "Name": "ConditionalCompilationSymbols",
-          "Type": "String"
-        }
-      ],
-      "InstructionSaves": [
-        {
-          "Type": "float",
-          "Member": "X",
-          "Value": 144.0,
-          "Time": 0.0
-        },
-        {
-          "Type": "float",
-          "Member": "Y",
-          "Value": 8.0,
-          "Time": 0.0
-        }
-      ],
-      "SourceType": 1,
-      "SourceFile": "Entities/MixEntity",
-      "AttachToContainer": true,
-      "GenerateTimedEmit": true
-    },
-    {
-      "InstanceName": "BaseEntityInstance",
-      "SourceClassType": "Entities\\BaseEntity",
-      "Properties": [
-        {
-          "Name": "AssociateWithFactory",
-          "Value": true,
-          "Type": "Boolean"
-        },
-        {
-          "Name": "SourceType",
-          "Value": 1,
-          "Type": "SourceType"
-        },
-        {
-          "Name": "ConditionalCompilationSymbols",
-          "Type": "String"
-        }
-      ],
-      "InstructionSaves": [
-        {
-          "Type": "float",
-          "Member": "X",
-          "Value": 240.0,
-          "Time": 0.0
-        },
-        {
-          "Type": "float",
-          "Member": "Y",
-          "Value": 120.0,
-          "Time": 0.0
-        }
-      ],
-      "SourceType": 1,
-      "SourceFile": "Entities/BaseEntity",
       "AttachToContainer": true,
       "GenerateTimedEmit": true
     }
