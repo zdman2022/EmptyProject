@@ -77,7 +77,14 @@ namespace ProjectWithCodegen
 
             if (true)
             {
-                GlueDynamicManager.GlueDynamicManager.Self.SetInitialState(GlueDynamicManager.GlueDynamicTest.GetTest(FileManager.RelativeDirectory + "../../../../ProjectWithCodegen.gluj"));
+                var startingDirectory = FileManager.RelativeDirectory;
+
+                while(System.IO.Directory.Exists(startingDirectory) && !System.IO.File.Exists(startingDirectory + "ProjectWithCodegen.gluj"))
+                {
+                    startingDirectory += "../";
+                }
+
+                GlueDynamicManager.GlueDynamicManager.Self.SetInitialState(GlueDynamicManager.GlueDynamicTest.GetTest(startingDirectory + "ProjectWithCodegen.gluj"));
 
                 gameConnectionManager.OnPacketReceived += async (packet) => {
 

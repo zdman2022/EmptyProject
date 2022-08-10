@@ -39,15 +39,9 @@ namespace GlueDynamicManager.DynamicInstances
         private readonly List<ObjectContainer> _instancedObjects = new List<ObjectContainer>();
         private DynamicScreenState _currentScreenState;
 
-        // This no-arg constructor is required for use in FlatRedBall since the ScreenManager constructs with no args.
-        public DynamicScreen() : this(CurrentScreen)
+        public DynamicScreen() : base("DynamicScreen")
         {
-
-        }
-
-        public DynamicScreen(string typeName) : base("DynamicScreen")
-        {
-            TypeName = typeName;
+            TypeName = CurrentScreen;
         }
         public override void Initialize(bool addToManagers)
         {

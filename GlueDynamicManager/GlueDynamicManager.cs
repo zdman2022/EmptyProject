@@ -16,6 +16,7 @@ using GlueDynamicManager.Processors;
 using Newtonsoft.Json.Linq;
 using GlueCommunication.Json;
 using GlueDynamicManager.DynamicInstances.Containers;
+using GlueControl.Managers;
 
 namespace GlueDynamicManager
 {
@@ -41,7 +42,19 @@ namespace GlueDynamicManager
 
         internal async Task UpdateStateAsync(GlueJsonContainer glueJsonContainer)
         {
-            foreach(var dynamicEntity in _dynamicEntities)
+            //Update ObjectFinder
+            ObjectFinder.Self.GlueProject = glueJsonContainer.GetFullClone();
+            foreach (var screen in ObjectFinder.Self.GlueProject.Screens)
+            {
+                screen.FixAllTypes();
+            }
+            foreach (var entity in ObjectFinder.Self.GlueProject.Entities)
+            {
+                entity.FixAllTypes();
+            }
+
+            //Do Updates
+            foreach (var dynamicEntity in _dynamicEntities)
             {
                 await EntityDoChangesAsync(dynamicEntity, true, _curState.Entities.ContainsKey(dynamicEntity.TypeName) ? _curState.Entities[dynamicEntity.TypeName] : null, glueJsonContainer.Entities.ContainsKey(dynamicEntity.TypeName) ? glueJsonContainer.Entities[dynamicEntity.TypeName] : null);
             }
@@ -98,7 +111,7 @@ namespace GlueDynamicManager
             return returnValue;
         }
 
-        internal bool ScreenIsDynamic(string screenName)
+        public bool ScreenIsDynamic(string screenName)
         {
             if (_curState == null)
                 return false;
@@ -270,7 +283,8 @@ namespace GlueDynamicManager
         private void EntityInitializeHandler(object caller, bool addToManagers)
         {
             var entityName = caller.GetType().Name;
-            EntityDoChangesAsync(caller, addToManagers, _initialState.Entities.ContainsKey(entityName) ? _initialState.Entities[entityName] : null, _curState.Entities.ContainsKey(entityName) ? _curState.Entities[entityName] : null).Wait();
+            if(_initialState != null)
+                EntityDoChangesAsync(caller, addToManagers, _initialState.Entities.ContainsKey(entityName) ? _initialState.Entities[entityName] : null, _curState.Entities.ContainsKey(entityName) ? _curState.Entities[entityName] : null).Wait();
         }
 
         private void EntityActivityHandler(object caller)
@@ -334,7 +348,8 @@ namespace GlueDynamicManager
                 AddEventHandler(instance, "DestroyEvent", "EntityDestroyHandler");
 
                 var entityName = instance.GetType().Name;
-                EntityDoChangesAsync(instance, addToManagers, _initialState.Entities.ContainsKey(entityName) ? _initialState.Entities[entityName] : null, _curState.Entities.ContainsKey(entityName) ? _curState.Entities[entityName] : null).Wait();
+                if(_initialState != null)
+                    EntityDoChangesAsync(instance, addToManagers, _initialState.Entities.ContainsKey(entityName) ? _initialState.Entities[entityName] : null, _curState.Entities.ContainsKey(entityName) ? _curState.Entities[entityName] : null).Wait();
 
                 return instance;
             }
