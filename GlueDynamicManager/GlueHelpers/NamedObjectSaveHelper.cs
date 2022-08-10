@@ -41,10 +41,9 @@ namespace GlueDynamicManager.GlueHelpers
             return null;
         }
 
-        public static void InitializeNamedObject(object noContainer, NamedObjectSave nos, NamedObjectSave nosList, GlueElement glueElement, Func<string, object> propertyFinder, out List<ObjectContainer> instancedObjects, out List<DynamicEntityContainer> instancedEntities)
+        public static void InitializeNamedObject(object noContainer, NamedObjectSave nos, NamedObjectSave nosList, GlueElement glueElement, Func<string, object> propertyFinder, out List<ObjectContainer> instancedObjects)
         {
             instancedObjects = new List<ObjectContainer>();
-            instancedEntities = new List<DynamicEntityContainer>();
 
             if (nos.SourceClassType == "FlatRedBall.Math.PositionedObjectList<T>")
             {
@@ -147,13 +146,13 @@ namespace GlueDynamicManager.GlueHelpers
             {
                 if (GlueDynamicManager.Self.EntityIsDynamic(nos.SourceClassType))
                 {
-                    var entityContainer = new DynamicEntityContainer
+                    var entityContainer = new ObjectContainer
                     {
                         NamedObjectSave = nos,
-                        Value = new DynamicEntity(GlueDynamicManager.Self.GetEntityState(nos.SourceClassType)),
+                        Value = new DynamicEntity(nos.SourceClassType, GlueDynamicManager.Self.GetEntityState(nos.SourceClassType)),
                         CombinedInstructionSaves = GetInstructionsRecursively(nos, glueElement)
                     };
-                    instancedEntities.Add(entityContainer);
+                    instancedObjects.Add(entityContainer);
 
                     if (nosList != null)
                     {

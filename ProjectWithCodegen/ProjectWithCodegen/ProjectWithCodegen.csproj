@@ -561,18 +561,6 @@
     <Compile Include="TileGraphics\TilesetExtensionMethods.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="FlatRedBall.Forms, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Libraries\DesktopGl\Debug\FlatRedBall.Forms.dll</HintPath>
-    </Reference>
-    <Reference Include="FlatRedBallDesktopGL, Version=2016.3.17.461, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Libraries\DesktopGl\Debug\FlatRedBallDesktopGL.dll</HintPath>
-    </Reference>
-    <Reference Include="GumCoreXnaPc, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Libraries\DesktopGl\Debug\GumCoreXnaPc.dll</HintPath>
-    </Reference>
     <Reference Include="MonoGame.Framework, Version=3.5.1.1679, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Libraries\DesktopGl\Debug\MonoGame.Framework.dll</HintPath>
@@ -584,10 +572,6 @@
     <Reference Include="OpenTK, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Libraries\DesktopGl\Debug\OpenTK.dll</HintPath>
-    </Reference>
-    <Reference Include="StateInterpolation, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Libraries\DesktopGl\Debug\StateInterpolation.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
@@ -1020,6 +1004,24 @@
     <PackageReference Include="Newtonsoft.Json">
       <Version>12.0.3</Version>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\FlatRedBall\Engines\FlatRedBallXNA\FlatRedBall\FlatRedBallDesktopGL.csproj">
+      <Project>{10BDA06C-7269-4CCE-AE2A-D445F414520A}</Project>
+      <Name>FlatRedBallDesktopGL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\FlatRedBall\Engines\Forms\FlatRedBall.Forms\FlatRedBall.Forms\FlatRedBall.Forms.DesktopGL.csproj">
+      <Project>{AA2297A1-6BB4-4165-89A6-C099F687085F}</Project>
+      <Name>FlatRedBall.Forms</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\FlatRedBall\Engines\Forms\FlatRedBall.Forms\StateInterpolation\StateInterpolation.DesktopGL.csproj">
+      <Project>{F0BDEE46-0374-4278-B1C3-F91A76FE3A8D}</Project>
+      <Name>StateInterpolation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Gum\GumCore\GumCoreXnaPc\GumCoreDesktopGL.csproj">
+      <Project>{FC2030B0-E60B-434D-A513-400270B8D7C6}</Project>
+      <Name>GumCoreXnaPc</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="..\..\GlueDynamicManager\GlueDynamicManager.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

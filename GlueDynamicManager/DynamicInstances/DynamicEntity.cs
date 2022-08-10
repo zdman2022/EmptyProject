@@ -34,14 +34,18 @@ namespace GlueDynamicManager.DynamicInstances
             }
         }
 
+        public string TypeName { get; }
+
         private EntityState _dynamicEntityState;
         protected FlatRedBall.Graphics.Layer LayerProvidedByContainer = null;
         private List<ObjectContainer> _instancedObjects = new List<ObjectContainer>();
 
-        public DynamicEntity(EntityState dynamicEntityState)
+        public DynamicEntity(string typeName, EntityState dynamicEntityState)
         {
+            TypeName = GlueDynamicManager.Self.CorrectEntityName(typeName);
             _dynamicEntityState = dynamicEntityState;
             InitializeEntity();
+            GlueDynamicManager.Self.AttachEntity(this, true);
             mGeneratedCollision = new FlatRedBall.Math.Geometry.ShapeCollection();
         }
 

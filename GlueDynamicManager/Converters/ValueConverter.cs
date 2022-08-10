@@ -139,6 +139,39 @@ namespace GlueDynamicManager.Converters
             return variableValue;
         }
 
+        internal static string ConvertForPropertyName(string name, object glueElement)
+        {
+            if(name == "X")
+            {
+                var prop = glueElement.GetType().GetProperty("Parent");
+                if (prop != null)
+                {
+                    var propValue = prop.GetValue(glueElement, null);
+
+                    if(propValue != null)
+                    {
+                        return "RelativeX";
+                    }
+                }
+            }
+
+            if (name == "Y")
+            {
+                var prop = glueElement.GetType().GetProperty("Parent");
+                if (prop != null)
+                {
+                    var propValue = prop.GetValue(glueElement, null);
+
+                    if (propValue != null)
+                    {
+                        return "RelativeY";
+                    }
+                }
+            }
+
+            return name;
+        }
+
         internal static object ConvertForProperty(object value, string type, string objectType)
         {
             if(type == "List<Vector2>" && objectType == "FlatRedBall.Math.Geometry.Polygon")

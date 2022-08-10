@@ -16,7 +16,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Converters\ShapeManagerHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\ValueConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DynamicInstances\Containers\BaseContainer.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DynamicInstances\Containers\DynamicEntityContainer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DynamicInstances\Containers\IInstanceContainer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DynamicInstances\Containers\ObjectContainer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DynamicInstances\DynamicEntity.cs" />

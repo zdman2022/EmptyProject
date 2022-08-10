@@ -1,4 +1,5 @@
 ﻿using FlatRedBall.Content.Instructions;
+using FlatRedBall.Instructions;
 using FlatRedBall.Screens;
 using GlueControl.Models;
 using GlueDynamicManager.Converters;
@@ -12,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace GlueDynamicManager.Processors
 {
@@ -22,7 +24,7 @@ namespace GlueDynamicManager.Processors
         private static Regex PathMatchRegEx_NamedObjectInstructionSave = new Regex("^/NamedObjects/(\\d+)/InstructionSaves/(\\d+)(/Value)?$");
         private static Regex PathMatchRegEx_CustomVariables_Field = new Regex("^/CustomVariables/(\\d+)/([^/]*)$");
 
-        internal static void ApplyOperations(HybridGlueElement element, GlueElement oldSave, GlueElement newSave, JToken glueDifferences, IList<Operation> operations, bool addToManagers)
+        internal static async Task ApplyOperationsAsync(HybridGlueElement element, GlueElement oldSave, GlueElement newSave, JToken glueDifferences, IList<Operation> operations, bool addToManagers)
         {
             foreach (var operation in operations)
             {
@@ -34,13 +36,13 @@ namespace GlueDynamicManager.Processors
 
                         foreach(var nos in nosList)
                         {
-                            AddNamedObject(element, newSave, nos, addToManagers);
+                            await AddNamedObjectAsync(element, newSave, nos, addToManagers);
                         }
                     }
                     else if (PathMatchRegEx_NamedObject_Item.IsMatch(operation.Path))
                     {
                         var nos = JsonConvert.DeserializeObject<NamedObjectSave>(operation.Value.ToString());
-                        AddNamedObject(element, newSave, nos, addToManagers);
+                        await AddNamedObjectAsync(element, newSave, nos, addToManagers);
                     }
                     else if (PathMatchRegEx_NamedObjectInstructionSave.IsMatch(operation.Path))
                     {
@@ -53,7 +55,7 @@ namespace GlueDynamicManager.Processors
 
                         var obj = element.PropertyFinder(newSave.NamedObjects[noIndex].InstanceName);
 
-                        ApplyInstruction(newInstruction, newSave, element, obj.GetType().Name, obj);
+                        await ApplyInstructionAsync(newInstruction, newSave, element, obj.GetType().Name, obj);
                     }
                 }
                 else if (operation.Op == "replace")
@@ -71,7 +73,7 @@ namespace GlueDynamicManager.Processors
                         var obj = element.PropertyFinder(newSave.NamedObjects[noIndex].InstanceName);
 
                         CleanupOldInstruction(oldInstruction);
-                        ApplyInstruction(newInstruction, newSave, element, obj.GetType().Name, obj);
+                        await ApplyInstructionAsync(newInstruction, newSave, element, obj.GetType().Name, obj);
                     }
                     else if(PathMatchRegEx_CustomVariables_Field.IsMatch(operation.Path))
                     {
@@ -79,32 +81,38 @@ namespace GlueDynamicManager.Processors
 
                         var cvIndex = int.Parse(match.Groups[1].Value);
 
-                        ApplyCustomVariable(element, newSave.CustomVariables[cvIndex], newSave);
+                        await ApplyCustomVariableAsync(element, newSave.CustomVariables[cvIndex], newSave);
                     }
                 }
             }
         }
 
-        private static void ApplyCustomVariable(HybridGlueElement element, CustomVariable customVariable, GlueElement save)
+        private static async Task ApplyCustomVariableAsync(HybridGlueElement element, CustomVariable customVariable, GlueElement save)
         {
-            var convertedValue = ValueConverter.ConvertValue(customVariable, save);
-            ScreenManager.CurrentScreen.ApplyVariable(customVariable.Name, convertedValue, element.GlueElement);
+            await InstructionManager.DoOnMainThreadAsync(() =>
+            {
+                var convertedValue = ValueConverter.ConvertValue(customVariable, save);
+                var convertedPropertyName = ValueConverter.ConvertForPropertyName(customVariable.Name, element.GlueElement);
+                ScreenManager.CurrentScreen.ApplyVariable(convertedPropertyName, convertedValue, element.GlueElement);
+            });
         }
 
-        private static void AddNamedObject(HybridGlueElement element, GlueElement newSave, NamedObjectSave nos, bool addToManagers)
+        private static async Task AddNamedObjectAsync(HybridGlueElement element, GlueElement newSave, NamedObjectSave nos, bool addToManagers)
         {
-            var itemContainer = NamedObjectSaveHelper.GetContainerFor(nos, newSave);
-            NamedObjectSaveHelper.InitializeNamedObject(element.GlueElement, nos, itemContainer, newSave, element.PropertyFinder, out var instancedObjects, out var instancedEntities);
+            await InstructionManager.DoOnMainThreadAsync(() =>
+            {
+                var itemContainer = NamedObjectSaveHelper.GetContainerFor(nos, newSave);
+                NamedObjectSaveHelper.InitializeNamedObject(element.GlueElement, nos, itemContainer, newSave, element.PropertyFinder, out var instancedObjects);
 
-            DoInitialize(element, newSave, instancedObjects, instancedEntities);
-            if(addToManagers)
-                AddToManagers(element, newSave, instancedObjects, instancedEntities);
+                DoInitialize(element, newSave, instancedObjects);
+                if (addToManagers)
+                    AddToManagers(element, newSave, instancedObjects);
 
-            element.InstancedObjects.AddRange(instancedObjects);
-            element.InstancedEntities.AddRange(instancedEntities);
+                element.InstancedObjects.AddRange(instancedObjects);
+            });
         }
 
-        private static void DoInitialize(HybridGlueElement element, GlueElement save, List<ObjectContainer> instancedObjects, List<DynamicEntityContainer> instancedEntities)
+        private static void DoInitialize(HybridGlueElement element, GlueElement save, List<ObjectContainer> instancedObjects)
         {
             bool oldShapeManagerSuppressAdd = FlatRedBall.Math.Geometry.ShapeManager.SuppressAddingOnVisibilityTrue;
             FlatRedBall.Math.Geometry.ShapeManager.SuppressAddingOnVisibilityTrue = true;
@@ -113,43 +121,47 @@ namespace GlueDynamicManager.Processors
             {
                 var instance = instancedObjects[i];
 
-                if (instance.CombinedInstructionSaves != null)
-                    foreach (var instruction in instance.CombinedInstructionSaves)
-                    {
-                        var convertedValue = ValueConverter.ConvertValue(instruction, save);
-                        convertedValue = ValueConverter.ConvertForProperty(convertedValue, instruction.Type, instance.ObjectType);
-                        ScreenManager.CurrentScreen.ApplyVariable(instruction.Member, convertedValue, instance.Value);
-                    }
-            }
-
-            for (int i = 0; i < instancedEntities.Count; i++)
-            {
-                var instance = instancedEntities[i];
-
-                if (instance.CombinedInstructionSaves != null)
-                    foreach (var instruction in instance.CombinedInstructionSaves)
-                    {
-                        var convertedValue = ValueConverter.ConvertValue(instruction, save);
-                        convertedValue = ValueConverter.ConvertForProperty(convertedValue, instruction.Type, typeof(DynamicEntity).Name);
-                        instance.Value.SetVariable(instruction.Member, convertedValue);
-                    }
+                if (instance.Value is DynamicEntity dynamicEntity)
+                {
+                    if (instance.CombinedInstructionSaves != null)
+                        foreach (var instruction in instance.CombinedInstructionSaves)
+                        {
+                            var convertedValue = ValueConverter.ConvertValue(instruction, save);
+                            convertedValue = ValueConverter.ConvertForProperty(convertedValue, instruction.Type, typeof(DynamicEntity).Name);
+                            dynamicEntity.SetVariable(instruction.Member, convertedValue);
+                        }
+                }
+                else
+                {
+                    if (instance.CombinedInstructionSaves != null)
+                        foreach (var instruction in instance.CombinedInstructionSaves)
+                        {
+                            var convertedValue = ValueConverter.ConvertValue(instruction, save);
+                            convertedValue = ValueConverter.ConvertForProperty(convertedValue, instruction.Type, instance.ObjectType);
+                            ScreenManager.CurrentScreen.ApplyVariable(instruction.Member, convertedValue, instance.Value);
+                        }
+                }
             }
 
             FlatRedBall.Math.Geometry.ShapeManager.SuppressAddingOnVisibilityTrue = oldShapeManagerSuppressAdd;
         }
 
-        private static void AddToManagers(HybridGlueElement element, GlueElement save, List<ObjectContainer> instancedObjects, List<DynamicEntityContainer> instancedEntities)
+        private static void AddToManagers(HybridGlueElement element, GlueElement save, List<ObjectContainer> instancedObjects)
         {
-            for (int i = 0; i < instancedEntities.Count; i++)
-            {
-                instancedEntities[i].Value.AddToManagers(null);
-            }
-
             for (var i = 0; i < instancedObjects.Count; i++)
             {
-                // todo: need to support layers
-                FlatRedBall.Graphics.Layer layer = null;
-                InstanceAddToManager.AddToManager(instancedObjects[i], instancedObjects, layer);
+                var instance = instancedObjects[i];
+
+                if(instance.Value is DynamicEntity dynamicEntity)
+                {
+                    dynamicEntity.AddToManagers(null);
+                }
+                else
+                {
+                    // todo: need to support layers
+                    FlatRedBall.Graphics.Layer layer = null;
+                    InstanceAddToManager.AddToManager(instancedObjects[i], instancedObjects, layer);
+                }
             }
         }
 
@@ -158,11 +170,15 @@ namespace GlueDynamicManager.Processors
             //Here, we can clean up any registration or things that a new instruction won't override
         }
 
-        private static void ApplyInstruction(InstructionSave instruction, GlueElement save, HybridGlueElement element, string objectType, object value)
+        private static async Task ApplyInstructionAsync(InstructionSave instruction, GlueElement save, HybridGlueElement element, string objectType, object value)
         {
-            var convertedValue = ValueConverter.ConvertValue(instruction, save);
-            convertedValue = ValueConverter.ConvertForProperty(convertedValue, instruction.Type, objectType);
-            ScreenManager.CurrentScreen.ApplyVariable(instruction.Member, convertedValue, value);
+            await InstructionManager.DoOnMainThreadAsync(() =>
+            {
+                var convertedValue = ValueConverter.ConvertValue(instruction, save);
+                convertedValue = ValueConverter.ConvertForProperty(convertedValue, instruction.Type, objectType);
+                var convertedPropertyName = ValueConverter.ConvertForPropertyName(instruction.Member, value);
+                ScreenManager.CurrentScreen.ApplyVariable(convertedPropertyName, convertedValue, value);
+            });
         }
     }
 }

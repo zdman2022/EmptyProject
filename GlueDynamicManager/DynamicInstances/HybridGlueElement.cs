@@ -8,8 +8,6 @@ namespace GlueDynamicManager.DynamicInstances
 {
     internal class HybridGlueElement
     {
-        // Do we want a second list for entities?
-        public List<DynamicEntityContainer> InstancedEntities = new List<DynamicEntityContainer>();
         public List<ObjectContainer> InstancedObjects = new List<ObjectContainer>();
 
         public HybridGlueElement(object element)

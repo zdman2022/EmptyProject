@@ -32,15 +32,16 @@ namespace GlueDynamicManager.DynamicInstances
         public event DestroyDelegate DestroyEvent;
 
         public static string CurrentScreen { get; internal set; }
+        public string TypeName { get; }
 
 
         // Do we want a second list for entities?
-        private readonly List<DynamicEntityContainer> _instancedEntities = new List<DynamicEntityContainer>();
         private readonly List<ObjectContainer> _instancedObjects = new List<ObjectContainer>();
         private DynamicScreenState _currentScreenState;
 
-        public DynamicScreen() : base("DynamicScreen")
+        public DynamicScreen(string typeName) : base("DynamicScreen")
         {
+            TypeName = typeName;
         }
         public override void Initialize(bool addToManagers)
         {
@@ -66,35 +67,35 @@ namespace GlueDynamicManager.DynamicInstances
             {
                 var instance = _instancedObjects[i];
 
-                if (instance.CombinedInstructionSaves != null)
+                if(instance.Value is DynamicEntity dynamicEntity)
                 {
-                    foreach (var instruction in instance.CombinedInstructionSaves)
-                    {
-                        var convertedValue = ValueConverter.ConvertValue(instruction, this._currentScreenState.ScreenSave);
-                        convertedValue = ValueConverter.ConvertForProperty(convertedValue, instruction.Type, instance.ObjectType);
-
-                        // handle special cases here:
-                        var handledByAssigner = InstanceVariableAssigner.TryAssignVariable(instruction.Member, convertedValue, instance.Value);
-
-                        if(!handledByAssigner)
+                    if (instance.CombinedInstructionSaves != null)
+                        foreach (var instruction in instance.CombinedInstructionSaves)
                         {
-                            base.ApplyVariable(instruction.Member, convertedValue, instance.Value);
+                            var convertedValue = ValueConverter.ConvertValue(instruction, this._currentScreenState.ScreenSave);
+                            convertedValue = ValueConverter.ConvertForProperty(convertedValue, instruction.Type, typeof(DynamicEntity).Name);
+                            dynamicEntity.SetVariable(instruction.Member, convertedValue);
+                        }
+                }
+                else
+                {
+                    if (instance.CombinedInstructionSaves != null)
+                    {
+                        foreach (var instruction in instance.CombinedInstructionSaves)
+                        {
+                            var convertedValue = ValueConverter.ConvertValue(instruction, this._currentScreenState.ScreenSave);
+                            convertedValue = ValueConverter.ConvertForProperty(convertedValue, instruction.Type, instance.ObjectType);
+
+                            // handle special cases here:
+                            var handledByAssigner = InstanceVariableAssigner.TryAssignVariable(instruction.Member, convertedValue, instance.Value);
+
+                            if (!handledByAssigner)
+                            {
+                                base.ApplyVariable(instruction.Member, convertedValue, instance.Value);
+                            }
                         }
                     }
                 }
-            }
-
-            for (int i = 0; i < _instancedEntities.Count; i++)
-            {
-                var instance = _instancedEntities[i];
-
-                if (instance.CombinedInstructionSaves != null)
-                    foreach (var instruction in instance.CombinedInstructionSaves)
-                    {
-                        var convertedValue = ValueConverter.ConvertValue(instruction, this._currentScreenState.ScreenSave);
-                        convertedValue = ValueConverter.ConvertForProperty(convertedValue, instruction.Type, typeof(DynamicEntity).Name);
-                        instance.Value.SetVariable(instruction.Member, convertedValue);
-                    }
             }
 
             FlatRedBall.Math.Geometry.ShapeManager.SuppressAddingOnVisibilityTrue = oldShapeManagerSuppressAdd;
@@ -122,10 +123,9 @@ namespace GlueDynamicManager.DynamicInstances
             foreach (var nos in namedObjects)
             {
                 var itemContainer = NamedObjectSaveHelper.GetContainerFor(nos, _currentScreenState.ScreenSave);
-                NamedObjectSaveHelper.InitializeNamedObject(this, nos, itemContainer, _currentScreenState.ScreenSave, PropertyFinder, out var instancedObjects, out var instancedEntities);
+                NamedObjectSaveHelper.InitializeNamedObject(this, nos, itemContainer, _currentScreenState.ScreenSave, PropertyFinder, out var instancedObjects);
 
                 _instancedObjects.AddRange(instancedObjects);
-                _instancedEntities.AddRange(instancedEntities);
             }
         }
 
@@ -147,16 +147,21 @@ namespace GlueDynamicManager.DynamicInstances
 
         public override void AddToManagers()
         {
-            for (int i = 0; i < _instancedEntities.Count; i++)
-            {
-                _instancedEntities[i].Value.AddToManagers(mLayer);
-            }
-
             for (var i = 0; i < _instancedObjects.Count; i++)
             {
-                // todo: need to support layers
-                FlatRedBall.Graphics.Layer layer = null;
-                InstanceAddToManager.AddToManager(_instancedObjects[i], _instancedObjects, layer);
+                var instance = _instancedObjects[i];
+
+                if(instance.Value is DynamicEntity dynamicEntity)
+                {
+                    dynamicEntity.AddToManagers(mLayer);
+                }
+                else
+                {
+                    // todo: need to support layers
+                    FlatRedBall.Graphics.Layer layer = null;
+                    InstanceAddToManager.AddToManager(_instancedObjects[i], _instancedObjects, layer);
+                }
+                
             }
 
             base.AddToManagers();

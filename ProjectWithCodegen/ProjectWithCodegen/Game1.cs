@@ -55,7 +55,7 @@ namespace ProjectWithCodegen
                 GlueDynamicManager.GlueDynamicManager.Self.SetInitialState(GlueDynamicManager.GlueDynamicTest.GetTest(FileManager.RelativeDirectory + "../../../../ProjectWithCodegen.gluj"));
                 FilePath gluj = FileManager.RelativeDirectory + "../../../../../../../ProjectWithCodegen/ProjectWithCodegen/ProjectWithCodegen.gluj";
 
-                GlueDynamicManager.GlueDynamicManager.Self.UpdateState(GlueDynamicManager.GlueDynamicTest.GetTest(gluj));
+                GlueDynamicManager.GlueDynamicManager.Self.UpdateStateAsync(GlueDynamicManager.GlueDynamicTest.GetTest(gluj)).Wait();
 
                 //GlueDynamicManager.DynamicInstances.DynamicScreen.CurrentScreen = "SpriteScreen";
                 //ScreenManager.MoveToScreen(typeof(GlueDynamicManager.DynamicInstances.DynamicScreen));
@@ -95,7 +95,7 @@ namespace ProjectWithCodegen
                             Screens = screens.ToDictionary(item => GlueDynamicManager.GlueDynamicManager.Self.CorrectScreenName(item.Key), item => new GlueDynamicManager.GlueJsonContainer.JsonContainer<GlueControl.Models.ScreenSave>(item.Value.ToString()))
                         };
 
-                        GlueDynamicManager.GlueDynamicManager.Self.UpdateState(state);
+                        await GlueDynamicManager.GlueDynamicManager.Self.UpdateStateAsync(state);
                     }
                 };
             }

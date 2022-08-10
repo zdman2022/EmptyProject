@@ -55,6 +55,49 @@
       "SourceFile": "Sprite",
       "AttachToContainer": true,
       "GenerateTimedEmit": true
+    },
+    {
+      "InstanceName": "SpriteInstance1",
+      "SourceClassType": "FlatRedBall.Sprite",
+      "Properties": [
+        {
+          "Name": "AssociateWithFactory",
+          "Value": true,
+          "Type": "Boolean"
+        },
+        {
+          "Name": "SourceType",
+          "Value": 2,
+          "Type": "SourceType"
+        },
+        {
+          "Name": "ConditionalCompilationSymbols",
+          "Type": "String"
+        }
+      ],
+      "InstructionSaves": [
+        {
+          "Type": "Microsoft.Xna.Framework.Graphics.Texture2D",
+          "Member": "Texture",
+          "Value": "TextureFile",
+          "Time": 0.0
+        },
+        {
+          "Type": "float",
+          "Member": "TextureScale",
+          "Value": 1.0,
+          "Time": 0.0
+        },
+        {
+          "Type": "float",
+          "Member": "X",
+          "Value": 50.0,
+          "Time": 0.0
+        }
+      ],
+      "SourceType": 2,
+      "SourceFile": "Sprite",
+      "GenerateTimedEmit": true
     }
   ],
   "Name": "Screens\\SpriteScreen",
