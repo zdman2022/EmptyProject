@@ -117,6 +117,7 @@ namespace GlueDynamicManager
                 return false;
 
             var correctedScreenName = CorrectScreenName(screenName);
+
             if (_curState.Screens.ContainsKey(correctedScreenName) && !_initialState.Screens.ContainsKey(correctedScreenName))
                 return true;
 

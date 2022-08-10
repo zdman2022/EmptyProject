@@ -210,7 +210,7 @@ namespace GlueDynamicManager.DynamicInstances
         {
             base.Destroy();
 
-            for (var polIndex = _instancedObjects.Count; polIndex > -1; polIndex--)
+            for (var polIndex = _instancedObjects.Count - 1; polIndex > -1; polIndex--)
             {
                 var list = _instancedObjects[polIndex].Value;
 
