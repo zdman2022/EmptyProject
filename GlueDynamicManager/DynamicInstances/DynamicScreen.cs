@@ -39,9 +39,9 @@ namespace GlueDynamicManager.DynamicInstances
         private readonly List<ObjectContainer> _instancedObjects = new List<ObjectContainer>();
         private DynamicScreenState _currentScreenState;
 
-        public DynamicScreen(string typeName) : base("DynamicScreen")
+        public DynamicScreen() : base("DynamicScreen")
         {
-            TypeName = typeName;
+            TypeName = CurrentScreen;
         }
         public override void Initialize(bool addToManagers)
         {

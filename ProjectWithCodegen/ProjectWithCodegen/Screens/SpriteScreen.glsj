@@ -97,6 +97,7 @@
       ],
       "SourceType": 2,
       "SourceFile": "Sprite",
+      "AttachToContainer": true,
       "GenerateTimedEmit": true
     }
   ],
