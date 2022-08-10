@@ -22,23 +22,31 @@ namespace GlueDynamicManager.Converters
 
         public static object ConvertValue(InstructionSave instruction, GlueControl.Models.GlueElement instanceContainer)
         {
-            var variableValue = instruction.Value;
+            return ConvertValue(instruction.Type, instruction.Value, instanceContainer);
+        }
 
-            if (instruction.Type == "int")
+        internal static object ConvertValue(CustomVariable customVariable, GlueElement instanceContainer)
+        {
+            return ConvertValue(customVariable.Type, customVariable.DefaultValue, instanceContainer);
+        }
+
+        private static object ConvertValue(string type, object variableValue, GlueElement instanceContainer)
+        {
+            if (type == "int")
             {
                 if (variableValue is long asLong)
                 {
                     variableValue = (int)asLong;
                 }
             }
-            else if (instruction.Type == "int?")
+            else if (type == "int?")
             {
                 if (variableValue is long asLong)
                 {
                     variableValue = (int?)asLong;
                 }
             }
-            else if (instruction.Type == "float" || instruction.Type == "Single")
+            else if (type == "float" || type == "Single")
             {
                 if (variableValue is int asInt)
                 {
@@ -49,7 +57,7 @@ namespace GlueDynamicManager.Converters
                     variableValue = (float)asDouble;
                 }
             }
-            else if (instruction.Type == "float?")
+            else if (type == "float?")
             {
                 if (variableValue is int asInt)
                 {
@@ -60,8 +68,8 @@ namespace GlueDynamicManager.Converters
                     variableValue = (float?)asDouble;
                 }
             }
-            else if (instruction.Type == typeof(FlatRedBall.Graphics.Animation.AnimationChainList).FullName ||
-                instruction.Type == typeof(Microsoft.Xna.Framework.Graphics.Texture2D).FullName)
+            else if (type == typeof(FlatRedBall.Graphics.Animation.AnimationChainList).FullName ||
+                type == typeof(Microsoft.Xna.Framework.Graphics.Texture2D).FullName)
             {
                 if (variableValue is string asString && !string.IsNullOrWhiteSpace(asString))
                 {
@@ -70,17 +78,17 @@ namespace GlueDynamicManager.Converters
 
 
                     // todo - need to support global content loading
-                    variableValue = FileLoader.LoadFile(absoluteRfs, FlatRedBallServices.GlobalContentManager, instruction.Type);
+                    variableValue = FileLoader.LoadFile(absoluteRfs, FlatRedBallServices.GlobalContentManager, type);
                 }
             }
-            //else if (instruction.Type == typeof(Microsoft.Xna.Framework.Color).FullName)
+            //else if (type == typeof(Microsoft.Xna.Framework.Color).FullName)
             //{
             //    if (variableValue is string asString && !string.IsNullOrWhiteSpace(asString))
             //    {
-            //        variableValue = Editing.VariableAssignmentLogic.ConvertStringToType(instruction.Type, asString, false, out conversionReport);
+            //        variableValue = Editing.VariableAssignmentLogic.ConvertStringToType(type, asString, false, out conversionReport);
             //    }
             //}
-            else if (instruction.Type == typeof(Microsoft.Xna.Framework.Graphics.TextureAddressMode).Name)
+            else if (type == typeof(Microsoft.Xna.Framework.Graphics.TextureAddressMode).Name)
             {
                 if (variableValue is int asInt)
                 {
@@ -92,8 +100,8 @@ namespace GlueDynamicManager.Converters
                 }
             }
             else if (
-                instruction.Type == typeof(FlatRedBall.Graphics.ColorOperation).Name ||
-                instruction.Type == typeof(FlatRedBall.Graphics.ColorOperation).FullName
+                type == typeof(FlatRedBall.Graphics.ColorOperation).Name ||
+                type == typeof(FlatRedBall.Graphics.ColorOperation).FullName
                 )
             {
                 if (variableValue is int asInt)
@@ -104,19 +112,20 @@ namespace GlueDynamicManager.Converters
                 {
                     variableValue = (FlatRedBall.Graphics.ColorOperation)asLong;
                 }
-            }else if (
-                instruction.Type == typeof(Microsoft.Xna.Framework.Color).Name ||
-                instruction.Type == typeof(Microsoft.Xna.Framework.Color).FullName
+            }
+            else if (
+                type == typeof(Microsoft.Xna.Framework.Color).Name ||
+                type == typeof(Microsoft.Xna.Framework.Color).FullName
             )
             {
                 variableValue = typeof(Microsoft.Xna.Framework.Color).GetProperty(variableValue.ToString()).GetValue(null);
             }
-            else if(RegExList.IsMatch(instruction.Type))
+            else if (RegExList.IsMatch(type))
             {
-                var match = RegExList.Match(instruction.Type);
+                var match = RegExList.Match(type);
                 var subType = match.Groups[1].Value;
 
-                if(subType == "Vector2")
+                if (subType == "Vector2")
                 {
                     variableValue = JsonConvert.DeserializeObject<List<Vector2>>(variableValue.ToString());
                 }
@@ -124,7 +133,7 @@ namespace GlueDynamicManager.Converters
                 {
                     throw new NotImplementedException();
                 }
-                
+
             }
 
             return variableValue;

@@ -186,6 +186,11 @@
     </Compile>
     <Compile Include="GlobalContent.Generated.cs" />
     <Compile Include="GlueCommunication\GameConnectionManager.Generated.cs" />
+    <Compile Include="GlueCommunication\Json\GlueJsonManager.Generated.cs" />
+    <Compile Include="GlueCommunication\Json\JsonContainer.Generated.cs" />
+    <Compile Include="GlueCommunication\Json\JsonManager.Generated.cs" />
+    <Compile Include="GlueCommunication\Json\Operations\JsonOperations.Generated.cs" />
+    <Compile Include="GlueCommunication\Json\ScreenJsonContainer.Generated.cs" />
     <Compile Include="GlueControl\CommandReceiver.Generated.cs" />
     <Compile Include="GlueControl\Dtos.Generated.cs" />
     <Compile Include="GlueControl\Editing\CameraLogic.Generated.cs" />

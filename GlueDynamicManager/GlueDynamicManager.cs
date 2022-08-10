@@ -117,12 +117,12 @@ namespace GlueDynamicManager
             return _curState.Entities.ContainsKey(CorrectEntityName(entityName));
         }
 
-        private string CorrectEntityName(string entityName)
+        public string CorrectEntityName(string entityName)
         {
             return entityName.Replace("Entities\\", "").Replace("Entities.", "");
         }
 
-        private string CorrectScreenName(string entityName)
+        public string CorrectScreenName(string entityName)
         {
             return entityName.Replace("Screens\\", "");
         }
@@ -153,15 +153,22 @@ namespace GlueDynamicManager
 
         private void ScreenDoChanges(Screen screen, bool addToManagers)
         {
+            if (_curState == null)
+                return;
+
             if (screen.GetType() != typeof(DynamicScreen))
             {
-                var oldScreenJson = _initialState.Screens[screen.GetType().Name];
-                var newScreenJson = _curState.Screens[screen.GetType().Name];
+                var screenName = screen.GetType().Name;
+                var oldScreenJson = _initialState.Screens.ContainsKey(screenName) ? _initialState.Screens[screen.GetType().Name] : null;
+                var newScreenJson = _curState.Screens.ContainsKey(screenName) ? _curState.Screens[screen.GetType().Name] : null;
 
-                var glueDifferences = _jdp.Diff(oldScreenJson.Json, newScreenJson.Json);
-                var operations = _jdf.Format(glueDifferences);
+                if (oldScreenJson != null && newScreenJson != null)
+                {
+                    var glueDifferences = _jdp.Diff(oldScreenJson.Json, newScreenJson.Json);
+                    var operations = _jdf.Format(glueDifferences);
 
-                GlueElementOperationProcessor.ApplyOperations(_hybridScreens.First(item => item.Screen == screen), oldScreenJson.Value, newScreenJson.Value, glueDifferences, operations, addToManagers);
+                    GlueElementOperationProcessor.ApplyOperations(_hybridScreens.First(item => item.Screen == screen), oldScreenJson.Value, newScreenJson.Value, glueDifferences, operations, addToManagers);
+                }
             }
         }
 
@@ -216,6 +223,11 @@ namespace GlueDynamicManager
             _hybridScreens.Remove(_hybridScreens.First(item => item.Screen == caller));
         }
 
+        private void EntityInitializeHandler(object caller, bool addToManagers)
+        {
+            EntityDoChanges(caller, addToManagers);
+        }
+
         private void EntityActivityHandler(object caller)
         {
 
@@ -228,6 +240,7 @@ namespace GlueDynamicManager
 
         private void EntityDestroyHandler(object caller)
         {
+            RemoveEventHandler(caller, "InitializeEvent", "EntityInitializeHandler");
             RemoveEventHandler(caller, "ActivityEvent", "EntityActivityHandler");
             RemoveEventHandler(caller, "ActivityEditModeEvent", "EntityActivityEditModeHandler");
             RemoveEventHandler(caller, "DestroyEvent", "EntityDestroyHandler");
@@ -242,6 +255,7 @@ namespace GlueDynamicManager
 
             _hybridEntities.Add(new HybridEntity(instance));
 
+            AddEventHandler(instance, "InitializeEvent", "EntityInitializeHandler");
             AddEventHandler(instance, "ActivityEvent", "EntityActivityHandler");
             AddEventHandler(instance, "ActivityEditModeEvent", "EntityActivityEditModeHandler");
             AddEventHandler(instance, "DestroyEvent", "EntityDestroyHandler");
@@ -253,19 +267,25 @@ namespace GlueDynamicManager
 
         private void EntityDoChanges(object entity, bool addToManagers)
         {
+            if (_curState == null)
+                return;
+
             if (entity.GetType() != typeof(DynamicEntity))
             {
                 var entityName = entity.GetType().Name;
 
-                if (_initialState != null)
+                if (_initialState != null && _curState != null)
                 {
-                    var oldEntityJson = _initialState.Entities[entityName];
-                    var newEntityJson = _curState.Entities[entityName];
+                    var oldEntityJson = _initialState.Entities.ContainsKey(entityName) ? _initialState.Entities[entityName] : null;
+                    var newEntityJson = _curState.Entities.ContainsKey(entityName) ? _curState.Entities[entityName] : null;
 
-                    var glueDifferences = _jdp.Diff(oldEntityJson.Json, newEntityJson.Json);
-                    var operations = _jdf.Format(glueDifferences);
+                    if (oldEntityJson != null && newEntityJson != null)
+                    {
+                        var glueDifferences = _jdp.Diff(oldEntityJson.Json, newEntityJson.Json);
+                        var operations = _jdf.Format(glueDifferences);
 
-                    GlueElementOperationProcessor.ApplyOperations(_hybridEntities.First(item => item.Entity == entity), oldEntityJson.Value, newEntityJson.Value, glueDifferences, operations, addToManagers);
+                        GlueElementOperationProcessor.ApplyOperations(_hybridEntities.First(item => item.Entity == entity), oldEntityJson.Value, newEntityJson.Value, glueDifferences, operations, addToManagers);
+                    }
                 }
             }
         }

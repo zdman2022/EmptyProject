@@ -75,6 +75,31 @@ namespace ProjectWithCodegen
             GlobalContent.Initialize();
             GeneratedInitialize();
 
+            if (true)
+            {
+                GlueDynamicManager.GlueDynamicManager.Self.SetInitialState(GlueDynamicManager.GlueDynamicTest.GetTest(FileManager.RelativeDirectory + "../../../../ProjectWithCodegen.gluj"));
+
+                gameConnectionManager.OnPacketReceived += async (packet) => {
+
+                    if(packet.Packet.PacketType == "JsonUpdate")
+                    {
+                        var jPacket = Newtonsoft.Json.Linq.JToken.Parse(packet.Packet.Payload);
+
+                        var entities = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, Newtonsoft.Json.Linq.JToken>> (jPacket["Entities"].ToString());
+                        var screens = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, Newtonsoft.Json.Linq.JToken>>(jPacket["Screens"].ToString());
+
+                        var state = new GlueDynamicManager.GlueJsonContainer()
+                        {
+                            Glue = new GlueDynamicManager.GlueJsonContainer.JsonContainer<GlueControl.Models.GlueProjectSave>(jPacket["Glue"].ToString()),
+                            Entities = entities.ToDictionary(item => GlueDynamicManager.GlueDynamicManager.Self.CorrectEntityName(item.Key), item => new GlueDynamicManager.GlueJsonContainer.JsonContainer<GlueControl.Models.EntitySave>(item.Value.ToString())),
+                            Screens = screens.ToDictionary(item => GlueDynamicManager.GlueDynamicManager.Self.CorrectScreenName(item.Key), item => new GlueDynamicManager.GlueJsonContainer.JsonContainer<GlueControl.Models.ScreenSave>(item.Value.ToString()))
+                        };
+
+                        GlueDynamicManager.GlueDynamicManager.Self.UpdateState(state);
+                    }
+                };
+            }
+
             base.Initialize();
         }
 

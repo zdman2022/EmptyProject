@@ -18,7 +18,8 @@
           "Type": "String"
         }
       ],
-      "Name": "X"
+      "Name": "X",
+      "DefaultValue": 0.0
     },
     {
       "Properties": [

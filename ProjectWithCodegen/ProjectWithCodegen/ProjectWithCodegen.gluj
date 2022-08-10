@@ -37,11 +37,13 @@
         },
         {
           "Name": "IncludeFormsInComponents",
-          "Value": true
+          "Value": true,
+          "Type": "Boolean"
         },
         {
           "Name": "IncludeComponentToFormsAssociation",
-          "Value": true
+          "Value": true,
+          "Type": "Boolean"
         }
       ],
       "IsSharedStatic": true,

@@ -20,6 +20,7 @@ namespace GlueDynamicManager.Processors
         private static Regex PathMatchRegEx_NamedObject = new Regex("^/NamedObjects$");
         private static Regex PathMatchRegEx_NamedObject_Item = new Regex("^/NamedObjects/\\d+?$");
         private static Regex PathMatchRegEx_NamedObjectInstructionSave = new Regex("^/NamedObjects/(\\d+)/InstructionSaves/(\\d+)(/Value)?$");
+        private static Regex PathMatchRegEx_CustomVariables_Field = new Regex("^/CustomVariables/(\\d+)/([^/]*)$");
 
         internal static void ApplyOperations(HybridGlueElement element, GlueElement oldSave, GlueElement newSave, JToken glueDifferences, IList<Operation> operations, bool addToManagers)
         {
@@ -72,8 +73,22 @@ namespace GlueDynamicManager.Processors
                         CleanupOldInstruction(oldInstruction);
                         ApplyInstruction(newInstruction, newSave, element, obj.GetType().Name, obj);
                     }
+                    else if(PathMatchRegEx_CustomVariables_Field.IsMatch(operation.Path))
+                    {
+                        var match = PathMatchRegEx_CustomVariables_Field.Match(operation.Path);
+
+                        var cvIndex = int.Parse(match.Groups[1].Value);
+
+                        ApplyCustomVariable(element, newSave.CustomVariables[cvIndex], newSave);
+                    }
                 }
             }
+        }
+
+        private static void ApplyCustomVariable(HybridGlueElement element, CustomVariable customVariable, GlueElement save)
+        {
+            var convertedValue = ValueConverter.ConvertValue(customVariable, save);
+            ScreenManager.CurrentScreen.ApplyVariable(customVariable.Name, convertedValue, element.GlueElement);
         }
 
         private static void AddNamedObject(HybridGlueElement element, GlueElement newSave, NamedObjectSave nos, bool addToManagers)
