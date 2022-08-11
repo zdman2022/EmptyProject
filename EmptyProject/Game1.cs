@@ -13,6 +13,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using FlatRedBall.IO;
 using GlueControl.Managers;
+using FlatRedBall.Input;
 
 namespace EmptyProject
 {
@@ -23,6 +24,8 @@ namespace EmptyProject
         partial void GeneratedInitialize();
         partial void GeneratedUpdate(Microsoft.Xna.Framework.GameTime gameTime);
         partial void GeneratedDraw(Microsoft.Xna.Framework.GameTime gameTime);
+
+        List<string> AllScreenNames;
 
         public Game1() : base()
         {
@@ -86,7 +89,13 @@ namespace EmptyProject
             //Scott:
             //No DynamicManager will have to be the authority.  We have to allow updates, which dynamic manager is going to be processing.
             GlueCommands.Self.LoadProject(gluj.FullPath);
-            GlueDynamicManager.DynamicInstances.DynamicScreen.CurrentScreen = "CollidableSubcollisionScreen";
+            GlueDynamicManager.DynamicInstances.DynamicScreen.CurrentScreen = "AnimationScreen";
+
+            AllScreenNames = new List<string>();
+            foreach (var screen in ObjectFinder.Self.GlueProject.Screens)
+            {
+                AllScreenNames.Add(screen.ClassName);
+            }
             ScreenManager.Start(typeof(GlueDynamicManager.DynamicInstances.DynamicScreen));
         }
 
@@ -96,9 +105,24 @@ namespace EmptyProject
 
             FlatRedBall.Screens.ScreenManager.Activity();
 
+            ScreenNavigationActivity();
+
             GeneratedUpdate(gameTime);
 
             base.Update(gameTime);
+        }
+
+        private void ScreenNavigationActivity()
+        {
+            if(InputManager.Keyboard.KeyPushed(Keys.Right))
+            {
+                var currentIndex = AllScreenNames.IndexOf(GlueDynamicManager.DynamicInstances.DynamicScreen.CurrentScreen);
+
+                var nextIndex = (currentIndex + 1) % AllScreenNames.Count;
+
+                GlueDynamicManager.DynamicInstances.DynamicScreen.CurrentScreen = AllScreenNames[nextIndex];
+                ScreenManager.CurrentScreen.MoveToScreen(typeof(GlueDynamicManager.DynamicInstances.DynamicScreen));
+            }
         }
 
         protected override void Draw(GameTime gameTime)

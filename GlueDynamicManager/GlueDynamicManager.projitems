@@ -11,6 +11,7 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Converters\FileLoader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\InstanceAddToManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\InstanceDestroy.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\InstanceInstantiator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\InstanceVariableAssigner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\ShapeManagerHandler.cs" />

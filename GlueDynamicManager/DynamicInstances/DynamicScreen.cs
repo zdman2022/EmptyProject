@@ -210,20 +210,9 @@ namespace GlueDynamicManager.DynamicInstances
         {
             base.Destroy();
 
-            for (var polIndex = _instancedObjects.Count - 1; polIndex > -1; polIndex--)
+            for (int i = _instancedObjects.Count - 1; i > -1; i--)
             {
-                var list = _instancedObjects[polIndex].Value;
-
-                if(list.GetType().IsGenericType && list.GetType().GetGenericTypeDefinition() == typeof(PositionedObjectList<>))
-                {
-                    list.GetType().GetMethod("MakeOneWay").Invoke(list, new object[] { });
-                    var enumerable = list as IEnumerable;
-                    foreach (var item in enumerable)
-                    {
-                        item.GetType().GetMethod("Destroy").Invoke(item, new object[] { });
-                    }
-                    list.GetType().GetMethod("MakeTwoWay").Invoke(list, new object[] { });
-                }
+                InstanceDestroy.Destroy(_instancedObjects[i]);
             }
 
             FlatRedBall.Math.Collision.CollisionManager.Self.Relationships.Clear();
