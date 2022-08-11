@@ -149,10 +149,7 @@ namespace GlueDynamicManager.DynamicInstances
             {
                 var obj = _instancedObjects[i];
 
-                if (ShapeManagerHandler.IsShape(obj.ObjectType))
-                {
-                    ShapeManagerHandler.AddToLayer(obj.Value, LayerProvidedByContainer, obj.ObjectType);
-                }
+                InstanceAddToManager.AddToManager(obj, _instancedObjects, layerToAddTo);
             }
         }
 
