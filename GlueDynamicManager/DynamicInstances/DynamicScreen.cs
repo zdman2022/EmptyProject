@@ -173,14 +173,19 @@ namespace GlueDynamicManager.DynamicInstances
         {
             if (!IsPaused)
             {
-                for (var polIndex = _instancedObjects.Count - 1; polIndex > -1; polIndex--)
+                for (int i = _instancedObjects.Count - 1; i > -1; i--)
                 {
-                    if (_instancedObjects[polIndex] is IEnumerable enumerable)
+                    var instance = _instancedObjects[i].Value;
+                    if (instance is IEnumerable enumerable)
                     {
                         foreach(var item in enumerable)
                         {
                             item.GetType().GetMethod("Activity").Invoke(item, new object[] { });
                         }
+                    }
+                    else if(instance is DynamicEntity asDynamicEntity)
+                    {
+                        asDynamicEntity.Activity();
                     }
                 }
             }
