@@ -57,6 +57,10 @@ namespace GlueDynamicManager.Processors
 
                         await ApplyInstructionAsync(newInstruction, newSave, element, obj.GetType().Name, obj);
                     }
+                    else
+                    {
+                        throw new NotImplementedException();
+                    }
                 }
                 else if (operation.Op == "replace")
                 {
@@ -83,6 +87,14 @@ namespace GlueDynamicManager.Processors
 
                         await ApplyCustomVariableAsync(element, newSave.CustomVariables[cvIndex], newSave);
                     }
+                    else
+                    {
+                        throw new NotImplementedException();
+                    }
+                }
+                else
+                {
+                    throw new NotImplementedException();
                 }
             }
         }

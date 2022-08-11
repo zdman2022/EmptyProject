@@ -325,7 +325,11 @@ namespace GlueDynamicManager
                 RemoveEventHandler(caller, "ActivityEditModeEvent", "EntityActivityEditModeHandler");
                 RemoveEventHandler(caller, "DestroyEvent", "EntityDestroyHandler");
 
-                _hybridEntities.Remove(_hybridEntities.First(item => item.Entity == caller));
+                var hyridEntity = _hybridEntities.First(item => item.Entity == caller);
+
+                hyridEntity.Destroy();
+
+                _hybridEntities.Remove(hyridEntity);
             }
             
         }
