@@ -1,7 +1,9 @@
 ﻿using FlatRedBall;
 using FlatRedBall.Graphics;
+using FlatRedBall.Instructions;
 using FlatRedBall.Math;
 using FlatRedBall.Math.Geometry;
+using GlueControl.Models;
 using GlueDynamicManager.DynamicInstances.Containers;
 using Gum.Wireframe;
 using GumCoreShared.FlatRedBall.Embedded;
@@ -10,6 +12,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace GlueDynamicManager.DynamicInstances
 {
@@ -48,35 +51,71 @@ namespace GlueDynamicManager.DynamicInstances
         {
             foreach(var item in InstancedObjects)
             {
-                if(item.Value is AxisAlignedRectangle rectangle)
+                RemoveObject(item.Value);
+            }
+        }
+
+        private void RemoveObject(object obj, bool skipThreadCheck = false)
+        {
+            Action body = () =>
+            {
+                if (obj is AxisAlignedRectangle rectangle)
                 {
                     ShapeManager.Remove(rectangle);
-                }else if(item.Value is Circle circle)
+                }
+                else if (obj is Circle circle)
                 {
                     ShapeManager.Remove(circle);
-                }else if(item.Value is Polygon polygon)
+                }
+                else if (obj is Polygon polygon)
                 {
                     ShapeManager.Remove(polygon);
-                }else if(item.Value is Sprite sprite)
+                }
+                else if (obj is Sprite sprite)
                 {
                     SpriteManager.RemoveSprite(sprite);
-                }else if(item.Value is Text text)
+                }
+                else if (obj is Text text)
                 {
                     TextManager.RemoveText(text);
-                }else if(item.Value.GetType().IsGenericType && item.Value.GetType().GetGenericTypeDefinition() == typeof(PositionedObjectList<>))
+                }
+                else if (obj.GetType().IsGenericType && obj.GetType().GetGenericTypeDefinition() == typeof(PositionedObjectList<>))
                 {
-                    var list = (IList)item.Value;
-                    foreach(PositionedObject po in list)
+                    var list = (IList)obj;
+                    foreach (PositionedObject po in list)
                     {
                         po.RemoveSelfFromListsBelongingTo();
                     }
-                }else if(item.Value is GraphicalUiElement element)
+                }
+                else if (obj is GraphicalUiElement element)
                 {
                     element.Destroy();
-                }else if(item.Value is PositionedObjectGueWrapper gueWrapper)
+                }
+                else if (obj is PositionedObjectGueWrapper gueWrapper)
                 {
                     gueWrapper.RemoveSelfFromListsBelongingTo();
                 }
+            };
+
+            if (FlatRedBallServices.IsThreadPrimary())
+                body();
+            else
+                InstructionManager.DoOnMainThreadAsync(body).Wait();
+        }
+
+        internal void RemoveNamedObject(NamedObjectSave removeNO)
+        {
+            var obj = InstancedObjects.FirstOrDefault(item => removeNO.InstanceName == item.Name);
+
+            if(obj != null)
+            {
+                //Dynamic
+                RemoveObject(obj.Value);
+            }
+            else
+            {
+                //Not Dynamic
+                RemoveObject(GlueElement.GetType().GetProperty(removeNO.InstanceName).GetValue(GlueElement));
             }
         }
     }

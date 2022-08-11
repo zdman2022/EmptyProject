@@ -1,4 +1,5 @@
-﻿using FlatRedBall.Content.Instructions;
+﻿using FlatRedBall;
+using FlatRedBall.Content.Instructions;
 using FlatRedBall.Instructions;
 using FlatRedBall.Screens;
 using GlueControl.Models;
@@ -20,11 +21,11 @@ namespace GlueDynamicManager.Processors
     internal class GlueElementOperationProcessor
     {
         private static Regex PathMatchRegEx_NamedObject = new Regex("^/NamedObjects$");
-        private static Regex PathMatchRegEx_NamedObject_Item = new Regex("^/NamedObjects/\\d+?$");
+        private static Regex PathMatchRegEx_NamedObject_Item = new Regex("^/NamedObjects/(\\d+)?$");
         private static Regex PathMatchRegEx_NamedObjectInstructionSave = new Regex("^/NamedObjects/(\\d+)/InstructionSaves/(\\d+)(/Value)?$");
         private static Regex PathMatchRegEx_CustomVariables_Field = new Regex("^/CustomVariables/(\\d+)/([^/]*)$");
 
-        internal static async Task ApplyOperationsAsync(HybridGlueElement element, GlueElement oldSave, GlueElement newSave, JToken glueDifferences, IList<Operation> operations, bool addToManagers)
+        internal static void ApplyOperations(HybridGlueElement element, GlueElement oldSave, GlueElement newSave, JToken glueDifferences, IList<Operation> operations, bool addToManagers)
         {
             foreach (var operation in operations)
             {
@@ -36,13 +37,13 @@ namespace GlueDynamicManager.Processors
 
                         foreach(var nos in nosList)
                         {
-                            await AddNamedObjectAsync(element, newSave, nos, addToManagers);
+                            AddNamedObject(element, newSave, nos, addToManagers);
                         }
                     }
                     else if (PathMatchRegEx_NamedObject_Item.IsMatch(operation.Path))
                     {
                         var nos = JsonConvert.DeserializeObject<NamedObjectSave>(operation.Value.ToString());
-                        await AddNamedObjectAsync(element, newSave, nos, addToManagers);
+                        AddNamedObject(element, newSave, nos, addToManagers);
                     }
                     else if (PathMatchRegEx_NamedObjectInstructionSave.IsMatch(operation.Path))
                     {
@@ -55,7 +56,7 @@ namespace GlueDynamicManager.Processors
 
                         var obj = element.PropertyFinder(newSave.NamedObjects[noIndex].InstanceName);
 
-                        await ApplyInstructionAsync(newInstruction, newSave, element, obj.GetType().Name, obj);
+                        ApplyInstruction(newInstruction, newSave, element, obj.GetType().Name, obj);
                     }
                     else
                     {
@@ -77,7 +78,7 @@ namespace GlueDynamicManager.Processors
                         var obj = element.PropertyFinder(newSave.NamedObjects[noIndex].InstanceName);
 
                         CleanupOldInstruction(oldInstruction);
-                        await ApplyInstructionAsync(newInstruction, newSave, element, obj.GetType().Name, obj);
+                        ApplyInstruction(newInstruction, newSave, element, obj.GetType().Name, obj);
                     }
                     else if(PathMatchRegEx_CustomVariables_Field.IsMatch(operation.Path))
                     {
@@ -85,7 +86,23 @@ namespace GlueDynamicManager.Processors
 
                         var cvIndex = int.Parse(match.Groups[1].Value);
 
-                        await ApplyCustomVariableAsync(element, newSave.CustomVariables[cvIndex], newSave);
+                        ApplyCustomVariable(element, newSave.CustomVariables[cvIndex], newSave);
+                    }
+                    else
+                    {
+                        throw new NotImplementedException();
+                    }
+                }else if(operation.Op == "remove")
+                {
+                    if (PathMatchRegEx_NamedObject_Item.IsMatch(operation.Path))
+                    {
+                        var match = PathMatchRegEx_NamedObject_Item.Match(operation.Path);
+
+                        var noIndex = int.Parse(match.Groups[1].Value);
+
+                        var removeNO = oldSave.NamedObjects[noIndex];
+
+                        element.RemoveNamedObject(removeNO);
                     }
                     else
                     {
@@ -99,19 +116,24 @@ namespace GlueDynamicManager.Processors
             }
         }
 
-        private static async Task ApplyCustomVariableAsync(HybridGlueElement element, CustomVariable customVariable, GlueElement save)
+        private static void ApplyCustomVariable(HybridGlueElement element, CustomVariable customVariable, GlueElement save)
         {
-            await InstructionManager.DoOnMainThreadAsync(() =>
+            Action body = () =>
             {
                 var convertedValue = ValueConverter.ConvertValue(customVariable, save);
                 var convertedPropertyName = ValueConverter.ConvertForPropertyName(customVariable.Name, element.GlueElement);
                 ScreenManager.CurrentScreen.ApplyVariable(convertedPropertyName, convertedValue, element.GlueElement);
-            });
+            };
+
+            if (FlatRedBallServices.IsThreadPrimary())
+                body();
+            else
+                InstructionManager.DoOnMainThreadAsync(body).Wait();
         }
 
-        private static async Task AddNamedObjectAsync(HybridGlueElement element, GlueElement newSave, NamedObjectSave nos, bool addToManagers)
+        private static void AddNamedObject(HybridGlueElement element, GlueElement newSave, NamedObjectSave nos, bool addToManagers)
         {
-            await InstructionManager.DoOnMainThreadAsync(() =>
+            Action body = () =>
             {
                 var itemContainer = NamedObjectSaveHelper.GetContainerFor(nos, newSave);
                 NamedObjectSaveHelper.InitializeNamedObject(element.GlueElement, nos, itemContainer, newSave, element.PropertyFinder, out var instancedObjects);
@@ -121,7 +143,12 @@ namespace GlueDynamicManager.Processors
                     AddToManagers(element, newSave, instancedObjects);
 
                 element.InstancedObjects.AddRange(instancedObjects);
-            });
+            };
+
+            if (FlatRedBallServices.IsThreadPrimary())
+                body();
+            else
+                InstructionManager.DoOnMainThreadAsync(body).Wait();
         }
 
         private static void DoInitialize(HybridGlueElement element, GlueElement save, List<ObjectContainer> instancedObjects)
@@ -182,15 +209,20 @@ namespace GlueDynamicManager.Processors
             //Here, we can clean up any registration or things that a new instruction won't override
         }
 
-        private static async Task ApplyInstructionAsync(InstructionSave instruction, GlueElement save, HybridGlueElement element, string objectType, object value)
+        private static void ApplyInstruction(InstructionSave instruction, GlueElement save, HybridGlueElement element, string objectType, object value)
         {
-            await InstructionManager.DoOnMainThreadAsync(() =>
+            Action body = () =>
             {
                 var convertedValue = ValueConverter.ConvertValue(instruction, save);
                 convertedValue = ValueConverter.ConvertForProperty(convertedValue, instruction.Type, objectType);
                 var convertedPropertyName = ValueConverter.ConvertForPropertyName(instruction.Member, value);
                 ScreenManager.CurrentScreen.ApplyVariable(convertedPropertyName, convertedValue, value);
-            });
+            };
+
+            if (FlatRedBallServices.IsThreadPrimary())
+                body();
+            else
+                InstructionManager.DoOnMainThreadAsync(body).Wait();
         }
     }
 }

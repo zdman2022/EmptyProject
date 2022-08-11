@@ -40,7 +40,7 @@ namespace GlueDynamicManager
             ScreenManager.ScreenLoaded += ScreenLoadedHandler;
         }
 
-        internal async Task UpdateStateAsync(GlueJsonContainer glueJsonContainer)
+        internal void UpdateState(GlueJsonContainer glueJsonContainer)
         {
             //Update ObjectFinder
             ObjectFinder.Self.GlueProject = glueJsonContainer.GetFullClone();
@@ -56,24 +56,24 @@ namespace GlueDynamicManager
             //Do Updates
             foreach (var dynamicEntity in _dynamicEntities)
             {
-                await EntityDoChangesAsync(dynamicEntity, true, _curState.Entities.ContainsKey(dynamicEntity.TypeName) ? _curState.Entities[dynamicEntity.TypeName] : null, glueJsonContainer.Entities.ContainsKey(dynamicEntity.TypeName) ? glueJsonContainer.Entities[dynamicEntity.TypeName] : null);
+                EntityDoChanges(dynamicEntity, true, _curState.Entities.ContainsKey(dynamicEntity.TypeName) ? _curState.Entities[dynamicEntity.TypeName] : null, glueJsonContainer.Entities.ContainsKey(dynamicEntity.TypeName) ? glueJsonContainer.Entities[dynamicEntity.TypeName] : null);
             }
 
             foreach (var hybridEntity in _hybridEntities)
             {
                 var entityName = hybridEntity.Entity.GetType().Name;
-                await EntityDoChangesAsync(hybridEntity.Entity, true, _curState.Entities.ContainsKey(entityName) ? _curState.Entities[entityName] : null, glueJsonContainer.Entities.ContainsKey(entityName) ? glueJsonContainer.Entities[entityName] : null);
+                EntityDoChanges(hybridEntity.Entity, true, _curState.Entities.ContainsKey(entityName) ? _curState.Entities[entityName] : null, glueJsonContainer.Entities.ContainsKey(entityName) ? glueJsonContainer.Entities[entityName] : null);
             }
 
             foreach (var dynamicScreen in _dynamicScreens)
             {
-                await ScreenDoChangesAsync(dynamicScreen, true, _curState.Screens.ContainsKey(dynamicScreen.TypeName) ? _curState.Screens[dynamicScreen.TypeName] : null, glueJsonContainer.Screens.ContainsKey(dynamicScreen.TypeName) ? glueJsonContainer.Screens[dynamicScreen.TypeName] : null);
+                ScreenDoChanges(dynamicScreen, true, _curState.Screens.ContainsKey(dynamicScreen.TypeName) ? _curState.Screens[dynamicScreen.TypeName] : null, glueJsonContainer.Screens.ContainsKey(dynamicScreen.TypeName) ? glueJsonContainer.Screens[dynamicScreen.TypeName] : null);
             }
 
             foreach (var hybridScreen in _hybridScreens)
             {
                 var screenName = hybridScreen.Screen.GetType().Name;
-                await ScreenDoChangesAsync(hybridScreen.Screen, true, _curState.Screens.ContainsKey(screenName) ? _curState.Screens[screenName] : null, glueJsonContainer.Screens.ContainsKey(screenName) ? glueJsonContainer.Screens[screenName] : null);
+                ScreenDoChanges(hybridScreen.Screen, true, _curState.Screens.ContainsKey(screenName) ? _curState.Screens[screenName] : null, glueJsonContainer.Screens.ContainsKey(screenName) ? glueJsonContainer.Screens[screenName] : null);
             }
 
             _curState = glueJsonContainer;
@@ -198,15 +198,12 @@ namespace GlueDynamicManager
                 AddEventHandler(screen, "DestroyEvent", "ScreenDestroyHandler");
 
                 var screenName = screen.GetType().Name;
-                Task.Run(async () =>
-                {
-                    await ScreenDoChangesAsync(screen, false, _initialState.Screens.ContainsKey(screenName) ? _initialState.Screens[screenName] : null, _curState.Screens.ContainsKey(screenName) ? _curState.Screens[screenName] : null);
-                });
+                ScreenDoChanges(screen, false, _initialState.Screens.ContainsKey(screenName) ? _initialState.Screens[screenName] : null, _curState.Screens.ContainsKey(screenName) ? _curState.Screens[screenName] : null);
                 
             }
         }
 
-        private async Task ScreenDoChangesAsync(Screen screen, bool addToManagers, GlueJsonContainer.JsonContainer<ScreenSave> oldScreenJson, GlueJsonContainer.JsonContainer<ScreenSave> newScreenJson)
+        private void ScreenDoChanges(Screen screen, bool addToManagers, GlueJsonContainer.JsonContainer<ScreenSave> oldScreenJson, GlueJsonContainer.JsonContainer<ScreenSave> newScreenJson)
         {
             if (_curState == null)
                 return;
@@ -220,7 +217,7 @@ namespace GlueDynamicManager
                     var glueDifferences = _jdp.Diff(oldScreenJson.Json, newScreenJson.Json);
                     var operations = _jdf.Format(glueDifferences);
 
-                    await GlueElementOperationProcessor.ApplyOperationsAsync(_hybridScreens.First(item => item.Screen == screen), oldScreenJson.Value, newScreenJson.Value, glueDifferences, operations, addToManagers);
+                    GlueElementOperationProcessor.ApplyOperations(_hybridScreens.First(item => item.Screen == screen), oldScreenJson.Value, newScreenJson.Value, glueDifferences, operations, addToManagers);
                 }
             }
         }
@@ -279,7 +276,11 @@ namespace GlueDynamicManager
             }
             else
             {
-                _hybridScreens.Remove(_hybridScreens.First(item => item.Screen == caller));
+                var hybridScreen = _hybridScreens.First(item => item.Screen == caller);
+
+                hybridScreen.Destroy();
+
+                _hybridScreens.Remove(hybridScreen);
             }
             
         }
@@ -288,10 +289,7 @@ namespace GlueDynamicManager
         {
             var entityName = caller.GetType().Name;
             if (_initialState != null)
-                Task.Run(async () =>
-                {
-                    await EntityDoChangesAsync(caller, addToManagers, _initialState.Entities.ContainsKey(entityName) ? _initialState.Entities[entityName] : null, _curState.Entities.ContainsKey(entityName) ? _curState.Entities[entityName] : null);
-                });
+                EntityDoChanges(caller, addToManagers, _initialState.Entities.ContainsKey(entityName) ? _initialState.Entities[entityName] : null, _curState.Entities.ContainsKey(entityName) ? _curState.Entities[entityName] : null);
                 
         }
 
@@ -361,16 +359,13 @@ namespace GlueDynamicManager
 
                 var entityName = instance.GetType().Name;
                 if (_initialState != null)
-                    Task.Run(async () =>
-                    {
-                        await EntityDoChangesAsync(instance, addToManagers, _initialState.Entities.ContainsKey(entityName) ? _initialState.Entities[entityName] : null, _curState.Entities.ContainsKey(entityName) ? _curState.Entities[entityName] : null);
-                    });
+                    EntityDoChanges(instance, addToManagers, _initialState.Entities.ContainsKey(entityName) ? _initialState.Entities[entityName] : null, _curState.Entities.ContainsKey(entityName) ? _curState.Entities[entityName] : null);
 
                 return instance;
             }
         }
 
-        private async Task EntityDoChangesAsync(object entity, bool addToManagers, GlueJsonContainer.JsonContainer<EntitySave> oldEntityJson, GlueJsonContainer.JsonContainer<EntitySave> newEntityJson)
+        private void EntityDoChanges(object entity, bool addToManagers, GlueJsonContainer.JsonContainer<EntitySave> oldEntityJson, GlueJsonContainer.JsonContainer<EntitySave> newEntityJson)
         {
             if (_curState == null)
                 return;
@@ -386,7 +381,7 @@ namespace GlueDynamicManager
                         var glueDifferences = _jdp.Diff(oldEntityJson.Json, newEntityJson.Json);
                         var operations = _jdf.Format(glueDifferences);
 
-                        await GlueElementOperationProcessor.ApplyOperationsAsync(_hybridEntities.First(item => item.Entity == entity), oldEntityJson.Value, newEntityJson.Value, glueDifferences, operations, addToManagers);
+                        GlueElementOperationProcessor.ApplyOperations(_hybridEntities.First(item => item.Entity == entity), oldEntityJson.Value, newEntityJson.Value, glueDifferences, operations, addToManagers);
                     }
                 }
             }
