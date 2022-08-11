@@ -29,20 +29,34 @@ namespace GlueDynamicManager.DynamicInstances
 
         public object PropertyFinder(string name)
         {
+            //Search Dynamic
             var foundItem = InstancedObjects.Where(item => item.Name == name).FirstOrDefault();
 
             if (foundItem != null)
                 return foundItem.Value;
 
-            var prop = GlueElement.GetType().GetProperty(name, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+
+            //Search Properties
+            var prop = GlueElement.GetType().GetProperty(name, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
 
             if (prop != null)
                 return prop.GetValue(GlueElement);
 
-            prop = GlueElement.GetType().BaseType.GetProperty(name, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+            prop = GlueElement.GetType().BaseType.GetProperty(name, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
 
             if (prop != null)
                 return prop.GetValue(GlueElement);
+
+            //Search Fields
+            var field = GlueElement.GetType().GetField(name, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+
+            if (field != null)
+                return field.GetValue(GlueElement);
+
+            field = GlueElement.GetType().BaseType.GetField(name, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+
+            if (field != null)
+                return field.GetValue(GlueElement);
 
             return null;
         }
@@ -105,18 +119,7 @@ namespace GlueDynamicManager.DynamicInstances
 
         internal void RemoveNamedObject(NamedObjectSave removeNO)
         {
-            var obj = InstancedObjects.FirstOrDefault(item => removeNO.InstanceName == item.Name);
-
-            if(obj != null)
-            {
-                //Dynamic
-                RemoveObject(obj.Value);
-            }
-            else
-            {
-                //Not Dynamic
-                RemoveObject(GlueElement.GetType().GetProperty(removeNO.InstanceName).GetValue(GlueElement));
-            }
+            RemoveObject(PropertyFinder(removeNO.InstanceName));
         }
     }
 }

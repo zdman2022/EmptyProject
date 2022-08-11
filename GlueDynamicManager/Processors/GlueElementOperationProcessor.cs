@@ -22,7 +22,9 @@ namespace GlueDynamicManager.Processors
     {
         private static Regex PathMatchRegEx_NamedObject = new Regex("^/NamedObjects$");
         private static Regex PathMatchRegEx_NamedObject_Item = new Regex("^/NamedObjects/(\\d+)?$");
-        private static Regex PathMatchRegEx_NamedObjectInstructionSave = new Regex("^/NamedObjects/(\\d+)/InstructionSaves/(\\d+)(/Value)?$");
+        private static Regex PathMatchRegEx_NamedObjectInstructionSave_Item = new Regex("^/NamedObjects/(\\d+)/InstructionSaves/(\\d+)(/Value)?$");
+        private static Regex PathMatchRegEx_NamedObjectContainedObject = new Regex("^/NamedObjects/(\\d+)/ContainedObjects$");
+        private static Regex PathMatchRegEx_NamedObjectContainedObject_Item = new Regex("^/NamedObjects/(\\d+)/ContainedObjects/(\\d+)$");
         private static Regex PathMatchRegEx_CustomVariables_Field = new Regex("^/CustomVariables/(\\d+)/([^/]*)$");
 
         internal static void ApplyOperations(HybridGlueElement element, GlueElement oldSave, GlueElement newSave, JToken glueDifferences, IList<Operation> operations, bool addToManagers)
@@ -45,9 +47,9 @@ namespace GlueDynamicManager.Processors
                         var nos = JsonConvert.DeserializeObject<NamedObjectSave>(operation.Value.ToString());
                         AddNamedObject(element, newSave, nos, addToManagers);
                     }
-                    else if (PathMatchRegEx_NamedObjectInstructionSave.IsMatch(operation.Path))
+                    else if (PathMatchRegEx_NamedObjectInstructionSave_Item.IsMatch(operation.Path))
                     {
-                        var match = PathMatchRegEx_NamedObjectInstructionSave.Match(operation.Path);
+                        var match = PathMatchRegEx_NamedObjectInstructionSave_Item.Match(operation.Path);
 
                         var noIndex = int.Parse(match.Groups[1].Value);
                         var isIndex = int.Parse(match.Groups[2].Value);
@@ -58,6 +60,29 @@ namespace GlueDynamicManager.Processors
 
                         ApplyInstruction(newInstruction, newSave, element, obj.GetType().Name, obj);
                     }
+                    else if(PathMatchRegEx_NamedObjectContainedObject_Item.IsMatch(operation.Path))
+                    {
+                        var match = PathMatchRegEx_NamedObjectContainedObject_Item.Match(operation.Path);
+
+                        var noIndex = int.Parse(match.Groups[1].Value);
+                        var coIndex = int.Parse(match.Groups[2].Value);
+
+                        var nos = newSave.NamedObjects[noIndex];
+                        var co = nos.ContainedObjects[coIndex];
+
+                        AddNamedObject(element, newSave, co, addToManagers);
+                    }
+                    else if(PathMatchRegEx_NamedObjectContainedObject.IsMatch(operation.Path))
+                    {
+                        var match = PathMatchRegEx_NamedObjectContainedObject.Match(operation.Path);
+
+                        var noIndex = int.Parse(match.Groups[1].Value);
+
+                        foreach(var co in newSave.NamedObjects[noIndex].ContainedObjects)
+                        {
+                            AddNamedObject(element, newSave, co, addToManagers);
+                        }
+                    }
                     else
                     {
                         throw new NotImplementedException();
@@ -65,9 +90,9 @@ namespace GlueDynamicManager.Processors
                 }
                 else if (operation.Op == "replace")
                 {
-                    if (PathMatchRegEx_NamedObjectInstructionSave.IsMatch(operation.Path))
+                    if (PathMatchRegEx_NamedObjectInstructionSave_Item.IsMatch(operation.Path))
                     {
-                        var match = PathMatchRegEx_NamedObjectInstructionSave.Match(operation.Path);
+                        var match = PathMatchRegEx_NamedObjectInstructionSave_Item.Match(operation.Path);
 
                         var noIndex = int.Parse(match.Groups[1].Value);
                         var isIndex = int.Parse(match.Groups[2].Value);
@@ -88,6 +113,19 @@ namespace GlueDynamicManager.Processors
 
                         ApplyCustomVariable(element, newSave.CustomVariables[cvIndex], newSave);
                     }
+                    else if (PathMatchRegEx_NamedObjectContainedObject_Item.IsMatch(operation.Path))
+                    {
+                        var match = PathMatchRegEx_NamedObjectContainedObject_Item.Match(operation.Path);
+
+                        var noIndex = int.Parse(match.Groups[1].Value);
+                        var coIndex = int.Parse(match.Groups[2].Value);
+
+                        var nos = newSave.NamedObjects[noIndex];
+                        var co = nos.ContainedObjects[coIndex];
+
+                        element.RemoveNamedObject(oldSave.NamedObjects[noIndex].ContainedObjects[coIndex]);
+                        AddNamedObject(element, newSave, nos, addToManagers);
+                    }
                     else
                     {
                         throw new NotImplementedException();
@@ -104,8 +142,29 @@ namespace GlueDynamicManager.Processors
 
                         element.RemoveNamedObject(removeNO);
                     }
+                    else if (PathMatchRegEx_NamedObjectContainedObject_Item.IsMatch(operation.Path))
+                    {
+                        var match = PathMatchRegEx_NamedObjectContainedObject_Item.Match(operation.Path);
+
+                        var noIndex = int.Parse(match.Groups[1].Value);
+                        var coIndex = int.Parse(match.Groups[2].Value);
+
+                        element.RemoveNamedObject(oldSave.NamedObjects[noIndex].ContainedObjects[coIndex]);
+                    }
+                    else if (PathMatchRegEx_NamedObjectContainedObject.IsMatch(operation.Path))
+                    {
+                        var match = PathMatchRegEx_NamedObjectContainedObject.Match(operation.Path);
+
+                        var noIndex = int.Parse(match.Groups[1].Value);
+
+                        foreach (var co in oldSave.NamedObjects[noIndex].ContainedObjects)
+                        {
+                            element.RemoveNamedObject(co);
+                        }
+                    }
                     else
                     {
+                        
                         throw new NotImplementedException();
                     }
                 }

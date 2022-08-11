@@ -176,10 +176,12 @@ namespace GlueDynamicManager.GlueHelpers
 
                     if (nosList != null)
                     {
-                        var container = instancedObjects.Find(item => item.Name == nosList.InstanceName);
+                        var container = propertyFinder(nosList.InstanceName);
                         if (container != null)
                         {
-                            InstanceInstantiator.AddItemToList(container.Value, objectContainer.Value);
+                            if(container is ObjectContainer objectContainer1)
+                                container = objectContainer1.Value;
+                            InstanceInstantiator.AddItemToList(container, objectContainer.Value);
                         }
 
                     }

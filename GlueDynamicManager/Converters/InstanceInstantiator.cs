@@ -310,7 +310,7 @@ namespace GlueDynamicManager
 
         internal static object InstantiateEntity(Type type)
         {
-            var instance = Activator.CreateInstance(type);
+            var instance = Activator.CreateInstance(type, new object[] { FlatRedBall.Screens.ScreenManager.CurrentScreen.ContentManagerName, false });
 
             return instance;
         }
