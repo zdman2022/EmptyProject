@@ -15,14 +15,6 @@ namespace GlueDynamicManager.Converters
     {
         public static void Destroy(ObjectContainer objectContainer)
         {
-            var nos = objectContainer.NamedObjectSave;
-            ////////////////Early Out/////////////////////
-            if (nos.InstantiatedByBase)
-            {
-                return;
-            }
-            /////////////End Early Out///////////////////
-
             Destroy(objectContainer.Value);
         }
 
