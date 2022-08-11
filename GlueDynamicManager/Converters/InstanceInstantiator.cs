@@ -46,43 +46,73 @@ namespace GlueDynamicManager
         private static readonly Regex GenericSingleTypeRegEx = new Regex("^(.*)<([^,]*)>$");
         private static readonly Regex GenericDoubleTypeRegEx = new Regex("^(.*)<([^,]*),([^,]*)>$");
 
-        internal static object Instantiate(string sourceClassType, List<PropertySave> properties, object container)
+        internal static object Instantiate(NamedObjectSave nos, object container)
         {
+            string sourceClassType = nos.SourceClassType;
+            List<PropertySave> properties = nos.Properties;
+
             if (sourceClassType == typeof(AxisAlignedCube).FullName)
             {
-                return new AxisAlignedCube();
+                return new AxisAlignedCube()
+                {
+                    Name = nos.InstanceName
+                };
             }
             if (sourceClassType == typeof(AxisAlignedRectangle).FullName)
             {
-                return new AxisAlignedRectangle();
+                return new AxisAlignedRectangle()
+                {
+                    Name = nos.InstanceName
+                };
             }
             else if(sourceClassType == typeof(Circle).FullName)
             {
-                return new Circle();
+                return new Circle()
+                {
+                    Name = nos.InstanceName
+                };
             }
             else if (sourceClassType == typeof(Line).FullName)
             {
-                return new Line();
+                return new Line()
+                {
+                    Name = nos.InstanceName
+                };
             }
             else if (sourceClassType == typeof(Polygon).FullName)
             {
-                return new Polygon();
+                return new Polygon()
+                {
+                    Name = nos.InstanceName
+                };
             }
             else if (sourceClassType == typeof(Sphere).FullName)
             {
-                return new Sphere();
+                return new Sphere()
+                {
+                    Name = nos.InstanceName
+                };
             }
             else if (sourceClassType == typeof(Sprite).FullName)
             {
-                return new Sprite();
+                return new Sprite()
+                {
+                    Name = nos.InstanceName
+                };
             }
             else if (sourceClassType == typeof(Text).FullName)
             {
-                return new Text();
+                return new Text()
+                {
+                    Name = nos.InstanceName
+                };
             }
             else if(sourceClassType == typeof(FlatRedBall.TileCollisions.TileShapeCollection).FullName)
             {
-                return new FlatRedBall.TileCollisions.TileShapeCollection();
+                return new FlatRedBall.TileCollisions.TileShapeCollection()
+                {
+                    Name = nos.InstanceName
+                };
             }
             else if (GenericSingleTypeRegEx.IsMatch(sourceClassType))
             {

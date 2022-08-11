@@ -63,7 +63,7 @@ namespace GlueDynamicManager.DynamicInstances
                     _instancedObjects.Add(new ObjectContainer
                     {
                         NamedObjectSave = no,
-                        Value = InstanceInstantiator.Instantiate(no.SourceClassType, no.Properties, this),
+                        Value = InstanceInstantiator.Instantiate(no, this),
                         CombinedInstructionSaves = no.InstructionSaves
                     });
                 }
@@ -99,10 +99,17 @@ namespace GlueDynamicManager.DynamicInstances
 
         public void Destroy()
         {
+            for (int i = _instancedObjects.Count - 1; i > -1; i--)
+            {
+                InstanceDestroy.Destroy(_instancedObjects[i]);
+            }
+
             mGeneratedCollision.RemoveFromManagers(clearThis: false);
 
             if (DestroyEvent != null)
                 DestroyEvent(this);
+
+            this.RemoveSelfFromListsBelongingTo();
         }
 
         internal void SetVariable(string member, object convertedValue)

@@ -3,6 +3,7 @@ using FlatRedBall.Graphics;
 using FlatRedBall.Instructions;
 using FlatRedBall.Math;
 using FlatRedBall.Math.Geometry;
+using FlatRedBall.TileCollisions;
 using FlatRedBall.TileGraphics;
 using GlueDynamicManager.DynamicInstances.Containers;
 using System;
@@ -44,7 +45,7 @@ namespace GlueDynamicManager.Converters
                 {
                     asDestroyable.Destroy();
                 }
-                if (instance is AxisAlignedCube aaCube)
+                else if (instance is AxisAlignedCube aaCube)
                 {
                     ShapeManager.Remove(aaCube);
                 }
@@ -71,6 +72,10 @@ namespace GlueDynamicManager.Converters
                 else if (instance is LayeredTileMap asLayeredTileMap)
                 {
                     asLayeredTileMap.Destroy();
+                }
+                else if(instance is TileShapeCollection asTileShapeCollection)
+                {
+                    asTileShapeCollection.RemoveFromManagers(); // full removal, do we want to one-way it?
                 }
             };
 

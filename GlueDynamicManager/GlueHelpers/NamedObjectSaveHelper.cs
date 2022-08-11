@@ -231,7 +231,7 @@ namespace GlueDynamicManager.GlueHelpers
                 }
                 else
                 {
-                    objectContainer.Value = InstanceInstantiator.Instantiate(nos.SourceClassType, nos.Properties, noContainer);
+                    objectContainer.Value = InstanceInstantiator.Instantiate(nos, noContainer);
                 }
 
                 instancedObjects.Add(objectContainer);
