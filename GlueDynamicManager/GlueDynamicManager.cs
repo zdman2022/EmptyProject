@@ -198,7 +198,11 @@ namespace GlueDynamicManager
                 AddEventHandler(screen, "DestroyEvent", "ScreenDestroyHandler");
 
                 var screenName = screen.GetType().Name;
-                ScreenDoChangesAsync(screen, false, _initialState.Screens.ContainsKey(screenName) ? _initialState.Screens[screenName] : null, _curState.Screens.ContainsKey(screenName) ? _curState.Screens[screenName] : null).Wait();
+                Task.Run(async () =>
+                {
+                    await ScreenDoChangesAsync(screen, false, _initialState.Screens.ContainsKey(screenName) ? _initialState.Screens[screenName] : null, _curState.Screens.ContainsKey(screenName) ? _curState.Screens[screenName] : null);
+                });
+                
             }
         }
 
@@ -283,8 +287,12 @@ namespace GlueDynamicManager
         private void EntityInitializeHandler(object caller, bool addToManagers)
         {
             var entityName = caller.GetType().Name;
-            if(_initialState != null)
-                EntityDoChangesAsync(caller, addToManagers, _initialState.Entities.ContainsKey(entityName) ? _initialState.Entities[entityName] : null, _curState.Entities.ContainsKey(entityName) ? _curState.Entities[entityName] : null).Wait();
+            if (_initialState != null)
+                Task.Run(async () =>
+                {
+                    await EntityDoChangesAsync(caller, addToManagers, _initialState.Entities.ContainsKey(entityName) ? _initialState.Entities[entityName] : null, _curState.Entities.ContainsKey(entityName) ? _curState.Entities[entityName] : null);
+                });
+                
         }
 
         private void EntityActivityHandler(object caller)
@@ -348,8 +356,11 @@ namespace GlueDynamicManager
                 AddEventHandler(instance, "DestroyEvent", "EntityDestroyHandler");
 
                 var entityName = instance.GetType().Name;
-                if(_initialState != null)
-                    EntityDoChangesAsync(instance, addToManagers, _initialState.Entities.ContainsKey(entityName) ? _initialState.Entities[entityName] : null, _curState.Entities.ContainsKey(entityName) ? _curState.Entities[entityName] : null).Wait();
+                if (_initialState != null)
+                    Task.Run(async () =>
+                    {
+                        await EntityDoChangesAsync(instance, addToManagers, _initialState.Entities.ContainsKey(entityName) ? _initialState.Entities[entityName] : null, _curState.Entities.ContainsKey(entityName) ? _curState.Entities[entityName] : null);
+                    });
 
                 return instance;
             }
