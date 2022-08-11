@@ -19,6 +19,18 @@ namespace GlueDynamicManager
     {
         public static void AddToManager(ObjectContainer objectContainer, List<ObjectContainer> otherObjects, Layer layer)
         {
+            var nos = objectContainer.NamedObjectSave;
+
+            ////////////////Early Out/////////////////////
+            if(nos.InstantiatedByBase)
+            {
+                return;
+            }
+            /////////////End Early Out///////////////////
+
+
+
+
             var instance = objectContainer.Value;
 
             MethodInfo method;
@@ -53,19 +65,6 @@ namespace GlueDynamicManager
             }
             else if (instance is TileShapeCollection asTileShapeCollection)
             {
-                // for now we assume it's visible. Eventually we look at the NOS
-                // we may not need to do this, as it's done automatically
-                //var value = ObjectFinder.Self.GetValueRecursively(
-                //    objectContainer.NamedObjectSave,
-                //    ObjectFinder.Self.GetElementContaining(objectContainer.NamedObjectSave),
-                //    "Visible");
-
-                //if(value is bool asBool && asBool)
-                //{
-                //    asTileShapeCollection.Visible = true;
-                //}
-
-                var nos = objectContainer.NamedObjectSave;
                 T GetProperty<T>(string name) =>
                     ObjectFinder.Self.GetPropertyValueRecursively<T>(nos, name);
 
