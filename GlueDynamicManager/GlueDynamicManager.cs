@@ -126,6 +126,10 @@ namespace GlueDynamicManager
             List<string> glueScreenNames = new List<string>();
             glueScreenNames.Add(screenNameGlue);
             var glueScreen = ObjectFinder.Self.GetScreenSave(screenNameGlue);
+
+            if (glueScreen == null)
+                throw new Exception($"Screen {screenNameGlue} was not found");
+
             var baseNames = ObjectFinder.Self.GetAllBaseElementsRecursively(glueScreen).Select(item => item.Name);
             glueScreenNames.AddRange(baseNames);
 

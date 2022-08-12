@@ -329,7 +329,8 @@ namespace GlueDynamicManager.Processors
                         {
                             var convertedValue = ValueConverter.ConvertValue(instruction, save);
                             convertedValue = ValueConverter.ConvertForProperty(convertedValue, instruction.Type, typeof(DynamicEntity).Name);
-                            dynamicEntity.SetVariable(instruction.Member, convertedValue);
+                            var convertedPropertyName = ValueConverter.ConvertForPropertyName(instruction.Member, instance.Value);
+                            dynamicEntity.SetVariable(convertedPropertyName, convertedValue);
                         }
                 }
                 else
@@ -339,7 +340,8 @@ namespace GlueDynamicManager.Processors
                         {
                             var convertedValue = ValueConverter.ConvertValue(instruction, save);
                             convertedValue = ValueConverter.ConvertForProperty(convertedValue, instruction.Type, instance.ObjectType);
-                            ScreenManager.CurrentScreen.ApplyVariable(instruction.Member, convertedValue, instance.Value);
+                            var convertedPropertyName = ValueConverter.ConvertForPropertyName(instruction.Member, instance.Value);
+                            ScreenManager.CurrentScreen.ApplyVariable(convertedPropertyName, convertedValue, instance.Value);
                         }
                 }
             }
