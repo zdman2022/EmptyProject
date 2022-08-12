@@ -5,6 +5,7 @@ using FlatRedBall.Math.Geometry;
 using FlatRedBall.TileGraphics;
 using GlueControl;
 using GlueControl.Models;
+using GlueDynamicManager.Converters;
 using GlueDynamicManager.DynamicInstances;
 using System;
 using System.Collections.Generic;
@@ -56,56 +57,64 @@ namespace GlueDynamicManager
             {
                 return new AxisAlignedCube()
                 {
-                    Name = nos.InstanceName
+                    Name = nos.InstanceName,
+                    CreationSource = "Dynamic"
                 };
             }
             if (sourceClassType == typeof(AxisAlignedRectangle).FullName)
             {
                 return new AxisAlignedRectangle()
                 {
-                    Name = nos.InstanceName
+                    Name = nos.InstanceName,
+                    CreationSource = "Dynamic"
                 };
             }
             else if(sourceClassType == typeof(Circle).FullName)
             {
                 return new Circle()
                 {
-                    Name = nos.InstanceName
+                    Name = nos.InstanceName,
+                    CreationSource = "Dynamic"
                 };
             }
             else if (sourceClassType == typeof(Line).FullName)
             {
                 return new Line()
                 {
-                    Name = nos.InstanceName
+                    Name = nos.InstanceName,
+                    CreationSource = "Dynamic"
                 };
             }
             else if (sourceClassType == typeof(Polygon).FullName)
             {
                 return new Polygon()
                 {
-                    Name = nos.InstanceName
+                    Name = nos.InstanceName,
+                    CreationSource = "Dynamic"
                 };
             }
             else if (sourceClassType == typeof(Sphere).FullName)
             {
                 return new Sphere()
                 {
-                    Name = nos.InstanceName
+                    Name = nos.InstanceName,
+                    CreationSource = "Dynamic"
                 };
             }
             else if (sourceClassType == typeof(Sprite).FullName)
             {
                 return new Sprite()
                 {
-                    Name = nos.InstanceName
+                    Name = nos.InstanceName,
+                    CreationSource = "Dynamic"
                 };
             }
             else if (sourceClassType == typeof(Text).FullName)
             {
                 return new Text()
                 {
-                    Name = nos.InstanceName
+                    Name = nos.InstanceName,
+                    CreationSource = "Dynamic"
                 };
             }
             else if(sourceClassType == typeof(FlatRedBall.TileCollisions.TileShapeCollection).FullName)
@@ -141,6 +150,9 @@ namespace GlueDynamicManager
 
                 var instance = InstantiateTypeWith1Generic(GetType(typeName + "`1", true), genType, parmList);
 
+                TypeHandler.SetPropValueIfExists(instance, "Name", nos.InstanceName);
+                TypeHandler.SetPropValueIfExists(instance, "CreationSource", "Dynamic");
+
                 ApplyPropertiesToInstance(sourceClassType, instance, container, properties);
 
                 return instance;
@@ -159,6 +171,9 @@ namespace GlueDynamicManager
                 var parmList = GetParmsForType(sourceClassType, container, properties);
 
                 var instance = InstantiateTypeWith2Generic(GetType(typeName + "`2", true), genType1, genType2, parmList);
+
+                TypeHandler.SetPropValueIfExists(instance, "Name", nos.InstanceName);
+                TypeHandler.SetPropValueIfExists(instance, "CreationSource", "Dynamic");
 
                 ApplyPropertiesToInstance(sourceClassType, instance, container, properties);
 

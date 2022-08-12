@@ -143,30 +143,14 @@ namespace GlueDynamicManager.Converters
         {
             if(name == "X")
             {
-                var prop = glueElement.GetType().GetProperty("Parent");
-                if (prop != null)
-                {
-                    var propValue = prop.GetValue(glueElement, null);
-
-                    if(propValue != null)
-                    {
-                        return "RelativeX";
-                    }
-                }
+                if(TypeHandler.GetPropValueIfExists(glueElement, "Parent", out var value) && value != null)
+                    return "RelativeX";
             }
 
             if (name == "Y")
             {
-                var prop = glueElement.GetType().GetProperty("Parent");
-                if (prop != null)
-                {
-                    var propValue = prop.GetValue(glueElement, null);
-
-                    if (propValue != null)
-                    {
-                        return "RelativeY";
-                    }
-                }
+                if (TypeHandler.GetPropValueIfExists(glueElement, "Parent", out var value) && value != null)
+                    return "RelativeY";
             }
 
             return name;

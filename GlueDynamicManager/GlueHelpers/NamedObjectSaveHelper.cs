@@ -237,6 +237,15 @@ namespace GlueDynamicManager.GlueHelpers
                 instancedObjects.Add(objectContainer);
 
             }
+
+            if (nosList == null && nos.AttachToContainer)
+            {
+                foreach(var item in instancedObjects)
+                {
+                    TypeHandler.CallMethodIfExists(item.Value, "CopyAbsoluteToRelative", new object[] { });
+                    TypeHandler.CallMethodIfExists(item.Value, "AttachTo", new object[] { noContainer, false });
+                }
+            }
         }
 
         public static List<InstructionSave> GetInstructionsRecursively(NamedObjectSave nos, GlueElement glueElement, List<InstructionSave> list = null)

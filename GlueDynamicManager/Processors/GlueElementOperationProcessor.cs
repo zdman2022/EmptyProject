@@ -100,9 +100,11 @@ namespace GlueDynamicManager.Processors
             {
                 AddNamedObject(element, newSave, (NamedObjectSave)item, addToManagers);
             }
-            else if(path.StartsWith("/NamedObjects/InstructionSaves"))
+            else if(path.StartsWith("/NamedObjects/InstructionSaves") || path.StartsWith("/NamedObjects/ContainedObjects/InstructionSaves"))
             {
-                var obj = element.PropertyFinder(((NamedObjectSave)parents[2]).InstanceName);
+                var obj = path.StartsWith("/NamedObjects/InstructionSaves")
+                    ? element.PropertyFinder(((NamedObjectSave)parents[2]).InstanceName)
+                    : element.PropertyFinder(((NamedObjectSave)parents[4]).InstanceName);
 
                 var instructionSave = item as InstructionSave;
 
@@ -329,7 +331,8 @@ namespace GlueDynamicManager.Processors
                         {
                             var convertedValue = ValueConverter.ConvertValue(instruction, save);
                             convertedValue = ValueConverter.ConvertForProperty(convertedValue, instruction.Type, typeof(DynamicEntity).Name);
-                            dynamicEntity.SetVariable(instruction.Member, convertedValue);
+                            var convertedPropertyName = ValueConverter.ConvertForPropertyName(instruction.Member, instance.Value);
+                            dynamicEntity.SetVariable(convertedPropertyName, convertedValue);
                         }
                 }
                 else
@@ -339,7 +342,8 @@ namespace GlueDynamicManager.Processors
                         {
                             var convertedValue = ValueConverter.ConvertValue(instruction, save);
                             convertedValue = ValueConverter.ConvertForProperty(convertedValue, instruction.Type, instance.ObjectType);
-                            ScreenManager.CurrentScreen.ApplyVariable(instruction.Member, convertedValue, instance.Value);
+                            var convertedPropertyName = ValueConverter.ConvertForPropertyName(instruction.Member, instance.Value);
+                            ScreenManager.CurrentScreen.ApplyVariable(convertedPropertyName, convertedValue, instance.Value);
                         }
                 }
             }
