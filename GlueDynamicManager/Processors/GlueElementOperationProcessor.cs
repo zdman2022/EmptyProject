@@ -11,7 +11,9 @@ using JsonDiffPatchDotNet.Formatters.JsonPatch;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -20,159 +22,150 @@ namespace GlueDynamicManager.Processors
 {
     internal class GlueElementOperationProcessor
     {
-        private static Regex PathMatchRegEx_NamedObject = new Regex("^/NamedObjects$");
-        private static Regex PathMatchRegEx_NamedObject_Item = new Regex("^/NamedObjects/(\\d+)?$");
-        private static Regex PathMatchRegEx_NamedObjectInstructionSave_Item = new Regex("^/NamedObjects/(\\d+)/InstructionSaves/(\\d+)(/Value)?$");
-        private static Regex PathMatchRegEx_NamedObjectContainedObject = new Regex("^/NamedObjects/(\\d+)/ContainedObjects$");
-        private static Regex PathMatchRegEx_NamedObjectContainedObject_Item = new Regex("^/NamedObjects/(\\d+)/ContainedObjects/(\\d+)$");
-        private static Regex PathMatchRegEx_CustomVariables_Field = new Regex("^/CustomVariables/(\\d+)/([^/]*)$");
-
         internal static void ApplyOperations(HybridGlueElement element, GlueElement oldSave, GlueElement newSave, JToken glueDifferences, IList<Operation> operations, bool addToManagers)
         {
             foreach (var operation in operations)
             {
-                if (operation.Op == "add")
-                {
-                    if (PathMatchRegEx_NamedObject.IsMatch(operation.Path))
-                    {
-                        var nosList = JsonConvert.DeserializeObject<List<NamedObjectSave>>(operation.Value.ToString());
-
-                        foreach(var nos in nosList)
-                        {
-                            AddNamedObject(element, newSave, nos, addToManagers);
-                        }
-                    }
-                    else if (PathMatchRegEx_NamedObject_Item.IsMatch(operation.Path))
-                    {
-                        var nos = JsonConvert.DeserializeObject<NamedObjectSave>(operation.Value.ToString());
-                        AddNamedObject(element, newSave, nos, addToManagers);
-                    }
-                    else if (PathMatchRegEx_NamedObjectInstructionSave_Item.IsMatch(operation.Path))
-                    {
-                        var match = PathMatchRegEx_NamedObjectInstructionSave_Item.Match(operation.Path);
-
-                        var noIndex = int.Parse(match.Groups[1].Value);
-                        var isIndex = int.Parse(match.Groups[2].Value);
-
-                        var newInstruction = newSave.NamedObjects[noIndex].InstructionSaves[isIndex];
-
-                        var obj = element.PropertyFinder(newSave.NamedObjects[noIndex].InstanceName);
-
-                        ApplyInstruction(newInstruction, newSave, element, obj.GetType().Name, obj);
-                    }
-                    else if(PathMatchRegEx_NamedObjectContainedObject_Item.IsMatch(operation.Path))
-                    {
-                        var match = PathMatchRegEx_NamedObjectContainedObject_Item.Match(operation.Path);
-
-                        var noIndex = int.Parse(match.Groups[1].Value);
-                        var coIndex = int.Parse(match.Groups[2].Value);
-
-                        var nos = newSave.NamedObjects[noIndex];
-                        var co = nos.ContainedObjects[coIndex];
-
-                        AddNamedObject(element, newSave, co, addToManagers);
-                    }
-                    else if(PathMatchRegEx_NamedObjectContainedObject.IsMatch(operation.Path))
-                    {
-                        var match = PathMatchRegEx_NamedObjectContainedObject.Match(operation.Path);
-
-                        var noIndex = int.Parse(match.Groups[1].Value);
-
-                        foreach(var co in newSave.NamedObjects[noIndex].ContainedObjects)
-                        {
-                            AddNamedObject(element, newSave, co, addToManagers);
-                        }
-                    }
-                    else
-                    {
-                        throw new NotImplementedException();
-                    }
-                }
-                else if (operation.Op == "replace")
-                {
-                    if (PathMatchRegEx_NamedObjectInstructionSave_Item.IsMatch(operation.Path))
-                    {
-                        var match = PathMatchRegEx_NamedObjectInstructionSave_Item.Match(operation.Path);
-
-                        var noIndex = int.Parse(match.Groups[1].Value);
-                        var isIndex = int.Parse(match.Groups[2].Value);
-
-                        var oldInstruction = oldSave.NamedObjects[noIndex].InstructionSaves[isIndex];
-                        var newInstruction = newSave.NamedObjects[noIndex].InstructionSaves[isIndex];
-
-                        var obj = element.PropertyFinder(newSave.NamedObjects[noIndex].InstanceName);
-
-                        CleanupOldInstruction(oldInstruction);
-                        ApplyInstruction(newInstruction, newSave, element, obj.GetType().Name, obj);
-                    }
-                    else if(PathMatchRegEx_CustomVariables_Field.IsMatch(operation.Path))
-                    {
-                        var match = PathMatchRegEx_CustomVariables_Field.Match(operation.Path);
-
-                        var cvIndex = int.Parse(match.Groups[1].Value);
-
-                        ApplyCustomVariable(element, newSave.CustomVariables[cvIndex], newSave);
-                    }
-                    else if (PathMatchRegEx_NamedObjectContainedObject_Item.IsMatch(operation.Path))
-                    {
-                        var match = PathMatchRegEx_NamedObjectContainedObject_Item.Match(operation.Path);
-
-                        var noIndex = int.Parse(match.Groups[1].Value);
-                        var coIndex = int.Parse(match.Groups[2].Value);
-
-                        var nos = newSave.NamedObjects[noIndex];
-                        var co = nos.ContainedObjects[coIndex];
-
-                        element.RemoveNamedObject(oldSave.NamedObjects[noIndex].ContainedObjects[coIndex]);
-                        AddNamedObject(element, newSave, nos, addToManagers);
-                    }
-                    else
-                    {
-                        throw new NotImplementedException();
-                    }
-                }else if(operation.Op == "remove")
-                {
-                    if (PathMatchRegEx_NamedObject_Item.IsMatch(operation.Path))
-                    {
-                        var match = PathMatchRegEx_NamedObject_Item.Match(operation.Path);
-
-                        var noIndex = int.Parse(match.Groups[1].Value);
-
-                        var removeNO = oldSave.NamedObjects[noIndex];
-
-                        element.RemoveNamedObject(removeNO);
-                    }
-                    else if (PathMatchRegEx_NamedObjectContainedObject_Item.IsMatch(operation.Path))
-                    {
-                        var match = PathMatchRegEx_NamedObjectContainedObject_Item.Match(operation.Path);
-
-                        var noIndex = int.Parse(match.Groups[1].Value);
-                        var coIndex = int.Parse(match.Groups[2].Value);
-
-                        element.RemoveNamedObject(oldSave.NamedObjects[noIndex].ContainedObjects[coIndex]);
-                    }
-                    else if (PathMatchRegEx_NamedObjectContainedObject.IsMatch(operation.Path))
-                    {
-                        var match = PathMatchRegEx_NamedObjectContainedObject.Match(operation.Path);
-
-                        var noIndex = int.Parse(match.Groups[1].Value);
-
-                        foreach (var co in oldSave.NamedObjects[noIndex].ContainedObjects)
-                        {
-                            element.RemoveNamedObject(co);
-                        }
-                    }
-                    else
-                    {
-                        
-                        throw new NotImplementedException();
-                    }
-                }
-                else
-                {
+                if (!operation.Path.StartsWith("/"))
                     throw new NotImplementedException();
+
+                var items = operation.Path.Split('/');
+
+                var workingValue = GetWorkingValue(operation.Op, items.Skip(1).ToArray(), oldSave, newSave, "");
+
+                if(operation.Op == "replace" || operation.Op == "remove")
+                {
+                    var lst = workingValue.OldValue as IList;
+
+                    if(lst != null)
+                    {
+                        foreach(var item in lst)
+                        {
+                            RemoveItem(item, workingValue.OldParents, workingValue.Path, element, addToManagers);
+                        }
+                    }
+                    else
+                    {
+                        RemoveItem(workingValue.OldValue, workingValue.OldParents, workingValue.Path, element, addToManagers);
+                    }
+                }
+                
+                if(operation.Op == "replace" || operation.Op == "add")
+                {
+                    var lst = workingValue.NewValue as IList;
+
+                    if (lst != null)
+                    {
+                        foreach (var item in lst)
+                        {
+                            AddItem(item, workingValue.NewParents, workingValue.Path, element, addToManagers, newSave);
+                        }
+                    }
+                    else
+                    {
+                        AddItem(workingValue.NewValue, workingValue.NewParents, workingValue.Path, element, addToManagers, newSave);
+                    }
                 }
             }
+        }
+
+        private static void RemoveItem(object item, List<object> parents, string path, HybridGlueElement element, bool addToManagers)
+        {
+            if (path == "/NamedObjects" || path == "/NamedObjects/ContainedObjects")
+            {
+                element.RemoveNamedObject((NamedObjectSave)item);
+            }
+            else if (path.StartsWith("/NamedObjects/InstructionSaves"))
+            {
+                var instructionSave = item as InstructionSave;
+
+                if (instructionSave == null)
+                    instructionSave = (InstructionSave)parents[4];
+
+                CleanupOldInstruction(instructionSave);
+            }
+            else if (path == "/CustomVariables")
+            {
+                throw new NotImplementedException();
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        private static void AddItem(object item, List<object> parents, string path, HybridGlueElement element, bool addToManagers, GlueElement newSave)
+        {
+            if(path == "/NamedObjects" || path == "/NamedObjects/ContainedObjects")
+            {
+                AddNamedObject(element, newSave, (NamedObjectSave)item, addToManagers);
+            }
+            else if(path.StartsWith("/NamedObjects/InstructionSaves"))
+            {
+                var obj = element.PropertyFinder(((NamedObjectSave)parents[2]).InstanceName);
+
+                var instructionSave = item as InstructionSave;
+
+                if (instructionSave == null)
+                    instructionSave = (InstructionSave)parents[4];
+
+                ApplyInstruction(instructionSave, newSave, element, obj.GetType().Name, obj);
+            }
+            else if(path.StartsWith("/CustomVariables"))
+            {
+                ApplyCustomVariable(element, (CustomVariable)item, newSave);
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        private static WorkingValue GetWorkingValue(string operation, string[] items, object oldValue, object newValue, string currentPath, WorkingValue workingValue = null)
+        {
+            if (workingValue == null)
+                workingValue = new WorkingValue();
+
+            if (items.Length == 0)
+            {
+                workingValue.Path = currentPath;
+                workingValue.OldValue = operation == "replace" || operation == "remove" ? oldValue : null;
+                workingValue.NewValue = operation == "replace" || operation == "add" ? newValue : null;
+
+                return workingValue;
+            }
+
+            workingValue.OldParents.Add(oldValue);
+            workingValue.NewParents.Add(newValue);
+
+            var currentItem = items[0];
+
+            if(int.TryParse(currentItem, out var i))
+            {
+                var oldList = oldValue as IList;
+                var newList = newValue as IList;
+
+                return GetWorkingValue(operation, items.Skip(1).ToArray(), oldList.Count > i ? oldList[i] : null, newList.Count > i ? newList[i] : null, currentPath, workingValue);
+            }
+            else
+            {
+                return GetWorkingValue(operation, items.Skip(1).ToArray(), GetValueForObject(oldValue, currentItem), GetValueForObject(newValue, currentItem), currentPath + "/" + currentItem, workingValue);
+            }
+        }
+
+        private static object GetValueForObject(object value, string name)
+        {
+            var prop = value.GetType().GetProperty(name);
+
+            if (prop != null)
+                return prop.GetValue(value);
+
+            var field = value.GetType().GetField(name);
+
+            if (field != null)
+                return field.GetValue(value);
+
+            return null;
         }
 
         private static void ApplyCustomVariable(HybridGlueElement element, CustomVariable customVariable, GlueElement save)
@@ -250,7 +243,7 @@ namespace GlueDynamicManager.Processors
             {
                 var instance = instancedObjects[i];
 
-                if(instance.Value is DynamicEntity dynamicEntity)
+                if (instance.Value is DynamicEntity dynamicEntity)
                 {
                     dynamicEntity.AddToManagers(null);
                 }
@@ -282,6 +275,28 @@ namespace GlueDynamicManager.Processors
                 body();
             else
                 InstructionManager.DoOnMainThreadAsync(body).Wait();
+        }
+
+        private static WorkingValue GetWorkingValue(string[] items, GlueElement oldSave, GlueElement newSave)
+        {
+            throw new NotImplementedException();
+        }
+
+        private static bool IsPath(string path, Regex fullPath, Regex itemPath, out Match fullMatch, out Match match)
+        {
+            fullMatch = fullPath.Match(path);
+            match = fullMatch != null ? null : itemPath.Match(path);
+
+            return fullMatch != null || match != null;
+        }
+
+        private class WorkingValue
+        {
+            public List<object> OldParents { get; } = new List<object>();
+            public List<object> NewParents { get; } = new List<object>();
+            public object OldValue { get; set; }
+            public object NewValue { get; set; }
+            public string Path { get; internal set; }
         }
     }
 }
