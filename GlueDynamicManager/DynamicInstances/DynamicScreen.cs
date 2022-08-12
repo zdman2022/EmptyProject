@@ -31,7 +31,7 @@ namespace GlueDynamicManager.DynamicInstances
         public delegate void DestroyDelegate(object caller);
         public event DestroyDelegate DestroyEvent;
 
-        public static string CurrentScreen { get; internal set; }
+        public static string CurrentScreenGlue { get; internal set; }
         public string TypeName { get; }
 
 
@@ -41,7 +41,7 @@ namespace GlueDynamicManager.DynamicInstances
 
         public DynamicScreen() : base("DynamicScreen")
         {
-            TypeName = CurrentScreen;
+            TypeName = CurrentScreenGlue;
         }
         public override void Initialize(bool addToManagers)
         {
@@ -103,7 +103,7 @@ namespace GlueDynamicManager.DynamicInstances
 
         private void DynamicInitialize()
         {
-            _currentScreenState = GlueDynamicManager.Self.GetDynamicScreenState(CurrentScreen);
+            _currentScreenState = GlueDynamicManager.Self.GetDynamicScreenState(CurrentScreenGlue);
 
             if (_currentScreenState == null)
                 throw new Exception("Unable to get dynamic screen state");

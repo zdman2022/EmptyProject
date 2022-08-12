@@ -3,6 +3,7 @@ using FlatRedBall.Graphics;
 using FlatRedBall.Math.Collision;
 using FlatRedBall.Math.Geometry;
 using FlatRedBall.TileGraphics;
+using GlueControl;
 using GlueControl.Models;
 using GlueDynamicManager.DynamicInstances;
 using System;
@@ -118,9 +119,23 @@ namespace GlueDynamicManager
             {
                 var match = GenericSingleTypeRegEx.Match(sourceClassType);
                 var typeName = match.Groups[1].Value.Trim();
-                var genTypeName = match.Groups[2].Value.Trim();
 
-                Type genType = GetTypeCheckForDynamic(genTypeName);
+                var genericTypeNameGlue = nos.SourceClassGenericType;
+
+                string genericTypeGame = null;
+                if (string.IsNullOrEmpty(genericTypeNameGlue))
+                {
+                    // collision relationships have a special approach here where the type is 
+                    // using the C# type, we just have to prefix the game namespace:
+                    genericTypeGame = CommandReceiver.TopNamespace + "." + match.Groups[2].Value.Trim();
+                }
+                else
+                {
+                    genericTypeGame = CommandReceiver.GlueToGameElementName(genericTypeNameGlue);
+                }
+
+                Type genType = GetTypeCheckForDynamic(genericTypeGame);
+
 
                 var parmList = GetParmsForType(sourceClassType, container, properties);
 
@@ -129,13 +144,14 @@ namespace GlueDynamicManager
                 ApplyPropertiesToInstance(sourceClassType, instance, container, properties);
 
                 return instance;
+                
             }
             else if (GenericDoubleTypeRegEx.IsMatch(sourceClassType))
             {
                 var match = GenericDoubleTypeRegEx.Match(sourceClassType);
                 var typeName = match.Groups[1].Value.Trim();
-                var genTypeName1 = match.Groups[2].Value.Trim();
-                var genTypeName2 = match.Groups[3].Value.Trim();
+                var genTypeName1 = CommandReceiver.TopNamespace + "." + match.Groups[2].Value.Trim();
+                var genTypeName2 = CommandReceiver.TopNamespace + "." + match.Groups[3].Value.Trim();
 
                 Type genType1 = GetTypeCheckForDynamic(genTypeName1);
                 Type genType2 = GetTypeCheckForDynamic(genTypeName2);
@@ -175,16 +191,19 @@ namespace GlueDynamicManager
             }
         }
 
-        private static Type GetTypeCheckForDynamic(string genTypeName)
+        private static Type GetTypeCheckForDynamic(string typeNameGame)
         {
             Type genType;
-            if (genTypeName.StartsWith("Entities.") && GlueDynamicManager.Self.EntityIsDynamic(genTypeName.Replace("Entities.", "")))
+
+            var glueName = CommandReceiver.GameElementTypeToGlueElement(typeNameGame);
+
+            if (glueName.StartsWith("Entities\\") && GlueDynamicManager.Self.EntityIsDynamic(glueName))
             {
                 genType = typeof(DynamicEntity);
             }
             else
             {
-                genType = GetType(genTypeName, true);
+                genType = GetType(typeNameGame, true);
             }
 
             return genType;
@@ -350,12 +369,12 @@ namespace GlueDynamicManager
             return AppDomain.CurrentDomain.GetAssemblies().Where(assembly => !IgnoreAssemblies.Any(ignoreItem => assembly.FullName.StartsWith(ignoreItem))).SelectMany(assembly => assembly.DefinedTypes.Where(subType => subType.FullName.EndsWith(typeName))).FirstOrDefault();
         }
 
-        internal static Type GetType(string typeName, bool includeFRB)
+        internal static Type GetType(string typeNameGame, bool includeFRB)
         {
             if (includeFRB)
-                return AppDomain.CurrentDomain.GetAssemblies().Where(assembly => !IgnoreAssemblies.Where(ia => !FRBAssemblies.Any(fa => ia == fa)).Any(ignoreItem => assembly.FullName.StartsWith(ignoreItem))).SelectMany(assembly => assembly.DefinedTypes.Where(subType => subType.FullName.EndsWith(typeName))).FirstOrDefault();
+                return AppDomain.CurrentDomain.GetAssemblies().Where(assembly => !IgnoreAssemblies.Where(ia => !FRBAssemblies.Any(fa => ia == fa)).Any(ignoreItem => assembly.FullName.StartsWith(ignoreItem))).SelectMany(assembly => assembly.DefinedTypes.Where(subType => subType.FullName.EndsWith(typeNameGame))).FirstOrDefault();
             else
-                return GetType(typeName);
+                return GetType(typeNameGame);
         }
 
         internal static void AddItemToList(object list, object value)

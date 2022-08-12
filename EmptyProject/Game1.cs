@@ -89,12 +89,12 @@ namespace EmptyProject
             //Scott:
             //No DynamicManager will have to be the authority.  We have to allow updates, which dynamic manager is going to be processing.
             GlueCommands.Self.LoadProject(gluj.FullPath);
-            GlueDynamicManager.DynamicInstances.DynamicScreen.CurrentScreen = "Level1";
+            GlueDynamicManager.DynamicInstances.DynamicScreen.CurrentScreenGlue = "Screens\\Level1";
 
             AllScreenNames = new List<string>();
             foreach (var screen in ObjectFinder.Self.GlueProject.Screens)
             {
-                AllScreenNames.Add(screen.ClassName);
+                AllScreenNames.Add(screen.Name);
             }
             ScreenManager.Start(typeof(GlueDynamicManager.DynamicInstances.DynamicScreen));
         }
@@ -116,11 +116,11 @@ namespace EmptyProject
         {
             if(InputManager.Keyboard.KeyPushed(Keys.Right))
             {
-                var currentIndex = AllScreenNames.IndexOf(GlueDynamicManager.DynamicInstances.DynamicScreen.CurrentScreen);
+                var currentIndex = AllScreenNames.IndexOf(GlueDynamicManager.DynamicInstances.DynamicScreen.CurrentScreenGlue);
 
                 var nextIndex = (currentIndex + 1) % AllScreenNames.Count;
 
-                GlueDynamicManager.DynamicInstances.DynamicScreen.CurrentScreen = AllScreenNames[nextIndex];
+                GlueDynamicManager.DynamicInstances.DynamicScreen.CurrentScreenGlue = AllScreenNames[nextIndex];
                 ScreenManager.CurrentScreen.MoveToScreen(typeof(GlueDynamicManager.DynamicInstances.DynamicScreen));
             }
         }

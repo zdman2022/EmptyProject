@@ -11,6 +11,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using GlueControl.Models;
+using GlueControl;
 
 namespace GlueDynamicManager
 {
@@ -32,25 +33,31 @@ namespace GlueDynamicManager
             var returnValue = new GlueJsonContainer();
             returnValue.Glue = new GlueJsonContainer.JsonContainer<GlueControl.Models.GlueProjectSave>(File.ReadAllText(glujFilePath.FullPath));
 
-            var entityDirectory = glujFilePath.GetDirectoryContainingThis() + "\\Entities";
+            var glujDirectory = glujFilePath.GetDirectoryContainingThis();
+            var entityDirectory = glujDirectory + "\\Entities";
+
             if (Directory.Exists(entityDirectory))
             {
-                foreach (var file in Directory.GetFiles(entityDirectory).Where(item => item.EndsWith(".glej")))
+                foreach (FilePath file in Directory.GetFiles(entityDirectory).Where(item => item.EndsWith(".glej")))
                 {
-                    var entityName = Path.GetFileNameWithoutExtension(file);
+                    var relative = file.RemoveExtension().RelativeTo(glujDirectory);
+                    //var entityName = Path.GetFileNameWithoutExtension(file);
+                    var gameName = CommandReceiver.GlueToGameElementName(relative);
 
-                    returnValue.Entities.Add(entityName, new GlueJsonContainer.JsonContainer<EntitySave>(File.ReadAllText(file)));
+                    returnValue.Entities.Add(gameName, new GlueJsonContainer.JsonContainer<EntitySave>(File.ReadAllText(file.FullPath)));
                 }
             }
 
             var screenDirectory = glujFilePath.GetDirectoryContainingThis() + "\\Screens";
             if (Directory.Exists(screenDirectory))
             {
-                foreach (var file in Directory.GetFiles(screenDirectory).Where(item => item.EndsWith(".glsj")))
+                foreach (FilePath file in Directory.GetFiles(screenDirectory).Where(item => item.EndsWith(".glsj")))
                 {
-                    var screenName = Path.GetFileNameWithoutExtension(file);
+                    var relative = file.RemoveExtension().RelativeTo(glujDirectory);
 
-                    returnValue.Screens.Add(screenName, new GlueJsonContainer.JsonContainer<ScreenSave>(File.ReadAllText(file)));
+                    var gameName = CommandReceiver.GlueToGameElementName(relative);
+
+                    returnValue.Screens.Add(gameName, new GlueJsonContainer.JsonContainer<ScreenSave>(File.ReadAllText(file.FullPath)));
                 }
             }
 

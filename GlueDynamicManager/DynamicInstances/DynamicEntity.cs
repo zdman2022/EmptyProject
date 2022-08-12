@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GlueControl;
 
 namespace GlueDynamicManager.DynamicInstances
 {
@@ -34,15 +35,15 @@ namespace GlueDynamicManager.DynamicInstances
             }
         }
 
-        public string TypeName { get; }
+        public string ElementNameGame { get; }
 
         private EntityState _dynamicEntityState;
         protected FlatRedBall.Graphics.Layer LayerProvidedByContainer = null;
         private List<ObjectContainer> _instancedObjects = new List<ObjectContainer>();
 
-        public DynamicEntity(string typeName, EntityState dynamicEntityState)
+        public DynamicEntity(string nameGlue, EntityState dynamicEntityState)
         {
-            TypeName = GlueDynamicManager.Self.CorrectEntityName(typeName);
+            ElementNameGame = CommandReceiver.GlueToGameElementName(nameGlue);
             _dynamicEntityState = dynamicEntityState;
             InitializeEntity();
             GlueDynamicManager.Self.AttachEntity(this, true);

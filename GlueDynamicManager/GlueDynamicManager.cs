@@ -17,6 +17,7 @@ using Newtonsoft.Json.Linq;
 using GlueCommunication.Json;
 using GlueDynamicManager.DynamicInstances.Containers;
 using GlueControl.Managers;
+using GlueControl;
 
 namespace GlueDynamicManager
 {
@@ -56,12 +57,12 @@ namespace GlueDynamicManager
             //Do Updates
             foreach (var dynamicEntity in _dynamicEntities)
             {
-                EntityDoChanges(dynamicEntity, true, _curState.Entities.ContainsKey(dynamicEntity.TypeName) ? _curState.Entities[dynamicEntity.TypeName] : null, glueJsonContainer.Entities.ContainsKey(dynamicEntity.TypeName) ? glueJsonContainer.Entities[dynamicEntity.TypeName] : null);
+                EntityDoChanges(dynamicEntity, true, _curState.Entities.ContainsKey(dynamicEntity.ElementNameGame) ? _curState.Entities[dynamicEntity.ElementNameGame] : null, glueJsonContainer.Entities.ContainsKey(dynamicEntity.ElementNameGame) ? glueJsonContainer.Entities[dynamicEntity.ElementNameGame] : null);
             }
 
             foreach (var hybridEntity in _hybridEntities)
             {
-                var entityName = hybridEntity.Entity.GetType().Name;
+                var entityName = hybridEntity.Entity.GetType().FullName;
                 EntityDoChanges(hybridEntity.Entity, true, _curState.Entities.ContainsKey(entityName) ? _curState.Entities[entityName] : null, glueJsonContainer.Entities.ContainsKey(entityName) ? glueJsonContainer.Entities[entityName] : null);
             }
 
@@ -72,25 +73,25 @@ namespace GlueDynamicManager
 
             foreach (var hybridScreen in _hybridScreens)
             {
-                var screenName = hybridScreen.Screen.GetType().Name;
+                var screenName = hybridScreen.Screen.GetType().FullName;
                 ScreenDoChanges(hybridScreen.Screen, true, _curState.Screens.ContainsKey(screenName) ? _curState.Screens[screenName] : null, glueJsonContainer.Screens.ContainsKey(screenName) ? glueJsonContainer.Screens[screenName] : null);
             }
 
             _curState = glueJsonContainer;
         }
 
-        internal DynamicScreenState GetDynamicScreenState(string screenName)
+        internal DynamicScreenState GetDynamicScreenState(string screenNameGlue)
         {
-            var correctedScreenName = CorrectScreenName(screenName);
-            if (ScreenIsDynamic(correctedScreenName))
+            var screenNameGame = CommandReceiver.GlueToGameElementName(screenNameGlue);
+            if (ScreenIsDynamic(screenNameGlue))
             {
                 var returnValue = new DynamicScreenState
                 {
-                    ScreenSave = _curState.Screens[correctedScreenName].Value
+                    ScreenSave = _curState.Screens[screenNameGame].Value
                 };
 
                 if (!string.IsNullOrEmpty(returnValue.ScreenSave.BaseScreen))
-                    returnValue.BaseScreenSave = _curState.Screens[CorrectScreenName(returnValue.ScreenSave.BaseScreen)].Value;
+                    returnValue.BaseScreenSave = _curState.Screens[CommandReceiver.GlueToGameElementName(returnValue.ScreenSave.BaseScreen)].Value;
 
                 return returnValue;
             }
@@ -98,27 +99,27 @@ namespace GlueDynamicManager
             return null;
         }
 
-        internal EntityState GetEntityState(string entityName)
+        internal EntityState GetEntityState(string entityNameGlue)
         {
-            var correctedEntityName = CorrectEntityName(entityName);
+            var entityNameGame = CommandReceiver.GlueToGameElementName(entityNameGlue);
             var returnValue = new EntityState
             {
-                EntitySave = JsonConvert.DeserializeObject<EntitySave>(_curState.Entities[correctedEntityName].Json.ToString()),
-                CustomVariablesSave = JsonConvert.DeserializeObject<List<CustomVariable>>(_curState.Entities[correctedEntityName].Json["CustomVariables"]?.ToString() ?? "[]"),
-                StateCategoryList = JsonConvert.DeserializeObject<List<StateSaveCategory>>(_curState.Entities[correctedEntityName].Json["StateCategoryList"]?.ToString() ?? "[]")
+                EntitySave = JsonConvert.DeserializeObject<EntitySave>(_curState.Entities[entityNameGame].Json.ToString()),
+                CustomVariablesSave = JsonConvert.DeserializeObject<List<CustomVariable>>(_curState.Entities[entityNameGame].Json["CustomVariables"]?.ToString() ?? "[]"),
+                StateCategoryList = JsonConvert.DeserializeObject<List<StateSaveCategory>>(_curState.Entities[entityNameGame].Json["StateCategoryList"]?.ToString() ?? "[]")
             };
 
             return returnValue;
         }
 
-        public bool ScreenIsDynamic(string screenName)
+        public bool ScreenIsDynamic(string screenNameGlue)
         {
             if (_curState == null)
                 return false;
 
-            var correctedScreenName = CorrectScreenName(screenName);
+            var screenNameGame = CommandReceiver.GlueToGameElementName(screenNameGlue);
 
-            if (_curState.Screens.ContainsKey(correctedScreenName) && !_initialState.Screens.ContainsKey(correctedScreenName))
+            if (_curState.Screens.ContainsKey(screenNameGame) && !_initialState.Screens.ContainsKey(screenNameGame))
                 return true;
 
             return false;
@@ -155,29 +156,19 @@ namespace GlueDynamicManager
             }
         }
 
-        internal bool ContainsEntity(string entityName)
+        internal bool ContainsEntity(string entityNameGlue)
         {
-            return _curState.Entities.ContainsKey(CorrectEntityName(entityName));
+            return _curState.Entities.ContainsKey(CommandReceiver.GlueToGameElementName(entityNameGlue));
         }
 
-        public string CorrectEntityName(string entityName)
-        {
-            return entityName.Replace("Entities\\", "").Replace("Entities.", "");
-        }
-
-        public string CorrectScreenName(string entityName)
-        {
-            return entityName.Replace("Screens\\", "");
-        }
-
-        internal bool EntityIsDynamic(string entityName)
+        internal bool EntityIsDynamic(string entityNameGlue)
         {
             if (_curState == null)
                 return false;
 
-            var correctedEntityName = CorrectEntityName(entityName);
+            var entityNameGame = CommandReceiver.GlueToGameElementName(entityNameGlue);
 
-            if (_curState.Entities.ContainsKey(correctedEntityName) && !_initialState.Entities.ContainsKey(correctedEntityName))
+            if (_curState.Entities.ContainsKey(entityNameGame) && !_initialState.Entities.ContainsKey(entityNameGame))
                 return true;
 
             return false;
@@ -254,7 +245,7 @@ namespace GlueDynamicManager
 
         internal bool IsEntity(object value)
         {
-            var name = value.GetType().Name;
+            var name = value.GetType().FullName;
 
             return _curState.Entities.ContainsKey(name);
         }
@@ -287,7 +278,7 @@ namespace GlueDynamicManager
 
         private void EntityInitializeHandler(object caller, bool addToManagers)
         {
-            var entityName = caller.GetType().Name;
+            var entityName = caller.GetType().FullName;
             if (_initialState != null)
                 EntityDoChanges(caller, addToManagers, _initialState.Entities.ContainsKey(entityName) ? _initialState.Entities[entityName] : null, _curState.Entities.ContainsKey(entityName) ? _curState.Entities[entityName] : null);
                 
@@ -357,7 +348,7 @@ namespace GlueDynamicManager
                 AddEventHandler(instance, "ActivityEditModeEvent", "EntityActivityEditModeHandler");
                 AddEventHandler(instance, "DestroyEvent", "EntityDestroyHandler");
 
-                var entityName = instance.GetType().Name;
+                var entityName = instance.GetType().FullName;
                 if (_initialState != null)
                     EntityDoChanges(instance, addToManagers, _initialState.Entities.ContainsKey(entityName) ? _initialState.Entities[entityName] : null, _curState.Entities.ContainsKey(entityName) ? _curState.Entities[entityName] : null);
 
