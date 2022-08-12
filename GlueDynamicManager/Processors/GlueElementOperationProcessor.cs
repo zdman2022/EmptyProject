@@ -115,6 +115,116 @@ namespace GlueDynamicManager.Processors
             {
                 ApplyCustomVariable(element, (CustomVariable)item, newSave);
             }
+            else if (path == ("/NamedObjects/InstanceName")) //Note: NamedObject fields also need to be handled for ContainedObjects fields
+            {
+                //Todo
+                throw new NotImplementedException();
+            }
+            else if (path.StartsWith("/NamedObjects/SourceClassType"))
+            {
+                //Todo
+                throw new NotImplementedException();
+            }
+            else if (path.StartsWith("/NamedObjects/Properties")) //Can be starts with, like instruction saves
+            {
+                //Todo
+                throw new NotImplementedException();
+            }
+            else if (path == ("/NamedObjects/SourceFile"))
+            {
+                //Todo
+                throw new NotImplementedException();
+            }
+            else if (path == ("/NamedObjects/SourceName"))
+            {
+                //Todo
+                throw new NotImplementedException();
+            }
+            else if (path == ("/NamedObjects/AttachToContainer"))
+            {
+                //Todo
+                throw new NotImplementedException();
+            }
+            else if (path == ("/NamedObjects/GenerateTimedEmit"))
+            {
+                //Todo
+                throw new NotImplementedException();
+            }
+            else if (path == ("/NamedObjects/DefinedByBase"))
+            {
+                //Todo
+                throw new NotImplementedException();
+            }
+            else if (path == ("/NamedObjects/SourceType"))
+            {
+                //Todo
+                throw new NotImplementedException();
+            }
+            else if (path == ("/NamedObjects/SourceGenericType"))
+            {
+                //Todo
+                throw new NotImplementedException();
+            }
+            else if (path == ("/NamedObjects/ExposedInDerived"))
+            {
+                //Todo
+                throw new NotImplementedException();
+            }
+            else if (path == ("/NamedObjects/InstantiatedByBase"))
+            {
+                //Todo
+                throw new NotImplementedException();
+            }
+            else if(path.StartsWith("/Tags"))
+            {
+                //Todo
+                throw new NotImplementedException();
+            }
+            else if (path == ("/Source"))
+            {
+                //Todo
+                throw new NotImplementedException();
+            }
+            else if (path == ("/CreatedByOtherEntities"))
+            {
+                //Todo
+                throw new NotImplementedException();
+            }
+            else if (path == ("/Is2D"))
+            {
+                //Todo
+                throw new NotImplementedException();
+            }
+            else if (path.StartsWith("/Properties"))
+            {
+                //Todo
+                throw new NotImplementedException();
+            }
+            else if (path == ("/Name"))
+            {
+                //Todo
+                throw new NotImplementedException();
+            }
+            else if (path.StartsWith("/CustomClassesForExport"))
+            {
+                //Todo
+                throw new NotImplementedException();
+            }
+            else if (path == ("/BaseScreen"))
+            {
+                //Todo
+                throw new NotImplementedException();
+            }
+            else if (path == ("/BaseElement"))
+            {
+                //Todo
+                throw new NotImplementedException();
+            }
+            else if (path.StartsWith("/ReferencedFiles"))
+            {
+                //Todo
+                throw new NotImplementedException();
+            }
             else
             {
                 throw new NotImplementedException();
