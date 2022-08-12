@@ -100,9 +100,11 @@ namespace GlueDynamicManager.Processors
             {
                 AddNamedObject(element, newSave, (NamedObjectSave)item, addToManagers);
             }
-            else if(path.StartsWith("/NamedObjects/InstructionSaves"))
+            else if(path.StartsWith("/NamedObjects/InstructionSaves") || path.StartsWith("/NamedObjects/ContainedObjects/InstructionSaves"))
             {
-                var obj = element.PropertyFinder(((NamedObjectSave)parents[2]).InstanceName);
+                var obj = path.StartsWith("/NamedObjects/InstructionSaves")
+                    ? element.PropertyFinder(((NamedObjectSave)parents[2]).InstanceName)
+                    : element.PropertyFinder(((NamedObjectSave)parents[4]).InstanceName);
 
                 var instructionSave = item as InstructionSave;
 
