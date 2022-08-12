@@ -13,6 +13,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using FlatRedBall.IO;
 using GlueControl.Managers;
+using GlueControl;
 
 namespace ProjectWithCodegen
 {
@@ -98,8 +99,8 @@ namespace ProjectWithCodegen
                         var state = new GlueDynamicManager.GlueJsonContainer()
                         {
                             Glue = new GlueDynamicManager.GlueJsonContainer.JsonContainer<GlueControl.Models.GlueProjectSave>(jPacket["Glue"].ToString()),
-                            Entities = entities.ToDictionary(item => GlueDynamicManager.GlueDynamicManager.Self.CorrectEntityName(item.Key), item => new GlueDynamicManager.GlueJsonContainer.JsonContainer<GlueControl.Models.EntitySave>(item.Value.ToString())),
-                            Screens = screens.ToDictionary(item => GlueDynamicManager.GlueDynamicManager.Self.CorrectScreenName(item.Key), item => new GlueDynamicManager.GlueJsonContainer.JsonContainer<GlueControl.Models.ScreenSave>(item.Value.ToString()))
+                            Entities = entities.ToDictionary(item => CommandReceiver.GlueToGameElementName(item.Key), item => new GlueDynamicManager.GlueJsonContainer.JsonContainer<GlueControl.Models.EntitySave>(item.Value.ToString())),
+                            Screens = screens.ToDictionary(item => CommandReceiver.GlueToGameElementName(item.Key), item => new GlueDynamicManager.GlueJsonContainer.JsonContainer<GlueControl.Models.ScreenSave>(item.Value.ToString()))
                         };
 
                         //await GlueDynamicManager.GlueDynamicManager.Self.UpdateState(state);
