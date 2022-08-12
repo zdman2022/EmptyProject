@@ -117,12 +117,21 @@ namespace GlueDynamicManager
             if (_curState == null)
                 return false;
 
-            var screenNameGame = CommandReceiver.GlueToGameElementName(screenNameGlue);
+            bool IsGlueScreenDynamic(string screenNameGlueInner)
+            {
+                var screenNameGame = CommandReceiver.GlueToGameElementName(screenNameGlueInner);
+                return _curState.Screens.ContainsKey(screenNameGame) && !_initialState.Screens.ContainsKey(screenNameGame);
+            }
 
-            if (_curState.Screens.ContainsKey(screenNameGame) && !_initialState.Screens.ContainsKey(screenNameGame))
-                return true;
+            List<string> glueScreenNames = new List<string>();
+            glueScreenNames.Add(screenNameGlue);
+            var glueScreen = ObjectFinder.Self.GetScreenSave(screenNameGlue);
+            var baseNames = ObjectFinder.Self.GetAllBaseElementsRecursively(glueScreen).Select(item => item.Name);
+            glueScreenNames.AddRange(baseNames);
 
-            return false;
+            var areAllDynamic = glueScreenNames.All(item => IsGlueScreenDynamic(item));
+
+            return areAllDynamic;
         }
 
         internal object GetProperty(object container, string name)
