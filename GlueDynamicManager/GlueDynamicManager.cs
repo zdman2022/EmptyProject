@@ -376,8 +376,6 @@ namespace GlueDynamicManager
 
             if (entity.GetType() != typeof(DynamicEntity))
             {
-                var entityName = entity.GetType().Name;
-
                 if (_initialState != null && _curState != null)
                 {
                     if (oldEntityJson != null && newEntityJson != null)

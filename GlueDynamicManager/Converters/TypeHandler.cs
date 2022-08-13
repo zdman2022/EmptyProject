@@ -31,6 +31,30 @@ namespace GlueDynamicManager.Converters
             return false;
         }
 
+        public static bool GetFieldValueIfExists(object instance, string propertyName, out object value)
+        {
+            var prop = instance.GetType().GetField(propertyName);
+            if (prop != null)
+            {
+                var propValue = prop.GetValue(instance);
+
+                value = propValue;
+                return true;
+            }
+
+            prop = instance.GetType().BaseType.GetField(propertyName);
+            if (prop != null)
+            {
+                var propValue = prop.GetValue(instance);
+
+                value = propValue;
+                return true;
+            }
+
+            value = null;
+            return false;
+        }
+
         public static bool SetPropValueIfExists(object instance, string propertyName, object value)
         {
             var prop = instance.GetType().GetProperty(propertyName);
