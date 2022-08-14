@@ -55,7 +55,7 @@ namespace GlueDynamicManager.DynamicInstances
             for (var i = 0; i < _dynamicEntityState.EntitySave.NamedObjects.Count; i++)
             {
                 var no = _dynamicEntityState.EntitySave.NamedObjects[i];
-                if (GlueDynamicManager.Self.EntityIsDynamic(no.SourceClassType))
+                if (GlueDynamicManager.Self.ElementIsDynamic(no.SourceClassType))
                 {
                     throw new NotImplementedException();
                 }

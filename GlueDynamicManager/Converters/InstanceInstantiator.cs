@@ -212,7 +212,7 @@ namespace GlueDynamicManager
 
             var glueName = CommandReceiver.GameElementTypeToGlueElement(typeNameGame);
 
-            if (glueName.StartsWith("Entities\\") && GlueDynamicManager.Self.EntityIsDynamic(glueName))
+            if (glueName.StartsWith("Entities\\") && GlueDynamicManager.Self.ElementIsDynamic(glueName))
             {
                 genType = typeof(DynamicEntity);
             }

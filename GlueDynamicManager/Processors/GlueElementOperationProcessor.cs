@@ -2,7 +2,9 @@
 using FlatRedBall.Content.Instructions;
 using FlatRedBall.Instructions;
 using FlatRedBall.Screens;
+using GlueControl;
 using GlueControl.Models;
+using GlueControl.Screens;
 using GlueDynamicManager.Converters;
 using GlueDynamicManager.DynamicInstances;
 using GlueDynamicManager.DynamicInstances.Containers;
@@ -212,15 +214,24 @@ namespace GlueDynamicManager.Processors
                 //Todo
                 throw new NotImplementedException();
             }
-            else if (path == ("/BaseScreen"))
+            else if (path == ("/BaseScreen") || path == ("/BaseElement"))
             {
-                //Todo
-                throw new NotImplementedException();
-            }
-            else if (path == ("/BaseElement"))
-            {
-                //Todo
-                throw new NotImplementedException();
+                var glueName = item as string;
+                var gameTypeBase = CommandReceiver.GlueToGameElementName(glueName);
+
+                if(element is HybridEntity)
+                {
+                    throw new NotImplementedException();
+                }
+
+                var currentScreenType = ScreenManager.CurrentScreen.GetType().FullName;
+                var matches = currentScreenType == gameTypeBase;
+
+                if (!matches)
+                {
+                    // Restart the screen with the new base type as specified by item
+                    throw new NotImplementedException("");
+                }
             }
             else if (path.StartsWith("/ReferencedFiles"))
             {

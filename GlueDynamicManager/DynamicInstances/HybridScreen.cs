@@ -9,6 +9,8 @@ namespace GlueDynamicManager.DynamicInstances
 {
     internal class HybridScreen : HybridGlueElement
     {
+        public static string CurrentScreenGlue { get; internal set; }
+
         public HybridScreen(Screen screen) : base(screen)
         {
         }

@@ -49,7 +49,7 @@ namespace GlueDynamicManager.GlueHelpers
             {
                 if (GlueDynamicManager.Self.ContainsEntity(nos.SourceClassGenericType))
                 {
-                    if (GlueDynamicManager.Self.EntityIsDynamic(nos.SourceClassGenericType))
+                    if (GlueDynamicManager.Self.ElementIsDynamic(nos.SourceClassGenericType))
                     {
                         var container = new ObjectContainer
                         {
@@ -144,7 +144,7 @@ namespace GlueDynamicManager.GlueHelpers
             //}
             else if (nos.SourceType == SourceType.Entity)
             {
-                if (GlueDynamicManager.Self.EntityIsDynamic(nos.SourceClassType))
+                if (GlueDynamicManager.Self.ElementIsDynamic(nos.SourceClassType))
                 {
                     var entityContainer = new ObjectContainer
                     {

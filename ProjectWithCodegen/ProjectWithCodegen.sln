@@ -14,7 +14,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlatRedBall.Forms.DesktopGL
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GumCoreDesktopGL", "..\..\Gum\GumCore\GumCoreXnaPc\GumCoreDesktopGL.csproj", "{FC2030B0-E60B-434D-A513-400270B8D7C6}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "FlatREdBallShared", "..\..\FlatRedBall\Engines\FlatREdBallXNA\FlatRedBall\FlatREdBallShared.shproj", "{0BB8CBE3-8503-46C1-9272-D98E153A230E}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "FlatRedBallShared", "..\..\FlatRedBall\Engines\FlatREdBallXNA\FlatRedBall\FlatRedBallShared.shproj", "{0BB8CBE3-8503-46C1-9272-D98E153A230E}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "FlatRedBall.Forms.Shared", "..\..\FlatRedBall\Engines\Forms\FlatRedBall.Forms\FlatREdBall.Forms.Shared\FlatRedBall.Forms.Shared.shproj", "{728151F0-03E0-4253-94FE-46B9C77EDEA6}"
 EndProject

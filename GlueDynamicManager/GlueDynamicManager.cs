@@ -73,8 +73,19 @@ namespace GlueDynamicManager
 
             foreach (var hybridScreen in _hybridScreens)
             {
-                var screenName = hybridScreen.Screen.GetType().FullName;
-                ScreenDoChanges(hybridScreen.Screen, true, _curState.Screens.ContainsKey(screenName) ? _curState.Screens[screenName] : null, glueJsonContainer.Screens.ContainsKey(screenName) ? glueJsonContainer.Screens[screenName] : null);
+                string screenNameGame = null;
+                if (HybridScreen.CurrentScreenGlue != null)
+                {
+                    screenNameGame = CommandReceiver.GlueToGameElementName(HybridScreen.CurrentScreenGlue);
+                }
+                else
+                {
+                    screenNameGame = hybridScreen.Screen.GetType().FullName;
+                }
+
+                ScreenDoChanges(hybridScreen.Screen, true, 
+                    _curState.Screens.ContainsKey(screenNameGame) ? _curState.Screens[screenNameGame] : null, 
+                    glueJsonContainer.Screens.ContainsKey(screenNameGame) ? glueJsonContainer.Screens[screenNameGame] : null);
             }
 
             _curState = glueJsonContainer;
@@ -83,7 +94,7 @@ namespace GlueDynamicManager
         internal DynamicScreenState GetDynamicScreenState(string screenNameGlue)
         {
             var screenNameGame = CommandReceiver.GlueToGameElementName(screenNameGlue);
-            if (ScreenIsDynamic(screenNameGlue))
+            if (ElementIsDynamic(screenNameGlue))
             {
                 var returnValue = new DynamicScreenState
                 {
@@ -112,7 +123,7 @@ namespace GlueDynamicManager
             return returnValue;
         }
 
-        public bool ScreenIsDynamic(string screenNameGlue)
+        public bool ElementIsDynamic(string elementNameGlue)
         {
             if (_curState == null)
                 return false;
@@ -122,18 +133,26 @@ namespace GlueDynamicManager
                 var screenNameGame = CommandReceiver.GlueToGameElementName(screenNameGlueInner);
                 return _curState.Screens.ContainsKey(screenNameGame) && !_initialState.Screens.ContainsKey(screenNameGame);
             }
+            bool IsGlueEntityDynamic(string entityNameGlueInner)
+            {
+                var entityNameGame = CommandReceiver.GlueToGameElementName(entityNameGlueInner);
+                return _curState.Entities.ContainsKey(entityNameGame) && !_initialState.Entities.ContainsKey(entityNameGame);
+            }
 
-            List<string> glueScreenNames = new List<string>();
-            glueScreenNames.Add(screenNameGlue);
-            var glueScreen = ObjectFinder.Self.GetScreenSave(screenNameGlue);
+            List<string> glueElementNames = new List<string>();
+            glueElementNames.Add(elementNameGlue);
+            var glueElement = ObjectFinder.Self.GetElement(elementNameGlue);
 
-            if (glueScreen == null)
-                throw new Exception($"Screen {screenNameGlue} was not found");
+            if (glueElement == null)
+                throw new Exception($"Element {elementNameGlue} was not found");
 
-            var baseNames = ObjectFinder.Self.GetAllBaseElementsRecursively(glueScreen).Select(item => item.Name);
-            glueScreenNames.AddRange(baseNames);
+            var baseNames = ObjectFinder.Self.GetAllBaseElementsRecursively(glueElement).Select(item => item.Name);
+            glueElementNames.AddRange(baseNames);
 
-            var areAllDynamic = glueScreenNames.All(item => IsGlueScreenDynamic(item));
+            var areAllDynamic = 
+                elementNameGlue.StartsWith("Entities\\") 
+                ? glueElementNames.All(item => IsGlueEntityDynamic(item))
+                : glueElementNames.All(item => IsGlueScreenDynamic(item));
 
             return areAllDynamic;
         }
@@ -174,19 +193,6 @@ namespace GlueDynamicManager
             return _curState.Entities.ContainsKey(CommandReceiver.GlueToGameElementName(entityNameGlue));
         }
 
-        internal bool EntityIsDynamic(string entityNameGlue)
-        {
-            if (_curState == null)
-                return false;
-
-            var entityNameGame = CommandReceiver.GlueToGameElementName(entityNameGlue);
-
-            if (_curState.Entities.ContainsKey(entityNameGame) && !_initialState.Entities.ContainsKey(entityNameGame))
-                return true;
-
-            return false;
-        }
-
         private void ScreenLoadedHandler(Screen screen)
         {
             if(screen is DynamicScreen dynamicScreen)
@@ -201,8 +207,18 @@ namespace GlueDynamicManager
                 AddEventHandler(screen, "ActivityEditModeEvent", "ScreenActivityEditModeHandler");
                 AddEventHandler(screen, "DestroyEvent", "ScreenDestroyHandler");
 
-                var screenName = screen.GetType().Name;
-                ScreenDoChanges(screen, false, _initialState.Screens.ContainsKey(screenName) ? _initialState.Screens[screenName] : null, _curState.Screens.ContainsKey(screenName) ? _curState.Screens[screenName] : null);
+                string screenNameGame = null;
+                if(HybridScreen.CurrentScreenGlue != null)
+                {
+                    screenNameGame = CommandReceiver.GlueToGameElementName(HybridScreen.CurrentScreenGlue);
+                }
+                else
+                {
+                    screenNameGame =  screen.GetType().Name;
+                }
+                ScreenDoChanges(screen, false, 
+                    _initialState.Screens.ContainsKey(screenNameGame) ? _initialState.Screens[screenNameGame] : null, 
+                    _curState.Screens.ContainsKey(screenNameGame) ? _curState.Screens[screenNameGame] : null);
                 
             }
         }
