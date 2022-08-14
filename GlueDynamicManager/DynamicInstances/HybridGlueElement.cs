@@ -27,26 +27,12 @@ namespace GlueDynamicManager.DynamicInstances
 
 
             //Search Properties
-            var prop = GlueElement.GetType().GetProperty(name, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
-
-            if (prop != null)
-                return prop.GetValue(GlueElement);
-
-            prop = GlueElement.GetType().BaseType.GetProperty(name, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
-
-            if (prop != null)
-                return prop.GetValue(GlueElement);
+            if(TypeHandler.GetPropValueIfExists(GlueElement, name, out var value))
+                return value;
 
             //Search Fields
-            var field = GlueElement.GetType().GetField(name, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
-
-            if (field != null)
-                return field.GetValue(GlueElement);
-
-            field = GlueElement.GetType().BaseType.GetField(name, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
-
-            if (field != null)
-                return field.GetValue(GlueElement);
+            if (TypeHandler.GetFieldValueIfExists(GlueElement, name, out value))
+                return value;
 
             return null;
         }
