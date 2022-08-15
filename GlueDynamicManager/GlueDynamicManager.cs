@@ -18,6 +18,7 @@ using GlueCommunication.Json;
 using GlueDynamicManager.DynamicInstances.Containers;
 using GlueControl.Managers;
 using GlueControl;
+using GlueCommunication;
 
 namespace GlueDynamicManager
 {
@@ -33,6 +34,7 @@ namespace GlueDynamicManager
         private readonly List<DynamicEntity> _dynamicEntities = new List<DynamicEntity>();
 
         public static GlueDynamicManager Self { get; private set; } = new GlueDynamicManager();
+        public static bool ScreenIsLoading { get; private set; }
 
         internal void SetInitialState(GlueJsonContainer glueJsonContainer)
         {
@@ -195,31 +197,41 @@ namespace GlueDynamicManager
 
         private void ScreenLoadedHandler(Screen screen)
         {
-            if(screen is DynamicScreen dynamicScreen)
-            {
-                _dynamicScreens.Add(dynamicScreen);
-            }
-            else
-            {
-                _hybridScreens.Add(new HybridScreen(screen));
+            ScreenIsLoading = true;
 
-                AddEventHandler(screen, "ActivityEvent", "ScreenActivityHandler");
-                AddEventHandler(screen, "ActivityEditModeEvent", "ScreenActivityEditModeHandler");
-                AddEventHandler(screen, "DestroyEvent", "ScreenDestroyHandler");
+            try
+            {
 
-                string screenNameGame = null;
-                if(HybridScreen.CurrentScreenGlue != null)
+                if (screen is DynamicScreen dynamicScreen)
                 {
-                    screenNameGame = CommandReceiver.GlueToGameElementName(HybridScreen.CurrentScreenGlue);
+                    _dynamicScreens.Add(dynamicScreen);
                 }
                 else
                 {
-                    screenNameGame =  screen.GetType().Name;
+                    _hybridScreens.Add(new HybridScreen(screen));
+
+                    AddEventHandler(screen, "ActivityEvent", "ScreenActivityHandler");
+                    AddEventHandler(screen, "ActivityEditModeEvent", "ScreenActivityEditModeHandler");
+                    AddEventHandler(screen, "DestroyEvent", "ScreenDestroyHandler");
+
+                    string screenNameGame = null;
+                    if (HybridScreen.CurrentScreenGlue != null)
+                    {
+                        screenNameGame = CommandReceiver.GlueToGameElementName(HybridScreen.CurrentScreenGlue);
+                    }
+                    else
+                    {
+                        screenNameGame = screen.GetType().Name;
+                    }
+                    ScreenDoChanges(screen, false,
+                        _initialState.Screens.ContainsKey(screenNameGame) ? _initialState.Screens[screenNameGame] : null,
+                        _curState.Screens.ContainsKey(screenNameGame) ? _curState.Screens[screenNameGame] : null);
+
                 }
-                ScreenDoChanges(screen, false, 
-                    _initialState.Screens.ContainsKey(screenNameGame) ? _initialState.Screens[screenNameGame] : null, 
-                    _curState.Screens.ContainsKey(screenNameGame) ? _curState.Screens[screenNameGame] : null);
-                
+            }
+            finally
+            {
+                ScreenIsLoading = false;
             }
         }
 

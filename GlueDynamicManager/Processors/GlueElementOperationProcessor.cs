@@ -2,6 +2,7 @@
 using FlatRedBall.Content.Instructions;
 using FlatRedBall.Instructions;
 using FlatRedBall.Screens;
+using GlueCommunication;
 using GlueControl;
 using GlueControl.Models;
 using GlueControl.Screens;
@@ -28,6 +29,12 @@ namespace GlueDynamicManager.Processors
         {
             foreach (var operation in operations)
             {
+                if (!GlueDynamicManager.ScreenIsLoading)
+                {
+                    RestartRequired(true);
+                    return;
+                }
+
                 if (!operation.Path.StartsWith("/"))
                     throw new NotImplementedException();
 
@@ -35,13 +42,13 @@ namespace GlueDynamicManager.Processors
 
                 var workingValue = GetWorkingValue(operation.Op, items.Skip(1).ToArray(), oldSave, newSave, "");
 
-                if(operation.Op == "replace" || operation.Op == "remove")
+                if (operation.Op == "replace" || operation.Op == "remove")
                 {
                     var lst = workingValue.OldValue as IList;
 
-                    if(lst != null)
+                    if (lst != null)
                     {
-                        foreach(var item in lst)
+                        foreach (var item in lst)
                         {
                             RemoveItem(item, workingValue.OldParents, workingValue.Path, element, addToManagers);
                         }
@@ -51,8 +58,8 @@ namespace GlueDynamicManager.Processors
                         RemoveItem(workingValue.OldValue, workingValue.OldParents, workingValue.Path, element, addToManagers);
                     }
                 }
-                
-                if(operation.Op == "replace" || operation.Op == "add")
+
+                if (operation.Op == "replace" || operation.Op == "add")
                 {
                     var lst = workingValue.NewValue as IList;
 
@@ -68,6 +75,22 @@ namespace GlueDynamicManager.Processors
                         AddItem(workingValue.NewValue, workingValue.NewParents, workingValue.Path, element, addToManagers, newSave);
                     }
                 }
+            }
+        }
+
+        private static void RestartRequired(bool mustRestartGame)
+        {
+            if (mustRestartGame || GlueDynamicManager.ScreenIsLoading)
+            {
+                GameConnectionManager.Self.SendItem(new GameConnectionManager.Packet
+                {
+                    PacketType = "Command",
+                    Payload = JObject.Parse(@"{Command: ""Restart Game""}").ToString()
+                });
+            }
+            else
+            {
+                CommandReceiver.RestartScreenRerunCommands(true, ScreenManager.IsInEditMode);
             }
         }
 
@@ -98,11 +121,11 @@ namespace GlueDynamicManager.Processors
 
         private static void AddItem(object item, List<object> parents, string path, HybridGlueElement element, bool addToManagers, GlueElement newSave)
         {
-            if(path == "/NamedObjects" || path == "/NamedObjects/ContainedObjects")
+            if (path == "/NamedObjects" || path == "/NamedObjects/ContainedObjects")
             {
                 AddNamedObject(element, newSave, (NamedObjectSave)item, addToManagers);
             }
-            else if(path.StartsWith("/NamedObjects/InstructionSaves") || path.StartsWith("/NamedObjects/ContainedObjects/InstructionSaves"))
+            else if (path.StartsWith("/NamedObjects/InstructionSaves") || path.StartsWith("/NamedObjects/ContainedObjects/InstructionSaves"))
             {
                 var obj = path.StartsWith("/NamedObjects/InstructionSaves")
                     ? element.PropertyFinder(((NamedObjectSave)parents[2]).InstanceName)
@@ -115,7 +138,7 @@ namespace GlueDynamicManager.Processors
 
                 ApplyInstruction(instructionSave, newSave, element, obj.GetType().Name, obj);
             }
-            else if(path.StartsWith("/CustomVariables"))
+            else if (path.StartsWith("/CustomVariables"))
             {
                 ApplyCustomVariable(element, (CustomVariable)item, newSave);
             }
@@ -179,7 +202,7 @@ namespace GlueDynamicManager.Processors
                 //Todo
                 throw new NotImplementedException();
             }
-            else if(path.StartsWith("/Tags"))
+            else if (path.StartsWith("/Tags"))
             {
                 //Todo
                 throw new NotImplementedException();
@@ -219,7 +242,7 @@ namespace GlueDynamicManager.Processors
                 var glueName = item as string;
                 var gameTypeBase = CommandReceiver.GlueToGameElementName(glueName);
 
-                if(element is HybridEntity)
+                if (element is HybridEntity)
                 {
                     throw new NotImplementedException();
                 }
@@ -263,7 +286,7 @@ namespace GlueDynamicManager.Processors
 
             var currentItem = items[0];
 
-            if(int.TryParse(currentItem, out var i))
+            if (int.TryParse(currentItem, out var i))
             {
                 var oldList = oldValue as IList;
                 var newList = newValue as IList;
