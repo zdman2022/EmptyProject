@@ -28,10 +28,8 @@ namespace GlueDynamicManager
         private readonly JsonDeltaFormatter _jdf = new JsonDeltaFormatter();
         private GlueJsonContainer _initialState;
         private GlueJsonContainer _curState;
-        private readonly List<HybridScreen> _hybridScreens = new List<HybridScreen>();
-        private readonly List<HybridEntity> _hybridEntities = new List<HybridEntity>();
-        private readonly List<DynamicScreen> _dynamicScreens = new List<DynamicScreen>();
-        private readonly List<DynamicEntity> _dynamicEntities = new List<DynamicEntity>();
+        private readonly List<IDynamic> _dynamicScreens = new List<IDynamic>();
+        private readonly List<IDynamic> _dynamicEntities = new List<IDynamic>();
 
         public static GlueDynamicManager Self { get; private set; } = new GlueDynamicManager();
         public static bool ScreenIsLoading { get; private set; }
@@ -59,35 +57,12 @@ namespace GlueDynamicManager
             //Do Updates
             foreach (var dynamicEntity in _dynamicEntities)
             {
-                EntityDoChanges(dynamicEntity, true, _curState.Entities.ContainsKey(dynamicEntity.ElementNameGame) ? _curState.Entities[dynamicEntity.ElementNameGame] : null, glueJsonContainer.Entities.ContainsKey(dynamicEntity.ElementNameGame) ? glueJsonContainer.Entities[dynamicEntity.ElementNameGame] : null);
-            }
-
-            foreach (var hybridEntity in _hybridEntities)
-            {
-                var entityName = hybridEntity.Entity.GetType().FullName;
-                EntityDoChanges(hybridEntity.Entity, true, _curState.Entities.ContainsKey(entityName) ? _curState.Entities[entityName] : null, glueJsonContainer.Entities.ContainsKey(entityName) ? glueJsonContainer.Entities[entityName] : null);
+                EntityDoChanges(dynamicEntity, true, _curState.Entities.ContainsKey(dynamicEntity.TypeName) ? _curState.Entities[dynamicEntity.TypeName] : null, glueJsonContainer.Entities.ContainsKey(dynamicEntity.TypeName) ? glueJsonContainer.Entities[dynamicEntity.TypeName] : null);
             }
 
             foreach (var dynamicScreen in _dynamicScreens)
             {
                 ScreenDoChanges(dynamicScreen, true, _curState.Screens.ContainsKey(dynamicScreen.TypeName) ? _curState.Screens[dynamicScreen.TypeName] : null, glueJsonContainer.Screens.ContainsKey(dynamicScreen.TypeName) ? glueJsonContainer.Screens[dynamicScreen.TypeName] : null);
-            }
-
-            foreach (var hybridScreen in _hybridScreens)
-            {
-                string screenNameGame = null;
-                if (HybridScreen.CurrentScreenGlue != null)
-                {
-                    screenNameGame = CommandReceiver.GlueToGameElementName(HybridScreen.CurrentScreenGlue);
-                }
-                else
-                {
-                    screenNameGame = hybridScreen.Screen.GetType().FullName;
-                }
-
-                ScreenDoChanges(hybridScreen.Screen, true, 
-                    _curState.Screens.ContainsKey(screenNameGame) ? _curState.Screens[screenNameGame] : null, 
-                    glueJsonContainer.Screens.ContainsKey(screenNameGame) ? glueJsonContainer.Screens[screenNameGame] : null);
             }
 
             _curState = glueJsonContainer;
@@ -151,44 +126,44 @@ namespace GlueDynamicManager
             var baseNames = ObjectFinder.Self.GetAllBaseElementsRecursively(glueElement).Select(item => item.Name);
             glueElementNames.AddRange(baseNames);
 
-            var areAllDynamic = 
-                elementNameGlue.StartsWith("Entities\\") 
+            var areAllDynamic =
+                elementNameGlue.StartsWith("Entities\\")
                 ? glueElementNames.All(item => IsGlueEntityDynamic(item))
                 : glueElementNames.All(item => IsGlueScreenDynamic(item));
 
             return areAllDynamic;
         }
 
-        internal object GetProperty(object container, string name)
-        {
-            if (container is DynamicScreen dynamicScreen)
-            {
-                return dynamicScreen.PropertyFinder(name);
-            }
-            else if (container is DynamicEntity dynamicEntity)
-            {
-                return dynamicEntity.PropertyFinder(name);
-            }
-            else if (container is Screen screen)
-            {
-                var hScreen = _hybridScreens.Where(item => item.Screen == screen).FirstOrDefault();
+        //internal object GetProperty(object container, string name)
+        //{
+        //    if (container is DynamicScreen dynamicScreen)
+        //    {
+        //        return dynamicScreen.PropertyFinder(name);
+        //    }
+        //    else if (container is DynamicEntity dynamicEntity)
+        //    {
+        //        return dynamicEntity.GetPropertyValue(name);
+        //    }
+        //    else if (container is Screen screen)
+        //    {
+        //        var hScreen = _hybridScreens.Where(item => item.Screen == screen).FirstOrDefault();
 
-                if (hScreen == null)
-                    throw new Exception("Hybrid Screen not found");
+        //        if (hScreen == null)
+        //            throw new Exception("Hybrid Screen not found");
 
-                return hScreen.PropertyFinder(name);
-            }
-            //Entity
-            else
-            {
-                var hEntity = _hybridEntities.Where(item => item.Entity == container).FirstOrDefault();
+        //        return hScreen.GetPropertyValue(name);
+        //    }
+        //    //Entity
+        //    else
+        //    {
+        //        var hEntity = _hybridEntities.Where(item => item.Entity == container).FirstOrDefault();
 
-                if (hEntity == null)
-                    throw new Exception("Hybrid Entity not found");
+        //        if (hEntity == null)
+        //            throw new Exception("Hybrid Entity not found");
 
-                return hEntity.PropertyFinder(name);
-            }
-        }
+        //        return hEntity.GetPropertyValue(name);
+        //    }
+        //}
 
         internal bool ContainsEntity(string entityNameGlue)
         {
@@ -201,33 +176,28 @@ namespace GlueDynamicManager
 
             try
             {
+                IDynamic dScreen;
 
                 if (screen is DynamicScreen dynamicScreen)
                 {
+                    dScreen = dynamicScreen;
                     _dynamicScreens.Add(dynamicScreen);
                 }
                 else
                 {
-                    _hybridScreens.Add(new HybridScreen(screen));
-
-                    AddEventHandler(screen, "ActivityEvent", "ScreenActivityHandler");
-                    AddEventHandler(screen, "ActivityEditModeEvent", "ScreenActivityEditModeHandler");
-                    AddEventHandler(screen, "DestroyEvent", "ScreenDestroyHandler");
-
-                    string screenNameGame = null;
-                    if (HybridScreen.CurrentScreenGlue != null)
-                    {
-                        screenNameGame = CommandReceiver.GlueToGameElementName(HybridScreen.CurrentScreenGlue);
-                    }
-                    else
-                    {
-                        screenNameGame = screen.GetType().Name;
-                    }
-                    ScreenDoChanges(screen, false,
-                        _initialState.Screens.ContainsKey(screenNameGame) ? _initialState.Screens[screenNameGame] : null,
-                        _curState.Screens.ContainsKey(screenNameGame) ? _curState.Screens[screenNameGame] : null);
-
+                    dScreen = new HybridScreen(screen);
+                    _dynamicScreens.Add(dScreen);
                 }
+
+                AddEventHandler(screen, "ActivityEvent", "ScreenActivityHandler");
+                AddEventHandler(screen, "ActivityEditModeEvent", "ScreenActivityEditModeHandler");
+                AddEventHandler(screen, "DestroyEvent", "ScreenDestroyHandler");
+
+
+                ScreenDoChanges(dScreen, screen is DynamicScreen ? true : false,
+                    _initialState.Screens.ContainsKey(dScreen.TypeName) ? _initialState.Screens[dScreen.TypeName] : null,
+                    _curState.Screens.ContainsKey(dScreen.TypeName) ? _curState.Screens[dScreen.TypeName] : null);
+
             }
             finally
             {
@@ -235,22 +205,22 @@ namespace GlueDynamicManager
             }
         }
 
-        private void ScreenDoChanges(Screen screen, bool addToManagers, GlueJsonContainer.JsonContainer<ScreenSave> oldScreenJson, GlueJsonContainer.JsonContainer<ScreenSave> newScreenJson)
+        private void ScreenDoChanges(IDynamic screen, bool addToManagers, GlueJsonContainer.JsonContainer<ScreenSave> oldScreenJson, GlueJsonContainer.JsonContainer<ScreenSave> newScreenJson)
         {
             if (_curState == null)
                 return;
 
-            if (screen.GetType() != typeof(DynamicScreen))
+            if (screen.GetType() == typeof(DynamicScreen))
             {
-                var screenName = screen.GetType().Name;
+                oldScreenJson = new GlueJsonContainer.JsonContainer<ScreenSave>("{}");
+            }
 
-                if (oldScreenJson != null && newScreenJson != null)
-                {
-                    var glueDifferences = _jdp.Diff(oldScreenJson.Json, newScreenJson.Json);
-                    var operations = _jdf.Format(glueDifferences);
+            if (oldScreenJson != null && newScreenJson != null)
+            {
+                var glueDifferences = _jdp.Diff(oldScreenJson.Json, newScreenJson.Json);
+                var operations = _jdf.Format(glueDifferences);
 
-                    GlueElementOperationProcessor.ApplyOperations(_hybridScreens.First(item => item.Screen == screen), oldScreenJson.Value, newScreenJson.Value, glueDifferences, operations, addToManagers);
-                }
+                GlueElementOperationProcessor.ApplyOperations(screen, oldScreenJson.Value, newScreenJson.Value, glueDifferences, operations, addToManagers);
             }
         }
 
@@ -293,7 +263,7 @@ namespace GlueDynamicManager
 
         internal bool IsAttachedEntity(object value)
         {
-            return _hybridEntities.Any(item => item.Entity == value);
+            return _dynamicEntities.Any(item => item.Equals(value));
         }
 
         private void ScreenDestroyHandler(object caller)
@@ -302,27 +272,18 @@ namespace GlueDynamicManager
             RemoveEventHandler(caller, "ActivityEditModeEvent", "ScreenActivityEditModeHandler");
             RemoveEventHandler(caller, "DestroyEvent", "ScreenDestroyHandler");
 
-            if(caller is DynamicScreen dynamicScreen)
-            {
-                _dynamicScreens.Remove(dynamicScreen);
-            }
-            else
-            {
-                var hybridScreen = _hybridScreens.First(item => item.Screen == caller);
-
-                hybridScreen.Destroy();
-
-                _hybridScreens.Remove(hybridScreen);
-            }
-            
+            var screen = _dynamicScreens.First(item => item == caller);
+            if (screen is HybridGlueElement)
+                screen.Destroy();
+            _dynamicScreens.Remove(screen);
         }
 
         private void EntityInitializeHandler(object caller, bool addToManagers)
         {
-            var entityName = caller.GetType().FullName;
+            var entity = _dynamicEntities.First(item => item.Equals(caller));
             if (_initialState != null)
-                EntityDoChanges(caller, addToManagers, _initialState.Entities.ContainsKey(entityName) ? _initialState.Entities[entityName] : null, _curState.Entities.ContainsKey(entityName) ? _curState.Entities[entityName] : null);
-                
+                EntityDoChanges(entity, addToManagers, _initialState.Entities.ContainsKey(entity.TypeName) ? _initialState.Entities[entity.TypeName] : null, _curState.Entities.ContainsKey(entity.TypeName) ? _curState.Entities[entity.TypeName] : null);
+
         }
 
         private void EntityActivityHandler(object caller)
@@ -337,9 +298,9 @@ namespace GlueDynamicManager
 
         private void EntityDestroyHandler(object caller)
         {
-            
 
-            if(caller is DynamicEntity dynamicEntity)
+
+            if (caller is DynamicEntity dynamicEntity)
             {
                 dynamicEntity.InitializeEvent -= EntityInitializeHandler;
                 dynamicEntity.ActivityEvent -= EntityActivityHandler;
@@ -355,13 +316,14 @@ namespace GlueDynamicManager
                 RemoveEventHandler(caller, "ActivityEditModeEvent", "EntityActivityEditModeHandler");
                 RemoveEventHandler(caller, "DestroyEvent", "EntityDestroyHandler");
 
-                var hyridEntity = _hybridEntities.First(item => item.Entity == caller);
+                var entity = _dynamicEntities.First(item => item.Equals(caller));
 
-                hyridEntity.Destroy();
+                if (entity is HybridGlueElement)
+                    entity.Destroy();
 
-                _hybridEntities.Remove(hyridEntity);
+                _dynamicEntities.Remove(entity);
             }
-            
+
         }
 
         public object AttachEntity(object instance, bool addToManagers)
@@ -369,35 +331,30 @@ namespace GlueDynamicManager
             if (instance is Screen)
                 return null;
 
+            IDynamic dEntity;
+
             if (instance is DynamicEntity dynamicEntity)
             {
-                _dynamicEntities.Add(dynamicEntity);
-
-                dynamicEntity.InitializeEvent += EntityInitializeHandler;
-                dynamicEntity.ActivityEvent += EntityActivityHandler;
-                dynamicEntity.ActivityEditModeEvent += EntityActivityEditModeHandler;
-                dynamicEntity.DestroyEvent += EntityDestroyHandler;
-
-                return instance;
+                dEntity = dynamicEntity;
             }
             else
             {
-                _hybridEntities.Add(new HybridEntity(instance));
-
-                AddEventHandler(instance, "InitializeEvent", "EntityInitializeHandler");
-                AddEventHandler(instance, "ActivityEvent", "EntityActivityHandler");
-                AddEventHandler(instance, "ActivityEditModeEvent", "EntityActivityEditModeHandler");
-                AddEventHandler(instance, "DestroyEvent", "EntityDestroyHandler");
-
-                var entityName = instance.GetType().FullName;
-                if (_initialState != null)
-                    EntityDoChanges(instance, addToManagers, _initialState.Entities.ContainsKey(entityName) ? _initialState.Entities[entityName] : null, _curState.Entities.ContainsKey(entityName) ? _curState.Entities[entityName] : null);
-
-                return instance;
+                dEntity = new HybridEntity(instance);
             }
+            _dynamicEntities.Add(dEntity);
+
+            AddEventHandler(instance, "InitializeEvent", "EntityInitializeHandler");
+            AddEventHandler(instance, "ActivityEvent", "EntityActivityHandler");
+            AddEventHandler(instance, "ActivityEditModeEvent", "EntityActivityEditModeHandler");
+            AddEventHandler(instance, "DestroyEvent", "EntityDestroyHandler");
+
+            if (_initialState != null)
+                EntityDoChanges(dEntity, addToManagers, _initialState.Entities.ContainsKey(dEntity.TypeName) ? _initialState.Entities[dEntity.TypeName] : null, _curState.Entities.ContainsKey(dEntity.TypeName) ? _curState.Entities[dEntity.TypeName] : null);
+
+            return instance;
         }
 
-        private void EntityDoChanges(object entity, bool addToManagers, GlueJsonContainer.JsonContainer<EntitySave> oldEntityJson, GlueJsonContainer.JsonContainer<EntitySave> newEntityJson)
+        private void EntityDoChanges(IDynamic entity, bool addToManagers, GlueJsonContainer.JsonContainer<EntitySave> oldEntityJson, GlueJsonContainer.JsonContainer<EntitySave> newEntityJson)
         {
             if (_curState == null)
                 return;
@@ -411,7 +368,7 @@ namespace GlueDynamicManager
                         var glueDifferences = _jdp.Diff(oldEntityJson.Json, newEntityJson.Json);
                         var operations = _jdf.Format(glueDifferences);
 
-                        GlueElementOperationProcessor.ApplyOperations(_hybridEntities.First(item => item.Entity == entity), oldEntityJson.Value, newEntityJson.Value, glueDifferences, operations, addToManagers);
+                        GlueElementOperationProcessor.ApplyOperations(entity, oldEntityJson.Value, newEntityJson.Value, glueDifferences, operations, addToManagers);
                     }
                 }
             }

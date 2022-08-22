@@ -25,6 +25,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)DynamicInstances\HybridEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DynamicInstances\HybridGlueElement.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DynamicInstances\HybridScreen.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DynamicInstances\IDynamic.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GlueDynamicManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GlueDynamicTest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GlueHelpers\NamedObjectSaveHelper.cs" />

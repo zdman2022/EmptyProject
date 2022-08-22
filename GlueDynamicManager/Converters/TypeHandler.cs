@@ -55,6 +55,27 @@ namespace GlueDynamicManager.Converters
             return false;
         }
 
+        internal static bool SetFieldValueIfExists(object instance, string fieldName, object value)
+        {
+            var field = instance.GetType().GetField(fieldName);
+            if (field != null)
+            {
+                field.SetValue(instance, value);
+
+                return true;
+            }
+
+            field = instance.GetType().BaseType.GetField(fieldName);
+            if (field != null)
+            {
+                field.SetValue(instance, value);
+
+                return true;
+            }
+
+            return false;
+        }
+
         public static bool SetPropValueIfExists(object instance, string propertyName, object value)
         {
             var prop = instance.GetType().GetProperty(propertyName);
@@ -76,24 +97,25 @@ namespace GlueDynamicManager.Converters
             return false;
         }
 
-        public static bool CallMethodIfExists(object instance, string methodName, object[] args)
+        public static bool CallMethodIfExists(object instance, string methodName, object[] args, out object returnValue)
         {
             var argsTypeArray = args.Select(item => item.GetType()).ToArray();
 
             var method = instance.GetType().GetMethod(methodName, argsTypeArray);
             if (method != null)
             {
-                method.Invoke(instance, args);
+                returnValue = method.Invoke(instance, args);
                 return true;
             }
 
             method = instance.GetType().BaseType.GetMethod(methodName, argsTypeArray);
             if (method != null)
             {
-                method.Invoke(instance, args);
+                returnValue = method.Invoke(instance, args);
                 return true;
             }
 
+            returnValue = null;
             return false;
         }
     }

@@ -17,10 +17,11 @@ using System.Text;
 using System.Threading.Tasks;
 using GlueDynamicManager.GlueHelpers;
 using System.Collections;
+using GlueControl;
 
 namespace GlueDynamicManager.DynamicInstances
 {
-    internal class DynamicScreen : FlatRedBall.Screens.Screen
+    internal class DynamicScreen : FlatRedBall.Screens.Screen, IDynamic
     {
         public delegate void InitializeDelegate(object caller, bool addToManagers);
         public event InitializeDelegate InitializeEvent;
@@ -36,12 +37,12 @@ namespace GlueDynamicManager.DynamicInstances
 
 
         // Do we want a second list for entities?
-        private readonly List<ObjectContainer> _instancedObjects = new List<ObjectContainer>();
+        private readonly List<ObjectContainer> _dynamicProperties = new List<ObjectContainer>();
         private DynamicScreenState _currentScreenState;
 
         public DynamicScreen() : base("DynamicScreen")
         {
-            TypeName = CurrentScreenGlue;
+            TypeName = CommandReceiver.GlueToGameElementName(CurrentScreenGlue);
         }
         public override void Initialize(bool addToManagers)
         {
@@ -63,40 +64,40 @@ namespace GlueDynamicManager.DynamicInstances
             bool oldShapeManagerSuppressAdd = FlatRedBall.Math.Geometry.ShapeManager.SuppressAddingOnVisibilityTrue;
             FlatRedBall.Math.Geometry.ShapeManager.SuppressAddingOnVisibilityTrue = true;
 
-            for (int i = 0; i < _instancedObjects.Count; i++)
-            {
-                var instance = _instancedObjects[i];
+            //for (int i = 0; i < _instancedObjects.Count; i++)
+            //{
+            //    var instance = _instancedObjects[i];
 
-                if(instance.Value is DynamicEntity dynamicEntity)
-                {
-                    if (instance.CombinedInstructionSaves != null)
-                        foreach (var instruction in instance.CombinedInstructionSaves)
-                        {
-                            var convertedValue = ValueConverter.ConvertValue(instruction, this._currentScreenState.ScreenSave);
-                            convertedValue = ValueConverter.ConvertForProperty(convertedValue, instruction.Type, typeof(DynamicEntity).Name);
-                            dynamicEntity.SetVariable(instruction.Member, convertedValue);
-                        }
-                }
-                else
-                {
-                    if (instance.CombinedInstructionSaves != null)
-                    {
-                        foreach (var instruction in instance.CombinedInstructionSaves)
-                        {
-                            var convertedValue = ValueConverter.ConvertValue(instruction, this._currentScreenState.ScreenSave);
-                            convertedValue = ValueConverter.ConvertForProperty(convertedValue, instruction.Type, instance.ObjectType);
+            //    if(instance.Value is DynamicEntity dynamicEntity)
+            //    {
+            //        if (instance.CombinedInstructionSaves != null)
+            //            foreach (var instruction in instance.CombinedInstructionSaves)
+            //            {
+            //                var convertedValue = ValueConverter.ConvertValue(instruction, this._currentScreenState.ScreenSave);
+            //                convertedValue = ValueConverter.ConvertForProperty(convertedValue, instruction.Type, typeof(DynamicEntity).Name);
+            //                dynamicEntity.SetVariable(instruction.Member, convertedValue);
+            //            }
+            //    }
+            //    else
+            //    {
+            //        if (instance.CombinedInstructionSaves != null)
+            //        {
+            //            foreach (var instruction in instance.CombinedInstructionSaves)
+            //            {
+            //                var convertedValue = ValueConverter.ConvertValue(instruction, this._currentScreenState.ScreenSave);
+            //                convertedValue = ValueConverter.ConvertForProperty(convertedValue, instruction.Type, instance.ObjectType);
 
-                            // handle special cases here:
-                            var handledByAssigner = InstanceVariableAssigner.TryAssignVariable(instruction.Member, convertedValue, instance.Value);
+            //                // handle special cases here:
+            //                var handledByAssigner = InstanceVariableAssigner.TryAssignVariable(instruction.Member, convertedValue, instance.Value);
 
-                            if (!handledByAssigner)
-                            {
-                                base.ApplyVariable(instruction.Member, convertedValue, instance.Value);
-                            }
-                        }
-                    }
-                }
-            }
+            //                if (!handledByAssigner)
+            //                {
+            //                    base.ApplyVariable(instruction.Member, convertedValue, instance.Value);
+            //                }
+            //            }
+            //        }
+            //    }
+            //}
 
             FlatRedBall.Math.Geometry.ShapeManager.SuppressAddingOnVisibilityTrue = oldShapeManagerSuppressAdd;
         }
@@ -108,25 +109,25 @@ namespace GlueDynamicManager.DynamicInstances
             if (_currentScreenState == null)
                 throw new Exception("Unable to get dynamic screen state");
 
-            var namedObjects = _currentScreenState.ScreenSave.AllNamedObjects
-                .OrderBy(item =>
-                {
-                    if (item.SourceClassType == "FlatRedBall.Math.PositionedObjectList<T>")
-                        return 1;
-                    else if (item.SourceClassType?.StartsWith("FlatRedBall.Math.Collision.ListVsListRelationship<") == true)
-                        return 100;
+            //var namedObjects = _currentScreenState.ScreenSave.AllNamedObjects
+            //    .OrderBy(item =>
+            //    {
+            //        if (item.SourceClassType == "FlatRedBall.Math.PositionedObjectList<T>")
+            //            return 1;
+            //        else if (item.SourceClassType?.StartsWith("FlatRedBall.Math.Collision.ListVsListRelationship<") == true)
+            //            return 100;
 
-                    return 50;
-                })
-                .ToArray();
+            //        return 50;
+            //    })
+            //    .ToArray();
 
-            foreach (var nos in namedObjects)
-            {
-                var itemContainer = NamedObjectSaveHelper.GetContainerFor(nos, _currentScreenState.ScreenSave);
-                NamedObjectSaveHelper.InitializeNamedObject(this, nos, itemContainer, _currentScreenState.ScreenSave, PropertyFinder, out var instancedObjects);
+            //foreach (var nos in namedObjects)
+            //{
+            //    var itemContainer = NamedObjectSaveHelper.GetContainerFor(nos, _currentScreenState.ScreenSave);
+            //    NamedObjectSaveHelper.InitializeNamedObject(this, nos, itemContainer, _currentScreenState.ScreenSave, PropertyFinder, out var instancedObjects);
 
-                _instancedObjects.AddRange(instancedObjects);
-            }
+            //    _dynamicProperties.AddRange(instancedObjects);
+            //}
         }
 
         
@@ -135,7 +136,7 @@ namespace GlueDynamicManager.DynamicInstances
 
         public object PropertyFinder(string name1)
         {
-            var foundItem = _instancedObjects.Where(item => item.Name == name1).FirstOrDefault();
+            var foundItem = _dynamicProperties.Where(item => item.Name == name1).FirstOrDefault();
 
             if (foundItem != null)
                 return foundItem.Value;
@@ -147,9 +148,9 @@ namespace GlueDynamicManager.DynamicInstances
 
         public override void AddToManagers()
         {
-            for (var i = 0; i < _instancedObjects.Count; i++)
+            for (var i = 0; i < _dynamicProperties.Count; i++)
             {
-                var instance = _instancedObjects[i];
+                var instance = _dynamicProperties[i];
 
                 if(instance.Value is DynamicEntity dynamicEntity)
                 {
@@ -159,7 +160,7 @@ namespace GlueDynamicManager.DynamicInstances
                 {
                     // todo: need to support layers
                     FlatRedBall.Graphics.Layer layer = null;
-                    InstanceAddToManager.AddToManager(_instancedObjects[i], _instancedObjects, layer);
+                    InstanceAddToManager.AddToManager(_dynamicProperties[i], _dynamicProperties, layer);
                 }
                 
             }
@@ -173,9 +174,9 @@ namespace GlueDynamicManager.DynamicInstances
         {
             if (!IsPaused)
             {
-                for (int i = _instancedObjects.Count - 1; i > -1; i--)
+                for (int i = _dynamicProperties.Count - 1; i > -1; i--)
                 {
-                    var instance = _instancedObjects[i].Value;
+                    var instance = _dynamicProperties[i].Value;
                     if (instance is IEnumerable enumerable)
                     {
                         foreach(var item in enumerable)
@@ -215,14 +216,49 @@ namespace GlueDynamicManager.DynamicInstances
         {
             base.Destroy();
 
-            for (int i = _instancedObjects.Count - 1; i > -1; i--)
+            for (int i = _dynamicProperties.Count - 1; i > -1; i--)
             {
-                InstanceDestroy.Destroy(_instancedObjects[i]);
+                InstanceDestroy.Destroy(_dynamicProperties[i]);
             }
 
             FlatRedBall.Math.Collision.CollisionManager.Self.Relationships.Clear();
 
             DestroyEvent?.Invoke(this);
+        }
+
+        public object GetPropertyValue(string name)
+        {
+            var foundItem = _dynamicProperties.Where(item => item.Name == name).FirstOrDefault();
+
+            if (foundItem != null)
+                return foundItem.Value;
+
+            return null;
+        }
+
+        public void SetPropertyValue(string name, object value, NamedObjectSave nos, List<InstructionSave> instructionSaves)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                throw new Exception($"Can't set property for: '{name}'");
+
+            var foundItem = _dynamicProperties.Where(item => item.Name == name).FirstOrDefault();
+
+            if (foundItem != null)
+                _dynamicProperties.Remove(foundItem);
+
+            if (value != null)
+                _dynamicProperties.Add(new ObjectContainer(name)
+                {
+                    Value = value,
+                    NamedObjectSave = nos,
+                    CombinedInstructionSaves = instructionSaves
+                });
+        }
+
+        public bool CallMethodIfExists(string methodName, object[] args, out object returnValue)
+        {
+            returnValue = null;
+            return false;
         }
     }
 }

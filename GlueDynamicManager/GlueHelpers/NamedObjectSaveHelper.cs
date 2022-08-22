@@ -41,27 +41,21 @@ namespace GlueDynamicManager.GlueHelpers
             return null;
         }
 
-        public static void InitializeNamedObject(object noContainer, NamedObjectSave nos, NamedObjectSave nosList, GlueElement glueElement, Func<string, object> propertyFinder, out List<ObjectContainer> instancedObjects)
+        public static void InitializeNamedObject(IDynamic noContainer, NamedObjectSave nos, NamedObjectSave nosList, GlueElement glueElement, Func<string, object> propertyFinder, out List<ObjectContainer> instancedObjects)
         {
             instancedObjects = new List<ObjectContainer>();
 
-            if (nos.SourceClassType == "FlatRedBall.Math.PositionedObjectList<T>")
+            if (nos.SourceClassType == "FlatRedBall.Math.PositionedObjectList<T>" && GlueDynamicManager.Self.ContainsEntity(nos.SourceClassGenericType) && GlueDynamicManager.Self.ElementIsDynamic(nos.SourceClassGenericType))
             {
-                if (GlueDynamicManager.Self.ContainsEntity(nos.SourceClassGenericType))
+                var container = new ObjectContainer(nos.InstanceName)
                 {
-                    if (GlueDynamicManager.Self.ElementIsDynamic(nos.SourceClassGenericType))
+                    Value = new PositionedObjectList<DynamicEntity>
                     {
-                        var container = new ObjectContainer
-                        {
-                            Value = new PositionedObjectList<DynamicEntity>
-                            {
-                                Name = nos.InstanceName
-                            },
-                            NamedObjectSave = nos
-                        };
-                        instancedObjects.Add(container);
-                    }
-                }
+                        Name = nos.InstanceName
+                    },
+                    NamedObjectSave = nos
+                };
+                instancedObjects.Add(container);
             }
             //else if (nos.SourceClassType?.StartsWith("FlatRedBall.Math.Collision.ListVsListRelationship<") == true)
             //{
@@ -146,7 +140,7 @@ namespace GlueDynamicManager.GlueHelpers
             {
                 if (GlueDynamicManager.Self.ElementIsDynamic(nos.SourceClassType))
                 {
-                    var entityContainer = new ObjectContainer
+                    var entityContainer = new ObjectContainer(nos.InstanceName)
                     {
                         NamedObjectSave = nos,
                         Value = new DynamicEntity(nos.SourceClassType, GlueDynamicManager.Self.GetEntityState(nos.SourceClassType)),
@@ -166,7 +160,7 @@ namespace GlueDynamicManager.GlueHelpers
                 }
                 else
                 {
-                    var objectContainer = new ObjectContainer
+                    var objectContainer = new ObjectContainer(nos.InstanceName)
                     {
                         NamedObjectSave = nos,
                         Value = InstanceInstantiator.InstantiateEntity(nos.ClassType),
@@ -179,7 +173,7 @@ namespace GlueDynamicManager.GlueHelpers
                         var container = propertyFinder(nosList.InstanceName);
                         if (container != null)
                         {
-                            if(container is ObjectContainer objectContainer1)
+                            if (container is ObjectContainer objectContainer1)
                                 container = objectContainer1.Value;
                             InstanceInstantiator.AddItemToList(container, objectContainer.Value);
                         }
@@ -189,7 +183,7 @@ namespace GlueDynamicManager.GlueHelpers
             }
             else
             {
-                var objectContainer = new ObjectContainer
+                var objectContainer = new ObjectContainer(nos.InstanceName)
                 {
                     NamedObjectSave = nos,
                     CombinedInstructionSaves = GetInstructionsRecursively(nos, glueElement)
@@ -240,10 +234,10 @@ namespace GlueDynamicManager.GlueHelpers
 
             if (nosList == null && nos.AttachToContainer)
             {
-                foreach(var item in instancedObjects)
+                foreach (var item in instancedObjects)
                 {
-                    TypeHandler.CallMethodIfExists(item.Value, "CopyAbsoluteToRelative", new object[] { });
-                    TypeHandler.CallMethodIfExists(item.Value, "AttachTo", new object[] { noContainer, false });
+                    TypeHandler.CallMethodIfExists(item.Value, "CopyAbsoluteToRelative", new object[] { }, out var returnValue);
+                    TypeHandler.CallMethodIfExists(item.Value, "AttachTo", new object[] { noContainer, false }, out returnValue);
                 }
             }
         }

@@ -1,4 +1,5 @@
-﻿using FlatRedBall.Math;
+﻿using FlatRedBall.Content.Instructions;
+using FlatRedBall.Math;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,9 @@ namespace GlueDynamicManager.DynamicInstances.Containers
 {
     internal class ObjectContainer : BaseContainer<object>
     {
-        public string ObjectType => NamedObjectSave.SourceClassType;
+        public ObjectContainer(string name)
+        {
+            _name = name;
+        }
     }
 }

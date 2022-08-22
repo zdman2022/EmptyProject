@@ -123,6 +123,9 @@
       "Name": "Screens\\SimpleMix"
     },
     {
+      "Name": "Screens\\SimpleScreen"
+    },
+    {
       "Name": "Screens\\SpriteScreen"
     },
     {
