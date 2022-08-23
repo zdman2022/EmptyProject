@@ -39,7 +39,7 @@ namespace GlueDynamicManager.DynamicInstances
 
         public string ElementNameGame { get; }
 
-        public string TypeName => CommandReceiver.GlueToGameElementName(this.ElementNameGame);
+        public string TypeName => this.ElementNameGame;
 
         private EntityState _dynamicEntityState;
         protected FlatRedBall.Graphics.Layer LayerProvidedByContainer = null;
@@ -49,8 +49,8 @@ namespace GlueDynamicManager.DynamicInstances
         {
             ElementNameGame = CommandReceiver.GlueToGameElementName(nameGlue);
             _dynamicEntityState = dynamicEntityState;
-            InitializeEntity();
             GlueDynamicManager.Self.AttachEntity(this, true);
+            InitializeEntity();
             mGeneratedCollision = new FlatRedBall.Math.Geometry.ShapeCollection();
         }
 
@@ -150,7 +150,7 @@ namespace GlueDynamicManager.DynamicInstances
             LayerProvidedByContainer = layerToAddTo;
             FlatRedBall.SpriteManager.AddPositionedObject(this);
 
-            for (var i = _dynamicProperties.Count - 1; i > -1; i--)
+            for (var i = 0; i < _dynamicProperties.Count; i++)
             {
                 var obj = _dynamicProperties[i];
 
@@ -182,12 +182,16 @@ namespace GlueDynamicManager.DynamicInstances
                 _dynamicProperties.Remove(foundItem);
                 
             if(value != null)
-                _dynamicProperties.Add(new ObjectContainer(name)
-                {
-                    Value = value,
-                    NamedObjectSave = nos,
-                    CombinedInstructionSaves = instructionSaves
-                });
+                _dynamicProperties.Add(
+                    value is ObjectContainer ocValue
+                    ? ocValue
+                    : new ObjectContainer(name)
+                        {
+                            Value = value,
+                            NamedObjectSave = nos,
+                            CombinedInstructionSaves = instructionSaves
+                        }
+                );
         }
 
         public bool CallMethodIfExists(string methodName, object[] args, out object returnValue)

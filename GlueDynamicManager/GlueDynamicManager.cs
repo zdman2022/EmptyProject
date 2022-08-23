@@ -359,18 +359,17 @@ namespace GlueDynamicManager
             if (_curState == null)
                 return;
 
-            if (entity.GetType() != typeof(DynamicEntity))
+            if (entity.GetType() == typeof(DynamicEntity))
             {
-                if (_initialState != null && _curState != null)
-                {
-                    if (oldEntityJson != null && newEntityJson != null)
-                    {
-                        var glueDifferences = _jdp.Diff(oldEntityJson.Json, newEntityJson.Json);
-                        var operations = _jdf.Format(glueDifferences);
+                oldEntityJson = new GlueJsonContainer.JsonContainer<EntitySave>("{}");
+            }
 
-                        GlueElementOperationProcessor.ApplyOperations(entity, oldEntityJson.Value, newEntityJson.Value, glueDifferences, operations, addToManagers);
-                    }
-                }
+            if (oldEntityJson != null && newEntityJson != null)
+            {
+                var glueDifferences = _jdp.Diff(oldEntityJson.Json, newEntityJson.Json);
+                var operations = _jdf.Format(glueDifferences);
+
+                GlueElementOperationProcessor.ApplyOperations(entity, oldEntityJson.Value, newEntityJson.Value, glueDifferences, operations, addToManagers);
             }
         }
     }

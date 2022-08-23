@@ -223,18 +223,18 @@ namespace GlueDynamicManager.Processors
             }
             else if (path == ("/CreatedByOtherEntities"))
             {
-                //Todo
-                throw new NotImplementedException();
+                //Ignore for now
+                //throw new NotImplementedException();
             }
             else if (path == ("/Is2D"))
             {
-                //Todo
-                throw new NotImplementedException();
+                //Ignore for now
+                //throw new NotImplementedException();
             }
             else if (path.StartsWith("/Properties"))
             {
-                //Todo
-                throw new NotImplementedException();
+                //Ignore for now
+                //throw new NotImplementedException();
             }
             else if (path == ("/Name"))
             {
@@ -394,7 +394,8 @@ namespace GlueDynamicManager.Processors
 
                 if (instance.Value is DynamicEntity dynamicEntity)
                 {
-                    dynamicEntity.AddToManagers(null);
+                    //I think this is unnecessary because objects are already added from JSON.
+                    //dynamicEntity.AddToManagers(null);
                 }
                 else
                 {

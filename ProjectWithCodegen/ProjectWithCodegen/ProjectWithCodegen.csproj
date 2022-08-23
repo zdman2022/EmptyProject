@@ -161,7 +161,9 @@
       <DependentUpon>SimpleMixGumForms.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Screens\SimpleScreenGumForms.cs" />
-    <Compile Include="Forms\Screens\SimpleScreenGumForms.Generated.cs" />
+    <Compile Include="Forms\Screens\SimpleScreenGumForms.Generated.cs">
+      <DependentUpon>SimpleScreenGumForms.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Screens\SpriteScreenGumForms.cs" />
     <Compile Include="Forms\Screens\SpriteScreenGumForms.Generated.cs">
       <DependentUpon>SpriteScreenGumForms.cs</DependentUpon>
@@ -441,7 +443,9 @@
       <DependentUpon>SimpleMixGumRuntime.cs</DependentUpon>
     </Compile>
     <Compile Include="GumRuntimes\SimpleScreenGumRuntime.cs" />
-    <Compile Include="GumRuntimes\SimpleScreenGumRuntime.Generated.cs" />
+    <Compile Include="GumRuntimes\SimpleScreenGumRuntime.Generated.cs">
+      <DependentUpon>SimpleScreenGumRuntime.cs</DependentUpon>
+    </Compile>
     <Compile Include="GumRuntimes\SpriteRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\SpriteScreenGumRuntime.cs" />
     <Compile Include="GumRuntimes\SpriteScreenGumRuntime.Generated.cs">
