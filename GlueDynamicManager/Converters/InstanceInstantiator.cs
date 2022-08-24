@@ -7,6 +7,7 @@ using GlueControl;
 using GlueControl.Models;
 using GlueDynamicManager.Converters;
 using GlueDynamicManager.DynamicInstances;
+using GlueDynamicManager.DynamicInstances.Containers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -147,7 +148,10 @@ namespace GlueDynamicManager
 
                 var parmList = GetParmsForType(sourceClassType, container, properties);
 
-                var instance = InstantiateTypeWith1Generic(GetType(typeName + "`1", true), genType, parmList);
+                parmList = CorrectForObjectContainer(parmList);
+
+                var mainType = GetType(typeName + "`1", true);
+                var instance = InstantiateTypeWith1Generic(mainType, genType, parmList);
 
                 TypeHandler.SetPropValueIfExists(instance, "Name", nos.InstanceName);
                 TypeHandler.SetPropValueIfExists(instance, "CreationSource", "Dynamic");
@@ -169,7 +173,12 @@ namespace GlueDynamicManager
 
                 var parmList = GetParmsForType(sourceClassType, container, properties);
 
-                var instance = InstantiateTypeWith2Generic(GetType(typeName + "`2", true), genType1, genType2, parmList);
+                parmList = CorrectForObjectContainer(parmList);
+
+                var mainType = GetType(typeName + "`2", true);
+                var instance = InstantiateTypeWith2Generic(mainType, genType1, genType2, parmList);
+
+                //new ListVsListRelationship
 
                 TypeHandler.SetPropValueIfExists(instance, "Name", nos.InstanceName);
                 TypeHandler.SetPropValueIfExists(instance, "CreationSource", "Dynamic");
@@ -203,6 +212,16 @@ namespace GlueDynamicManager
             {
                 throw new NotImplementedException($"Need to handle instantiation for type {sourceClassType}");
             }
+        }
+
+        private static object[] CorrectForObjectContainer(object[] parmList)
+        {
+            return parmList.Select(x => {
+                if (x is ObjectContainer oc)
+                    return oc.Value;
+
+                return x;
+            }).ToArray();
         }
 
         private static Type GetTypeCheckForDynamic(string typeNameGame, string fallBackType)
@@ -333,7 +352,7 @@ namespace GlueDynamicManager
             if(sourceClassType.StartsWith("FlatRedBall.Math.Collision.AlwaysCollidingListCollisionRelationship"))
             {
                 return new object[] {
-                    container.GetPropertyValue("FirstCollisionName")
+                    container.GetPropertyValue((string)properties.FirstOrDefault(item => item.Name == "FirstCollisionName").Value)
                 };
             }else if(
                 sourceClassType.StartsWith("FlatRedBall.Math.Collision.DelegateListVsSingleRelationship")
@@ -345,8 +364,8 @@ namespace GlueDynamicManager
             {
                 return new object[]
                 {
-                    container.GetPropertyValue("FirstCollisionName"),
-                    container.GetPropertyValue("SecondCollisionName")
+                    container.GetPropertyValue((string)properties.FirstOrDefault(item => item.Name == "FirstCollisionName").Value),
+                    container.GetPropertyValue((string)properties.FirstOrDefault(item => item.Name == "SecondCollisionName").Value)
                 };
             }
             else
@@ -367,7 +386,7 @@ namespace GlueDynamicManager
         internal static object InstantiateTypeWith2Generic(Type type, Type genType1, Type genType2, object[] args)
         {
             var createType = type.MakeGenericType(genType1, genType2);
-
+            
             return Activator.CreateInstance(createType, args);
         }
 

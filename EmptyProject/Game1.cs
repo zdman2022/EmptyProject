@@ -89,7 +89,7 @@ namespace EmptyProject
             //Scott:
             //No DynamicManager will have to be the authority.  We have to allow updates, which dynamic manager is going to be processing.
             GlueCommands.Self.LoadProject(gluj.FullPath);
-            GlueDynamicManager.DynamicInstances.DynamicScreen.CurrentScreenGlue = "Screens\\ScreenWithEntityWithShapes";
+            GlueDynamicManager.DynamicInstances.DynamicScreen.CurrentScreenGlue = "Screens\\EntityInheritanceScreen";
 
             AllScreenNames = new List<string>();
             foreach (var screen in ObjectFinder.Self.GlueProject.Screens)
