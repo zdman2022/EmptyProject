@@ -355,11 +355,17 @@ namespace GlueDynamicManager.Processors
                 var itemContainer = NamedObjectSaveHelper.GetContainerFor(nos, newSave);
                 NamedObjectSaveHelper.InitializeNamedObject(element, nos, itemContainer, newSave, element.GetPropertyValue, out var instancedObjects);
 
-                DoInitialize(element, newSave, instancedObjects);
-                if (addToManagers)
-                    AddToManagers(element, newSave, instancedObjects);
 
                 foreach(var instance in instancedObjects)
+                {
+                    if (!TypeHandler.CallMethodIfExists(instance.Value, "InitializeEntity", new object[] { false }, out var methodReturnValue))
+                        TypeHandler.CallMethodIfExists(instance.Value, "Initialize", new object[] { false }, out methodReturnValue);
+                }
+                if (addToManagers)
+                    AddToManagers(element, newSave, instancedObjects);
+                DoInitialize(element, newSave, instancedObjects);
+
+                foreach (var instance in instancedObjects)
                 {
                     element.SetPropertyValue(instance.Name, instance, instance.NamedObjectSave, instance.CombinedInstructionSaves);
                 }

@@ -101,14 +101,14 @@ namespace GlueDynamicManager.Converters
         {
             var argsTypeArray = args.Select(item => item.GetType()).ToArray();
 
-            var method = instance.GetType().GetMethod(methodName, argsTypeArray);
+            var method = instance.GetType().GetMethod(methodName, System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic, null, argsTypeArray, null);
             if (method != null)
             {
                 returnValue = method.Invoke(instance, args);
                 return true;
             }
 
-            method = instance.GetType().BaseType.GetMethod(methodName, argsTypeArray);
+            method = instance.GetType().BaseType.GetMethod(methodName, System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic, null, argsTypeArray, null);
             if (method != null)
             {
                 returnValue = method.Invoke(instance, args);

@@ -5,6 +5,7 @@ using FlatRedBall.Math;
 using FlatRedBall.Math.Geometry;
 using FlatRedBall.TileCollisions;
 using FlatRedBall.TileGraphics;
+using GlueDynamicManager.DynamicInstances;
 using GlueDynamicManager.DynamicInstances.Containers;
 using System;
 using System.Collections;
@@ -68,6 +69,14 @@ namespace GlueDynamicManager.Converters
                 else if(instance is TileShapeCollection asTileShapeCollection)
                 {
                     asTileShapeCollection.RemoveFromManagers(); // full removal, do we want to one-way it?
+                }
+                else if(instance is IDynamic dynamic)
+                {
+                    dynamic.Destroy();
+                }
+                else
+                {
+                    TypeHandler.CallMethodIfExists(instance, "Destroy", new object[] { }, out var methodReturnValue);
                 }
             };
 

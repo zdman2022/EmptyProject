@@ -399,6 +399,8 @@ namespace GlueDynamicManager
         {
             var instance = Activator.CreateInstance(type, new object[] { FlatRedBall.Screens.ScreenManager.CurrentScreen.ContentManagerName, false });
 
+            TypeHandler.SetPropValueIfExists(instance, "CreationSource", "Dynamic");
+
             return instance;
         }
 

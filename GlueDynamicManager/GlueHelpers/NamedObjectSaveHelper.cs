@@ -146,6 +146,7 @@ namespace GlueDynamicManager.GlueHelpers
                         Value = new DynamicEntity(nos.SourceClassType, GlueDynamicManager.Self.GetEntityState(nos.SourceClassType)),
                         CombinedInstructionSaves = GetInstructionsRecursively(nos, glueElement)
                     };
+                    ((DynamicEntity)entityContainer.Value).Name = nos.InstanceName;
                     instancedObjects.Add(entityContainer);
 
                     if (nosList != null)
@@ -166,6 +167,7 @@ namespace GlueDynamicManager.GlueHelpers
                         Value = InstanceInstantiator.InstantiateEntity(nos.ClassType),
                         CombinedInstructionSaves = GetInstructionsRecursively(nos, glueElement)
                     };
+                    TypeHandler.SetPropValueIfExists(objectContainer.Value, "Name", nos.InstanceName);
                     instancedObjects.Add(objectContainer);
 
                     if (nosList != null)

@@ -64,12 +64,22 @@ namespace GlueDynamicManager.DynamicInstances
             InstancedObjects.Remove(foundItem);
 
             if (value != null)
-                InstancedObjects.Add(new ObjectContainer(name)
-                {
-                    Value = value,
-                    NamedObjectSave = nos,
-                    CombinedInstructionSaves = instructionSaves
-                });
+            {
+                ObjectContainer newValue;
+
+                if (value is ObjectContainer oc)
+                    newValue = oc;
+                else
+                    newValue = new ObjectContainer(name)
+                    {
+                        Value = value,
+                        NamedObjectSave = nos,
+                        CombinedInstructionSaves = instructionSaves
+                    };
+
+                InstancedObjects.Add(newValue);
+            }
+                
         }
 
         public bool CallMethodIfExists(string methodName, object[] args, out object returnValue)
