@@ -19,6 +19,7 @@ using GlueDynamicManager.DynamicInstances.Containers;
 using GlueControl.Managers;
 using GlueControl;
 using GlueCommunication;
+using GlueControl.Dtos;
 
 namespace GlueDynamicManager
 {
@@ -37,6 +38,7 @@ namespace GlueDynamicManager
         internal void SetInitialState(GlueJsonContainer glueJsonContainer)
         {
             _initialState = glueJsonContainer;
+            ObjectFinder.Self.GlueProject = glueJsonContainer.GetFullClone();
             _curState = glueJsonContainer;
             ScreenManager.ScreenLoaded += ScreenLoadedHandler;
         }
@@ -272,7 +274,7 @@ namespace GlueDynamicManager
             RemoveEventHandler(caller, "ActivityEditModeEvent", "ScreenActivityEditModeHandler");
             RemoveEventHandler(caller, "DestroyEvent", "ScreenDestroyHandler");
 
-            var screen = _dynamicScreens.First(item => item == caller);
+            var screen = _dynamicScreens.First(item => item.Equals(caller));
             if (screen is HybridGlueElement)
                 screen.Destroy();
             _dynamicScreens.Remove(screen);

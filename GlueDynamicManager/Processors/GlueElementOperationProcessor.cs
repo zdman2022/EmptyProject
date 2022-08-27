@@ -29,12 +29,6 @@ namespace GlueDynamicManager.Processors
         {
             foreach (var operation in operations)
             {
-                if (!GlueDynamicManager.ScreenIsLoading)
-                {
-                    RestartRequired(true);
-                    return;
-                }
-
                 if (!operation.Path.StartsWith("/"))
                     throw new NotImplementedException();
 
@@ -244,7 +238,24 @@ namespace GlueDynamicManager.Processors
             {
                 //Ignore
             }
-            else if (path == ("/BaseScreen") || path == ("/BaseElement"))
+            else if(path == ("/BaseElement"))
+            {
+                //Ignore
+            }
+            else if(path == ("/BaseEntity"))
+            {
+                var glueName = item as string;
+                var gameTypeBase = CommandReceiver.GlueToGameElementName(glueName);
+
+                if (element is HybridEntity)
+                    RestartRequired(true);
+
+
+
+                if (!GlueDynamicManager.ScreenIsLoading)
+                    RestartRequired(false);
+            }
+            else if (path == ("/BaseScreen"))
             {
                 var glueName = item as string;
                 var gameTypeBase = CommandReceiver.GlueToGameElementName(glueName);
@@ -260,7 +271,8 @@ namespace GlueDynamicManager.Processors
                 if (!matches)
                 {
                     // Restart the screen with the new base type as specified by item
-                    throw new NotImplementedException("");
+                    RestartRequired(false);
+                    return;
                 }
             }
             else if (path.StartsWith("/ReferencedFiles"))

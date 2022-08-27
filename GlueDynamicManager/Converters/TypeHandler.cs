@@ -9,7 +9,7 @@ namespace GlueDynamicManager.Converters
     {
         public static bool GetPropValueIfExists(object instance, string propertyName, out object value)
         {
-            var prop = instance.GetType().GetProperty(propertyName);
+            var prop = instance.GetType().GetProperty(propertyName, System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Public);
             if (prop != null)
             {
                 var propValue = prop.GetValue(instance, null);
@@ -18,7 +18,7 @@ namespace GlueDynamicManager.Converters
                 return true;
             }
 
-            prop = instance.GetType().BaseType.GetProperty(propertyName);
+            prop = instance.GetType().BaseType.GetProperty(propertyName, System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Public);
             if (prop != null)
             {
                 var propValue = prop.GetValue(instance, null);
@@ -33,7 +33,7 @@ namespace GlueDynamicManager.Converters
 
         public static bool GetFieldValueIfExists(object instance, string propertyName, out object value)
         {
-            var prop = instance.GetType().GetField(propertyName);
+            var prop = instance.GetType().GetField(propertyName, System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Public);
             if (prop != null)
             {
                 var propValue = prop.GetValue(instance);
@@ -42,7 +42,7 @@ namespace GlueDynamicManager.Converters
                 return true;
             }
 
-            prop = instance.GetType().BaseType.GetField(propertyName);
+            prop = instance.GetType().BaseType.GetField(propertyName, System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Public);
             if (prop != null)
             {
                 var propValue = prop.GetValue(instance);
@@ -57,7 +57,7 @@ namespace GlueDynamicManager.Converters
 
         internal static bool SetFieldValueIfExists(object instance, string fieldName, object value)
         {
-            var field = instance.GetType().GetField(fieldName);
+            var field = instance.GetType().GetField(fieldName, System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Public);
             if (field != null)
             {
                 field.SetValue(instance, value);
@@ -65,7 +65,7 @@ namespace GlueDynamicManager.Converters
                 return true;
             }
 
-            field = instance.GetType().BaseType.GetField(fieldName);
+            field = instance.GetType().BaseType.GetField(fieldName, System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Public);
             if (field != null)
             {
                 field.SetValue(instance, value);
@@ -78,7 +78,7 @@ namespace GlueDynamicManager.Converters
 
         public static bool SetPropValueIfExists(object instance, string propertyName, object value)
         {
-            var prop = instance.GetType().GetProperty(propertyName);
+            var prop = instance.GetType().GetProperty(propertyName, System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Public);
             if (prop != null)
             {
                 prop.SetValue(instance, value);
@@ -86,7 +86,7 @@ namespace GlueDynamicManager.Converters
                 return true;
             }
 
-            prop = instance.GetType().BaseType.GetProperty(propertyName);
+            prop = instance.GetType().BaseType.GetProperty(propertyName, System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Public);
             if (prop != null)
             {
                 prop.SetValue(instance, value);
