@@ -41,6 +41,8 @@ namespace GlueDynamicManager.DynamicInstances
 
         public string TypeName => this.ElementNameGame;
 
+        public bool IsLoaded { get; set; }
+
         private EntityState _dynamicEntityState;
         protected FlatRedBall.Graphics.Layer LayerProvidedByContainer = null;
         private List<ObjectContainer> _dynamicProperties = new List<ObjectContainer>();

@@ -34,7 +34,7 @@ namespace GlueDynamicManager.DynamicInstances
 
         public static string CurrentScreenGlue { get; internal set; }
         public string TypeName { get; }
-
+        public bool IsLoaded { get; set; }
 
         // Do we want a second list for entities?
         private readonly List<ObjectContainer> _dynamicProperties = new List<ObjectContainer>();

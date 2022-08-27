@@ -195,11 +195,17 @@ namespace GlueDynamicManager
                 AddEventHandler(screen, "ActivityEditModeEvent", "ScreenActivityEditModeHandler");
                 AddEventHandler(screen, "DestroyEvent", "ScreenDestroyHandler");
 
+                foreach(var entity in _dynamicEntities)
+                {
+                    EntityDoChanges(entity, true, _initialState.Entities.ContainsKey(entity.TypeName) ? _initialState.Entities[entity.TypeName] : null, _curState.Entities.ContainsKey(entity.TypeName) ? _curState.Entities[entity.TypeName] : null);
+                }
+
 
                 ScreenDoChanges(dScreen, screen is DynamicScreen ? true : false,
                     _initialState.Screens.ContainsKey(dScreen.TypeName) ? _initialState.Screens[dScreen.TypeName] : null,
                     _curState.Screens.ContainsKey(dScreen.TypeName) ? _curState.Screens[dScreen.TypeName] : null);
 
+                dScreen.IsLoaded = true;
             }
             finally
             {
@@ -282,10 +288,13 @@ namespace GlueDynamicManager
 
         private void EntityInitializeHandler(object caller, bool addToManagers)
         {
-            var entity = _dynamicEntities.First(item => item.Equals(caller));
-            if (_initialState != null)
-                EntityDoChanges(entity, addToManagers, _initialState.Entities.ContainsKey(entity.TypeName) ? _initialState.Entities[entity.TypeName] : null, _curState.Entities.ContainsKey(entity.TypeName) ? _curState.Entities[entity.TypeName] : null);
-
+            var currentScreen = _dynamicScreens.FirstOrDefault(item => item.Equals(caller));
+            if (currentScreen == null || currentScreen.IsLoaded)
+            {
+                var entity = _dynamicEntities.First(item => item.Equals(caller));
+                if (_initialState != null)
+                    EntityDoChanges(entity, addToManagers, _initialState.Entities.ContainsKey(entity.TypeName) ? _initialState.Entities[entity.TypeName] : null, _curState.Entities.ContainsKey(entity.TypeName) ? _curState.Entities[entity.TypeName] : null);
+            }
         }
 
         private void EntityActivityHandler(object caller)
@@ -350,8 +359,8 @@ namespace GlueDynamicManager
             AddEventHandler(instance, "ActivityEditModeEvent", "EntityActivityEditModeHandler");
             AddEventHandler(instance, "DestroyEvent", "EntityDestroyHandler");
 
-            if (_initialState != null)
-                EntityDoChanges(dEntity, addToManagers, _initialState.Entities.ContainsKey(dEntity.TypeName) ? _initialState.Entities[dEntity.TypeName] : null, _curState.Entities.ContainsKey(dEntity.TypeName) ? _curState.Entities[dEntity.TypeName] : null);
+            //if (_initialState != null)
+            //    EntityDoChanges(dEntity, addToManagers, _initialState.Entities.ContainsKey(dEntity.TypeName) ? _initialState.Entities[dEntity.TypeName] : null, _curState.Entities.ContainsKey(dEntity.TypeName) ? _curState.Entities[dEntity.TypeName] : null);
 
             return instance;
         }

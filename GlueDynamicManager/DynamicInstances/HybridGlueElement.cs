@@ -19,6 +19,7 @@ namespace GlueDynamicManager.DynamicInstances
         public object GlueElement { get; set; }
 
         public virtual string TypeName => GlueElement.GetType().FullName;
+        public bool IsLoaded { get; set; }
 
         public object GetPropertyValue(string name)
         {

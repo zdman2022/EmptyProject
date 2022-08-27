@@ -9,6 +9,8 @@ namespace GlueDynamicManager.DynamicInstances
     internal interface IDynamic : IEquatable<object>
     {
         string TypeName { get; }
+        bool IsLoaded { get; set; }
+
         object GetPropertyValue(string name);
         void SetPropertyValue(string name, object value, NamedObjectSave nos, List<InstructionSave> instructionSaves);
         bool CallMethodIfExists(string methodName, object[] args, out object returnValue);
