@@ -102,7 +102,8 @@ namespace GlueDynamicManager.Processors
                 var obj = element.GetPropertyValue(propName);
                 if(obj != null)
                     InstanceDestroy.Destroy(obj);
-                element.SetPropertyValue(propName, null, null, null);
+                if(!element.SetPropertyValue(propName, null, null, null))
+                    RestartRequired(true);
             }
             else if (path.StartsWith("/NamedObjects/InstructionSaves"))
             {
@@ -339,7 +340,9 @@ namespace GlueDynamicManager.Processors
             {
                 var convertedValue = ValueConverter.ConvertValue(customVariable, save);
                 var convertedPropertyName = ValueConverter.ConvertForPropertyName(customVariable.Name, element);
-                element.SetPropertyValue(convertedPropertyName, convertedValue, null, null);
+
+                if (!element.SetPropertyValue(convertedPropertyName, convertedValue, null, null))
+                    RestartRequired(true);
             };
 
             if (FlatRedBallServices.IsThreadPrimary())
@@ -367,7 +370,8 @@ namespace GlueDynamicManager.Processors
 
                 foreach (var instance in instancedObjects)
                 {
-                    element.SetPropertyValue(instance.Name, instance, instance.NamedObjectSave, instance.CombinedInstructionSaves);
+                    if (!element.SetPropertyValue(instance.Name, instance, instance.NamedObjectSave, instance.CombinedInstructionSaves))
+                        RestartRequired(true);
                 }
 
                 foreach(var containedObject in nos.ContainedObjects)

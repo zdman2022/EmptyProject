@@ -176,7 +176,7 @@ namespace GlueDynamicManager.DynamicInstances
             return null;
         }
 
-        public void SetPropertyValue(string name, object value, NamedObjectSave nos, List<InstructionSave> instructionSaves)
+        public bool SetPropertyValue(string name, object value, NamedObjectSave nos, List<InstructionSave> instructionSaves)
         {
             var foundItem = _dynamicProperties.Where(item => item.Name == name).FirstOrDefault();
 
@@ -194,6 +194,8 @@ namespace GlueDynamicManager.DynamicInstances
                             CombinedInstructionSaves = instructionSaves
                         }
                 );
+
+            return true;
         }
 
         public bool CallMethodIfExists(string methodName, object[] args, out object returnValue)

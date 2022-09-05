@@ -236,7 +236,7 @@ namespace GlueDynamicManager.DynamicInstances
             return null;
         }
 
-        public void SetPropertyValue(string name, object value, NamedObjectSave nos, List<InstructionSave> instructionSaves)
+        public bool SetPropertyValue(string name, object value, NamedObjectSave nos, List<InstructionSave> instructionSaves)
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new Exception($"Can't set property for: '{name}'");
@@ -253,6 +253,8 @@ namespace GlueDynamicManager.DynamicInstances
                     NamedObjectSave = nos,
                     CombinedInstructionSaves = instructionSaves
                 });
+
+            return true;
         }
 
         public bool CallMethodIfExists(string methodName, object[] args, out object returnValue)

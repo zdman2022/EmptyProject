@@ -2,6 +2,7 @@
 using GlueControl.Models;
 using GlueDynamicManager.Converters;
 using GlueDynamicManager.DynamicInstances.Containers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -49,35 +50,43 @@ namespace GlueDynamicManager.DynamicInstances
             }
         }
 
-        public void SetPropertyValue(string name, object value, NamedObjectSave nos, List<InstructionSave> instructionSaves)
+        public bool SetPropertyValue(string name, object value, NamedObjectSave nos, List<InstructionSave> instructionSaves)
         {
-            //Search Properties
-            if (TypeHandler.SetPropValueIfExists(GlueElement, name, value))
-                return;
-
-            //Search Fields
-            if (TypeHandler.SetFieldValueIfExists(GlueElement, name, value))
-                return;
-
-            //Search Dynamic
-            var foundItem = InstancedObjects.Where(item => item.Name == name).FirstOrDefault();
-            InstancedObjects.Remove(foundItem);
-
-            if (value != null)
+            try
             {
-                ObjectContainer newValue;
+                //Search Properties
+                if (TypeHandler.SetPropValueIfExists(GlueElement, name, value))
+                    return true;
 
-                if (value is ObjectContainer oc)
-                    newValue = oc;
-                else
-                    newValue = new ObjectContainer(name)
-                    {
-                        Value = value,
-                        NamedObjectSave = nos,
-                        CombinedInstructionSaves = instructionSaves
-                    };
+                //Search Fields
+                if (TypeHandler.SetFieldValueIfExists(GlueElement, name, value))
+                    return true;
 
-                InstancedObjects.Add(newValue);
+                //Search Dynamic
+                var foundItem = InstancedObjects.Where(item => item.Name == name).FirstOrDefault();
+                InstancedObjects.Remove(foundItem);
+
+                if (value != null)
+                {
+                    ObjectContainer newValue;
+
+                    if (value is ObjectContainer oc)
+                        newValue = oc;
+                    else
+                        newValue = new ObjectContainer(name)
+                        {
+                            Value = value,
+                            NamedObjectSave = nos,
+                            CombinedInstructionSaves = instructionSaves
+                        };
+
+                    InstancedObjects.Add(newValue);
+                }
+
+                return true;
+            }catch(Exception ex)
+            {
+                return false;
             }
                 
         }
