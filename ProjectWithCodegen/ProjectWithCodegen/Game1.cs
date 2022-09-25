@@ -14,6 +14,7 @@ using Microsoft.Xna.Framework.Input;
 using FlatRedBall.IO;
 using GlueControl.Managers;
 using GlueControl;
+using ProjectWithCodegen.Screens;
 
 namespace ProjectWithCodegen
 {
@@ -76,8 +77,8 @@ namespace ProjectWithCodegen
             GlobalContent.Initialize();
             GeneratedInitialize();
 
-            if (true)
-            {
+            //if (true)
+            //{
                 var startingDirectory = FileManager.RelativeDirectory;
 
                 while(System.IO.Directory.Exists(startingDirectory) && !System.IO.File.Exists(startingDirectory + "ProjectWithCodegen.gluj"))
@@ -85,7 +86,12 @@ namespace ProjectWithCodegen
                     startingDirectory += "../";
                 }
 
-                GlueDynamicManager.GlueDynamicManager.Self.SetInitialState(GlueDynamicManager.GlueDynamicTest.GetTest(startingDirectory + "ProjectWithCodegen.gluj"));
+            GlueCommands.Self.LoadProject(startingDirectory + "ProjectWithCodegen.gluj");
+
+                var initialState = GlueDynamicManager.GlueDynamicTest.GetTest(startingDirectory + "ProjectWithCodegen.gluj");
+
+
+                GlueDynamicManager.GlueDynamicManager.Self.SetInitialState(initialState);
 
                 gameConnectionManager.OnPacketReceived += async (packet) => {
 
@@ -103,10 +109,36 @@ namespace ProjectWithCodegen
                             Screens = screens.ToDictionary(item => CommandReceiver.GlueToGameElementName(item.Key), item => new GlueDynamicManager.GlueJsonContainer.JsonContainer<GlueControl.Models.ScreenSave>(item.Value.ToString()))
                         };
 
-                        //await GlueDynamicManager.GlueDynamicManager.Self.UpdateState(state);
+                        GlueDynamicManager.GlueDynamicManager.Self.UpdateState(state);
                     }
                 };
-            }
+            //}
+
+            //GlueDynamicManager.DynamicInstances.DynamicScreen.CurrentScreenGlue = "Screens\\Level2";
+            GlueDynamicManager.DynamicInstances.HybridScreen.CurrentScreenGlue = "Screens\\Level2";
+
+
+            var newState = GlueDynamicManager.GlueDynamicTest.GetTest(startingDirectory + "ProjectWithCodegen.gluj", includeExcludedFromGeneration:true) ;
+            GlueDynamicManager.GlueDynamicManager.Self.UpdateState(newState);
+            
+
+            ScreenManager.CurrentScreen.MoveToScreen(typeof(GameScreen));
+
+            //var entities = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, Newtonsoft.Json.Linq.JToken>> (jPacket["Entities"].ToString());
+            //var screens = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, Newtonsoft.Json.Linq.JToken>>(jPacket["Screens"].ToString());
+
+            //var state = new GlueDynamicManager.GlueJsonContainer()
+            //{
+            //    Glue = new GlueDynamicManager.GlueJsonContainer.JsonContainer<GlueControl.Models.GlueProjectSave>(jPacket["Glue"].ToString()),
+            //    Entities = entities.ToDictionary(item => CommandReceiver.GlueToGameElementName(item.Key), item => new GlueDynamicManager.GlueJsonContainer.JsonContainer<GlueControl.Models.EntitySave>(item.Value.ToString())),
+            //    Screens = screens.ToDictionary(item => CommandReceiver.GlueToGameElementName(item.Key), item => new GlueDynamicManager.GlueJsonContainer.JsonContainer<GlueControl.Models.ScreenSave>(item.Value.ToString()))
+            //};
+
+            //ScreenManager.Start(typeof(GlueDynamicManager.DynamicInstances.DynamicScreen));
+
+
+
+
 
             base.Initialize();
         }

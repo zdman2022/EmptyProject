@@ -28,7 +28,7 @@ namespace GlueDynamicManager
             return GetTest(glujFilePath);
         }
 
-        internal static GlueJsonContainer GetTest(FilePath glujFilePath)
+        internal static GlueJsonContainer GetTest(FilePath glujFilePath, bool includeExcludedFromGeneration = false)
         {
             var returnValue = new GlueJsonContainer();
             returnValue.Glue = new GlueJsonContainer.JsonContainer<GlueControl.Models.GlueProjectSave>(File.ReadAllText(glujFilePath.FullPath));
@@ -44,7 +44,12 @@ namespace GlueDynamicManager
                     //var entityName = Path.GetFileNameWithoutExtension(file);
                     var gameName = CommandReceiver.GlueToGameElementName(relative);
 
-                    returnValue.Entities.Add(gameName, new GlueJsonContainer.JsonContainer<EntitySave>(File.ReadAllText(file.FullPath)));
+                    var entityJsonContainer = new GlueJsonContainer.JsonContainer<EntitySave>(File.ReadAllText(file.FullPath));
+
+                    if(entityJsonContainer.Value.ExcludeFromGeneration == false || includeExcludedFromGeneration)
+                    {
+                        returnValue.Entities.Add(gameName, entityJsonContainer);
+                    }
                 }
             }
 
@@ -57,7 +62,15 @@ namespace GlueDynamicManager
 
                     var gameName = CommandReceiver.GlueToGameElementName(relative);
 
-                    returnValue.Screens.Add(gameName, new GlueJsonContainer.JsonContainer<ScreenSave>(File.ReadAllText(file.FullPath)));
+                    var fileContents = File.ReadAllText(file.FullPath);
+
+                    var screenJsonContainer = new GlueJsonContainer.JsonContainer<ScreenSave>(fileContents);
+
+                    if(screenJsonContainer.Value.ExcludeFromGeneration == false || includeExcludedFromGeneration)
+                    {
+                        returnValue.Screens.Add(gameName, screenJsonContainer);
+                    }
+
                 }
             }
 

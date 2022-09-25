@@ -401,7 +401,8 @@ namespace GlueDynamicManager.Processors
                         var convertedValue = ValueConverter.ConvertValue(instruction, save);
                         convertedValue = ValueConverter.ConvertForProperty(convertedValue, instruction.Type, instance.NamedObjectSave.SourceClassType);
                         var convertedPropertyName = ValueConverter.ConvertForPropertyName(instruction.Member, instance.Value);
-                        ScreenManager.CurrentScreen.ApplyVariable(convertedPropertyName, convertedValue, instance.Value);
+                        //ScreenManager.CurrentScreen.ApplyVariable(convertedPropertyName, convertedValue, instance.Value);
+                        element.SetPropertyValue(instruction.Member, convertedValue, instance.NamedObjectSave, null);
                     }
             }
 

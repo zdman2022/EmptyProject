@@ -227,6 +227,10 @@ namespace GlueDynamicManager
             {
                 oldScreenJson = new GlueJsonContainer.JsonContainer<ScreenSave>("{}");
             }
+            else if(screen.GetType() == typeof(HybridScreen) && oldScreenJson == null)
+            {
+                oldScreenJson = new GlueJsonContainer.JsonContainer<ScreenSave>("{}");
+            }
 
             if (oldScreenJson != null && newScreenJson != null)
             {
