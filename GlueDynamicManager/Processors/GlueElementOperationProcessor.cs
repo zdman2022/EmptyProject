@@ -134,7 +134,10 @@ namespace GlueDynamicManager.Processors
                 var nos = (NamedObjectSave)item;
                 if(nos.DefinedByBase == false)
                 {
-                    AddNamedObject(element, newSave, (NamedObjectSave)item, addToManagers);
+                    // Vic says - if this is a new NamedObjectSave, shouldn't we always add it?
+                    //AddNamedObject(element, newSave, (NamedObjectSave)item, addToManagers);
+                    var shouldAddNosToManagers = true;
+                    AddNamedObject(element, newSave, (NamedObjectSave)item, shouldAddNosToManagers);
                 }
             }
             else if (path.StartsWith("/NamedObjects/InstructionSaves") || path.StartsWith("/NamedObjects/ContainedObjects/InstructionSaves"))
@@ -404,6 +407,7 @@ namespace GlueDynamicManager.Processors
                         convertedValue = ValueConverter.ConvertForProperty(convertedValue, instruction.Type, instance.NamedObjectSave.SourceClassType);
                         var convertedPropertyName = ValueConverter.ConvertForPropertyName(instruction.Member, instance.Value);
                         //ScreenManager.CurrentScreen.ApplyVariable(convertedPropertyName, convertedValue, instance.Value);
+                        HELP Scott:
                         element.SetPropertyValue(instruction.Member, convertedValue, instance.NamedObjectSave, null);
                     }
             }
