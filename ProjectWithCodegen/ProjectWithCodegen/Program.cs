@@ -15,15 +15,15 @@ namespace ProjectWithCodegen
         {
             using (var game = new Game1())
             {
-                try
-                {
+                //try
+                //{
                     game.Run();
-                }
-                catch (Exception e)
-                {
-                    System.IO.File.WriteAllText("CrashInfo.txt", e.ToString());
-                    throw;
-                }
+                //}
+                //catch (Exception e)
+                //{
+                //    System.IO.File.WriteAllText("CrashInfo.txt", e.ToString());
+                //    throw;
+                //}
 
             }
         }

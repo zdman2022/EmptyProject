@@ -160,6 +160,10 @@
     <Compile Include="Forms\Screens\SimpleMixGumForms.Generated.cs">
       <DependentUpon>SimpleMixGumForms.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Screens\SimpleScreenGumForms.cs" />
+    <Compile Include="Forms\Screens\SimpleScreenGumForms.Generated.cs">
+      <DependentUpon>SimpleScreenGumForms.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Screens\SpriteScreenGumForms.cs" />
     <Compile Include="Forms\Screens\SpriteScreenGumForms.Generated.cs">
       <DependentUpon>SpriteScreenGumForms.cs</DependentUpon>
@@ -438,6 +442,10 @@
     <Compile Include="GumRuntimes\SimpleMixGumRuntime.Generated.cs">
       <DependentUpon>SimpleMixGumRuntime.cs</DependentUpon>
     </Compile>
+    <Compile Include="GumRuntimes\SimpleScreenGumRuntime.cs" />
+    <Compile Include="GumRuntimes\SimpleScreenGumRuntime.Generated.cs">
+      <DependentUpon>SimpleScreenGumRuntime.cs</DependentUpon>
+    </Compile>
     <Compile Include="GumRuntimes\SpriteRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\SpriteScreenGumRuntime.cs" />
     <Compile Include="GumRuntimes\SpriteScreenGumRuntime.Generated.cs">
@@ -506,6 +514,10 @@
     <Compile Include="Screens\SimpleMix.cs" />
     <Compile Include="Screens\SimpleMix.Generated.cs">
       <DependentUpon>SimpleMix.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\SimpleScreen.cs" />
+    <Compile Include="Screens\SimpleScreen.Generated.cs">
+      <DependentUpon>SimpleScreen.cs</DependentUpon>
     </Compile>
     <Compile Include="Screens\SpriteScreen.cs" />
     <Compile Include="Screens\SpriteScreen.Generated.cs">
@@ -843,6 +855,10 @@
     <None Include="content\gumproject\screens\simplemixgum.gusx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>SimpleMixGum</Name>
+    </None>
+    <None Include="content\gumproject\screens\simplescreengum.gusx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>SimpleScreenGum</Name>
     </None>
     <None Include="content\gumproject\screens\spritescreengum.gusx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

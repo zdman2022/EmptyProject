@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using FlatRedBall.Screens;
+using GlueControl;
 using GlueDynamicManager.DynamicInstances.Containers;
 
 namespace GlueDynamicManager.DynamicInstances
@@ -16,5 +17,20 @@ namespace GlueDynamicManager.DynamicInstances
         }
 
         public Screen Screen {  get { return (Screen)GlueElement; } }
+
+        public override string TypeName
+        {
+            get
+            {
+                if(CurrentScreenGlue != null)
+                {
+                    return CommandReceiver.GlueToGameElementName(CurrentScreenGlue);
+                }
+                else
+                {
+                    return base.TypeName;
+                }
+            }
+        }
     }
 }

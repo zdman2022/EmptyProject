@@ -7,6 +7,7 @@ using GlueControl;
 using GlueControl.Models;
 using GlueDynamicManager.Converters;
 using GlueDynamicManager.DynamicInstances;
+using GlueDynamicManager.DynamicInstances.Containers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,7 +49,7 @@ namespace GlueDynamicManager
         private static readonly Regex GenericSingleTypeRegEx = new Regex("^(.*)<([^,]*)>$");
         private static readonly Regex GenericDoubleTypeRegEx = new Regex("^(.*)<([^,]*),([^,]*)>$");
 
-        internal static object Instantiate(NamedObjectSave nos, object container)
+        internal static object Instantiate(NamedObjectSave nos, IDynamic container)
         {
             string sourceClassType = nos.SourceClassType;
             List<PropertySave> properties = nos.Properties;
@@ -143,12 +144,14 @@ namespace GlueDynamicManager
                     genericTypeGame = CommandReceiver.GlueToGameElementName(genericTypeNameGlue);
                 }
 
-                Type genType = GetTypeCheckForDynamic(genericTypeGame);
-
+                Type genType = GetTypeCheckForDynamic(genericTypeGame, genericTypeNameGlue);
 
                 var parmList = GetParmsForType(sourceClassType, container, properties);
 
-                var instance = InstantiateTypeWith1Generic(GetType(typeName + "`1", true), genType, parmList);
+                parmList = CorrectForObjectContainer(parmList);
+
+                var mainType = GetType(typeName + "`1", true);
+                var instance = InstantiateTypeWith1Generic(mainType, genType, parmList);
 
                 TypeHandler.SetPropValueIfExists(instance, "Name", nos.InstanceName);
                 TypeHandler.SetPropValueIfExists(instance, "CreationSource", "Dynamic");
@@ -165,12 +168,17 @@ namespace GlueDynamicManager
                 var genTypeName1 = CommandReceiver.TopNamespace + "." + match.Groups[2].Value.Trim();
                 var genTypeName2 = CommandReceiver.TopNamespace + "." + match.Groups[3].Value.Trim();
 
-                Type genType1 = GetTypeCheckForDynamic(genTypeName1);
-                Type genType2 = GetTypeCheckForDynamic(genTypeName2);
+                Type genType1 = GetTypeCheckForDynamic(genTypeName1, match.Groups[2].Value.Trim());
+                Type genType2 = GetTypeCheckForDynamic(genTypeName2, match.Groups[3].Value.Trim());
 
                 var parmList = GetParmsForType(sourceClassType, container, properties);
 
-                var instance = InstantiateTypeWith2Generic(GetType(typeName + "`2", true), genType1, genType2, parmList);
+                parmList = CorrectForObjectContainer(parmList);
+
+                var mainType = GetType(typeName + "`2", true);
+                var instance = InstantiateTypeWith2Generic(mainType, genType1, genType2, parmList);
+
+                //new ListVsListRelationship
 
                 TypeHandler.SetPropValueIfExists(instance, "Name", nos.InstanceName);
                 TypeHandler.SetPropValueIfExists(instance, "CreationSource", "Dynamic");
@@ -206,7 +214,17 @@ namespace GlueDynamicManager
             }
         }
 
-        private static Type GetTypeCheckForDynamic(string typeNameGame)
+        private static object[] CorrectForObjectContainer(object[] parmList)
+        {
+            return parmList.Select(x => {
+                if (x is ObjectContainer oc)
+                    return oc.Value;
+
+                return x;
+            }).ToArray();
+        }
+
+        private static Type GetTypeCheckForDynamic(string typeNameGame, string fallBackType)
         {
             Type genType;
 
@@ -219,6 +237,11 @@ namespace GlueDynamicManager
             else
             {
                 genType = GetType(typeNameGame, true);
+
+                if(genType == null)
+                {
+                    genType = GetType(fallBackType, true);
+                }
             }
 
             return genType;
@@ -324,12 +347,12 @@ namespace GlueDynamicManager
             return (T item) => { return (V)item.GetType().GetMethod("PropertyFinder").Invoke(item, new object[] { propName }); };
         }
 
-        private static object[] GetParmsForType(string sourceClassType, object container, List<PropertySave> properties)
+        private static object[] GetParmsForType(string sourceClassType, IDynamic container, List<PropertySave> properties)
         {
             if(sourceClassType.StartsWith("FlatRedBall.Math.Collision.AlwaysCollidingListCollisionRelationship"))
             {
-                return new object[] { 
-                    GlueDynamicManager.Self.GetProperty(container, (string)properties.First(item => item.Name == "FirstCollisionName").Value) 
+                return new object[] {
+                    container.GetPropertyValue((string)properties.FirstOrDefault(item => item.Name == "FirstCollisionName").Value)
                 };
             }else if(
                 sourceClassType.StartsWith("FlatRedBall.Math.Collision.DelegateListVsSingleRelationship")
@@ -341,8 +364,8 @@ namespace GlueDynamicManager
             {
                 return new object[]
                 {
-                    GlueDynamicManager.Self.GetProperty(container, (string)properties.First(item => item.Name == "FirstCollisionName").Value),
-                    GlueDynamicManager.Self.GetProperty(container, (string)properties.First(item => item.Name == "SecondCollisionName").Value)
+                    container.GetPropertyValue((string)properties.FirstOrDefault(item => item.Name == "FirstCollisionName").Value),
+                    container.GetPropertyValue((string)properties.FirstOrDefault(item => item.Name == "SecondCollisionName").Value)
                 };
             }
             else
@@ -363,7 +386,7 @@ namespace GlueDynamicManager
         internal static object InstantiateTypeWith2Generic(Type type, Type genType1, Type genType2, object[] args)
         {
             var createType = type.MakeGenericType(genType1, genType2);
-
+            
             return Activator.CreateInstance(createType, args);
         }
 
@@ -375,6 +398,8 @@ namespace GlueDynamicManager
         internal static object InstantiateEntity(Type type)
         {
             var instance = Activator.CreateInstance(type, new object[] { FlatRedBall.Screens.ScreenManager.CurrentScreen.ContentManagerName, false });
+
+            TypeHandler.SetPropValueIfExists(instance, "CreationSource", "Dynamic");
 
             return instance;
         }
