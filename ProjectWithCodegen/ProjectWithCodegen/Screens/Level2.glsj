@@ -19,13 +19,6 @@
       "ProjectsToExcludeFrom": []
     }
   ],
-  "Properties": [
-    {
-      "Name": "ExcludeFromGeneration",
-      "Value": true,
-      "Type": "Boolean"
-    }
-  ],
   "NamedObjects": [
     {
       "InstanceName": "Map",

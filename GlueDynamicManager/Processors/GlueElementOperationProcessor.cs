@@ -32,9 +32,9 @@ namespace GlueDynamicManager.Processors
                 if (!operation.Path.StartsWith("/"))
                     throw new NotImplementedException();
 
-                var items = operation.Path.Split('/');
+                var items = operation.Path.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
 
-                var workingValue = GetWorkingValue(operation.Op, items.Skip(1).ToArray(), oldSave, newSave, "");
+                var workingValue = GetWorkingValue(operation.Op, items, oldSave, newSave, "");
 
                 if (operation.Op == "replace" || operation.Op == "remove")
                 {
@@ -72,7 +72,10 @@ namespace GlueDynamicManager.Processors
                     }
                     else
                     {
-                        AddItem(workingValue.NewValue, workingValue.NewParents, workingValue.Path, element, addToManagers, newSave);
+                        var newValue = workingValue.NewValue;
+                        var newParents = workingValue.NewParents;
+                        var path = workingValue.Path;
+                        AddItem(newValue, newParents, path, element, addToManagers, newSave);
                     }
                 }
             }
@@ -260,11 +263,6 @@ namespace GlueDynamicManager.Processors
             {
                 var glueName = item as string;
                 var gameTypeBase = CommandReceiver.GlueToGameElementName(glueName);
-
-                if (element is HybridEntity)
-                {
-                    throw new NotImplementedException();
-                }
 
                 var currentScreenType = ScreenManager.CurrentScreen.GetType().FullName;
                 var matches = currentScreenType == gameTypeBase;

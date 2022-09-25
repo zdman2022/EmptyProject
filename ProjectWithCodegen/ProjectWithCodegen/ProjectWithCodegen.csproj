@@ -144,6 +144,10 @@
     <Compile Include="Forms\Screens\Level1GumForms.Generated.cs">
       <DependentUpon>Level1GumForms.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Screens\Level2DerivedGumForms.cs" />
+    <Compile Include="Forms\Screens\Level2DerivedGumForms.Generated.cs">
+      <DependentUpon>Level2DerivedGumForms.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Screens\Level2GumForms.cs" />
     <Compile Include="Forms\Screens\Level2GumForms.Generated.cs">
       <DependentUpon>Level2GumForms.cs</DependentUpon>
@@ -423,6 +427,10 @@
     <Compile Include="GumRuntimes\Level1GumRuntime.Generated.cs">
       <DependentUpon>Level1GumRuntime.cs</DependentUpon>
     </Compile>
+    <Compile Include="GumRuntimes\Level2DerivedGumRuntime.cs" />
+    <Compile Include="GumRuntimes\Level2DerivedGumRuntime.Generated.cs">
+      <DependentUpon>Level2DerivedGumRuntime.cs</DependentUpon>
+    </Compile>
     <Compile Include="GumRuntimes\Level2GumRuntime.cs" />
     <Compile Include="GumRuntimes\Level2GumRuntime.Generated.cs">
       <DependentUpon>Level2GumRuntime.cs</DependentUpon>
@@ -502,6 +510,14 @@
     <Compile Include="Screens\Level1.cs" />
     <Compile Include="Screens\Level1.Generated.cs">
       <DependentUpon>Level1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\Level2.cs" />
+    <Compile Include="Screens\Level2.Generated.cs">
+      <DependentUpon>Level2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\Level2Derived.cs" />
+    <Compile Include="Screens\Level2Derived.Generated.cs">
+      <DependentUpon>Level2Derived.cs</DependentUpon>
     </Compile>
     <Compile Include="Screens\ScreenWithEntityWithShapes.cs" />
     <Compile Include="Screens\ScreenWithEntityWithShapes.Generated.cs">
@@ -839,6 +855,10 @@
     <None Include="content\gumproject\screens\level1gum.gusx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>Level1Gum</Name>
+    </None>
+    <None Include="content\gumproject\screens\level2derivedgum.gusx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>Level2DerivedGum</Name>
     </None>
     <None Include="content\gumproject\screens\level2gum.gusx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

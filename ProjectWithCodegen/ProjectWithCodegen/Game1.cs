@@ -115,14 +115,14 @@ namespace ProjectWithCodegen
             //}
 
             //GlueDynamicManager.DynamicInstances.DynamicScreen.CurrentScreenGlue = "Screens\\Level2";
-            GlueDynamicManager.DynamicInstances.HybridScreen.CurrentScreenGlue = "Screens\\Level2";
+            GlueDynamicManager.DynamicInstances.HybridScreen.CurrentScreenGlue = "Screens\\Level2Derived";
 
 
             var newState = GlueDynamicManager.GlueDynamicTest.GetTest(startingDirectory + "ProjectWithCodegen.gluj", includeExcludedFromGeneration:true) ;
             GlueDynamicManager.GlueDynamicManager.Self.UpdateState(newState);
             
 
-            ScreenManager.CurrentScreen.MoveToScreen(typeof(GameScreen));
+            ScreenManager.CurrentScreen.MoveToScreen(typeof(Level2));
 
             //var entities = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, Newtonsoft.Json.Linq.JToken>> (jPacket["Entities"].ToString());
             //var screens = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, Newtonsoft.Json.Linq.JToken>>(jPacket["Screens"].ToString());

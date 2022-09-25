@@ -202,13 +202,16 @@ namespace GlueDynamicManager
 
                 foreach(var entity in _dynamicEntities)
                 {
-                    EntityDoChanges(entity, true, _initialState.Entities.ContainsKey(entity.TypeName) ? _initialState.Entities[entity.TypeName] : null, _curState.Entities.ContainsKey(entity.TypeName) ? _curState.Entities[entity.TypeName] : null);
+                    var oldEntityJson = _initialState.Entities.ContainsKey(entity.TypeName) ? _initialState.Entities[entity.TypeName] : null;
+                    var newEntityJson = _curState.Entities.ContainsKey(entity.TypeName) ? _curState.Entities[entity.TypeName] : null;
+                    EntityDoChanges(entity, true, oldEntityJson, newEntityJson);
                 }
 
-
-                ScreenDoChanges(dScreen, screen is DynamicScreen ? true : false,
-                    _initialState.Screens.ContainsKey(dScreen.TypeName) ? _initialState.Screens[dScreen.TypeName] : null,
-                    _curState.Screens.ContainsKey(dScreen.TypeName) ? _curState.Screens[dScreen.TypeName] : null);
+                var oldScreenJson = _initialState.Screens.ContainsKey(dScreen.TypeName) ? _initialState.Screens[dScreen.TypeName] : null;
+                var newScreenJson = _curState.Screens.ContainsKey(dScreen.TypeName) ? _curState.Screens[dScreen.TypeName] : null;
+                ScreenDoChanges(dScreen, screen is DynamicScreen,
+                    oldScreenJson,
+                    newScreenJson);
 
                 dScreen.IsLoaded = true;
             }

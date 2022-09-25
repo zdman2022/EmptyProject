@@ -1,0 +1,68 @@
+{
+  "Tags": [
+    "GLUE"
+  ],
+  "Source": "GLUE",
+  "BaseScreen": "Screens\\Level2",
+  "BaseElement": "Screens\\Level2",
+  "ReferencedFiles": [
+    {
+      "Name": "gumproject/Screens/Level2DerivedGum.gusx",
+      "IsSharedStatic": true,
+      "RuntimeType": "ProjectWithCodegen.GumRuntimes.Level2DerivedGumRuntime",
+      "ProjectsToExcludeFrom": []
+    }
+  ],
+  "Properties": [
+    {
+      "Name": "ExcludeFromGeneration",
+      "Value": true,
+      "Type": "Boolean"
+    }
+  ],
+  "NamedObjects": [
+    {
+      "InstanceName": "Player1",
+      "SourceClassType": "Entities\\Player",
+      "Properties": [
+        {
+          "Name": "AssociateWithFactory",
+          "Value": true,
+          "Type": "Boolean"
+        },
+        {
+          "Name": "SourceType",
+          "Value": 1,
+          "Type": "SourceType"
+        },
+        {
+          "Name": "ConditionalCompilationSymbols",
+          "Type": "String"
+        }
+      ],
+      "InstructionSaves": [
+        {
+          "Type": "float",
+          "Member": "X",
+          "Value": 64.0,
+          "Time": 0.0
+        },
+        {
+          "Type": "float",
+          "Member": "Y",
+          "Value": -64.0,
+          "Time": 0.0
+        }
+      ],
+      "SourceType": 1,
+      "SourceFile": "Entities\\Player",
+      "ExposedInDerived": true,
+      "AttachToContainer": true,
+      "GenerateTimedEmit": true,
+      "DefinedByBase": true,
+      "InstantiatedByBase": true
+    }
+  ],
+  "Name": "Screens\\Level2Derived",
+  "CustomClassesForExport": []
+}

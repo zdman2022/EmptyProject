@@ -114,6 +114,9 @@
       "Name": "Screens\\Level2"
     },
     {
+      "Name": "Screens\\Level2Derived"
+    },
+    {
       "Name": "Screens\\ScreenWithEntityWithShapes"
     },
     {
