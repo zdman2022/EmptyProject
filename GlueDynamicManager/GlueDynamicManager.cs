@@ -123,6 +123,11 @@ namespace GlueDynamicManager
             return returnValue;
         }
 
+        public bool ElementIsDynamic(NamedObjectSave nos)
+        {
+            return nos.SourceType == SourceType.Entity && ElementIsDynamic(nos.SourceClassType);
+        }
+
         public bool ElementIsDynamic(string elementNameGlue)
         {
             if (_curState == null)

@@ -87,7 +87,7 @@
   ],
   "ApplyToFixedResolutionPlatforms": true,
   "ExternallyBuiltFileDirectory": "../../",
-  "FileVersion": 20,
+  "FileVersion": 24,
   "ScreenReferences": [
     {
       "Name": "Screens\\AnimationScreen"

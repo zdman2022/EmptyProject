@@ -37,6 +37,10 @@ namespace GlueDynamicManager.DynamicInstances
 
         public string ElementNameGame { get; }
 
+        public HashSet<string> ItemsCollidedAgainst { get; private set; } = new HashSet<string>();
+
+        public HashSet<string> LastFrameItemsCollidedAgainst { get; private set; } = new HashSet<string>();
+
         private EntityState _dynamicEntityState;
         protected FlatRedBall.Graphics.Layer LayerProvidedByContainer = null;
         private List<ObjectContainer> _instancedObjects = new List<ObjectContainer>();
@@ -55,7 +59,7 @@ namespace GlueDynamicManager.DynamicInstances
             for (var i = 0; i < _dynamicEntityState.EntitySave.NamedObjects.Count; i++)
             {
                 var no = _dynamicEntityState.EntitySave.NamedObjects[i];
-                if (GlueDynamicManager.Self.ElementIsDynamic(no.SourceClassType))
+                if (GlueDynamicManager.Self.ElementIsDynamic(no))
                 {
                     throw new NotImplementedException();
                 }

@@ -1,4 +1,37 @@
-﻿using System;
+#define PreVersion
+#define HasFormsObject
+#define AddedGeneratedGame1
+#define ListsHaveAssociateWithFactoryBool
+#define GumGueHasGetAnimation
+#define GumHasMIsLayoutSuspendedPublic
+#define CsvInheritanceSupport
+#define IPositionedSizedObjectInEngine
+#define NugetPackageInCsproj
+#define SupportsEditMode
+#define SupportsShapeCollectionAddToManagerMakeAutomaticallyUpdated
+#define ScreensHaveActivityEditMode
+#define SupportsNamedSubcollisions
+#define GlueSavedToJson
+#define IEntityInFrb
+#define SeparateJsonFilesForElements
+#define GumSupportsAchxAnimation
+#define StartupInGeneratedGame
+#define RemoveAutoLocalizationOfVariables
+#define SpriteHasUseAnimationTextureFlip
+#define RemoveIsScrollableEntityList
+#define ScreenManagerHasPersistentPolygons
+#define SpriteHasTolerateMissingAnimations
+#define AnimationLayerHasName
+#define IPlatformer
+#define GumDefaults2
+#define IStackableInEngine
+#define ICollidableHasItemsCollidedAgainst
+#define CollisionRelationshipManualPhysics
+#define GumSupportsStackSpacing
+
+
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,17 +51,20 @@ namespace FlatRedBall.TileGraphics
 {
 
 
-    public partial class LayeredTileMap : PositionedObject, IVisible, FlatRedBall.Math.IPositionedSizedObject
+    public partial class LayeredTileMap : PositionedObject, IVisible
+#if IPositionedSizedObjectInEngine
+        , FlatRedBall.Math.IPositionedSizedObject
+#endif
     {
-        #region Fields
+#region Fields
         FlatRedBall.Math.PositionedObjectList<MapDrawableBatch> mMapLists = new FlatRedBall.Math.PositionedObjectList<MapDrawableBatch>();
 
         float mRenderingScale = 1;
 
         float mZSplit = 1;
-        #endregion
+#endregion
 
-        #region Properties
+#region Properties
 
         public float Left
         {
@@ -227,7 +263,7 @@ namespace FlatRedBall.TileGraphics
         }
 
 
-        #endregion
+#endregion
 
         public IEnumerable<string> TileNamesWith(string propertyName)
         {

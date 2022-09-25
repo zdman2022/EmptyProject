@@ -495,10 +495,6 @@
     <Compile Include="Screens\Level1.Generated.cs">
       <DependentUpon>Level1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Screens\Level2.cs" />
-    <Compile Include="Screens\Level2.Generated.cs">
-      <DependentUpon>Level2.cs</DependentUpon>
-    </Compile>
     <Compile Include="Screens\ScreenWithEntityWithShapes.cs" />
     <Compile Include="Screens\ScreenWithEntityWithShapes.Generated.cs">
       <DependentUpon>ScreenWithEntityWithShapes.cs</DependentUpon>
