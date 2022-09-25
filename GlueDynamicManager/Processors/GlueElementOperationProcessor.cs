@@ -131,7 +131,11 @@ namespace GlueDynamicManager.Processors
         {
             if (path == "/NamedObjects" || path == "/NamedObjects/ContainedObjects")
             {
-                AddNamedObject(element, newSave, (NamedObjectSave)item, addToManagers);
+                var nos = (NamedObjectSave)item;
+                if(nos.DefinedByBase == false)
+                {
+                    AddNamedObject(element, newSave, (NamedObjectSave)item, addToManagers);
+                }
             }
             else if (path.StartsWith("/NamedObjects/InstructionSaves") || path.StartsWith("/NamedObjects/ContainedObjects/InstructionSaves"))
             {
